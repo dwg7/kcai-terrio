@@ -66,6 +66,12 @@ ogr2ogr -f GeoJSON out.geojson countries.gpkg -t_srs EPSG:3857
 
 **訂正したもの**: 「日本のジオイドが適用されない」は誤り（`vertical-datum-grids-and-geoid-in-japan`）。「`calc` の `/` が整数に丸まるのは問題」も、GDAL の `gdal_calc.py` と同じ既定だった。
 
+## 追加の突き合わせ（Zarr・JP2・日本語属性）
+
+- terrio 0.3.2 が書いた **Zarr、JPEG 2000、COG** を GDAL 3.8.4 が読むと、画素・地理変換・座標系が完全一致した（`plays/2026-10-21-gdal-comparison.md` §5、played）。
+- 日本語属性は、main のビルドで書いた Shapefile（`.cpg`=UTF-8）、FlatGeobuf、GeoPackage、PMTiles を GDAL が正しく読む。0.3.2 は #159 の panic で書けない（played）。
+- GeoParquet は GDAL 側のドライバーが無く、突き合わせできなかった。
+
 ## 気をつけること
 
 - **GDAL は 3.8.4 で、terrio の基準（3.12）ではない**。EPSG の版、ドライバーの有無（Parquet、PDAL なし）の違いがある。ずれがあっても、3.12 で同じとは限らない。

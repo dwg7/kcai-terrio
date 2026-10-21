@@ -50,3 +50,9 @@
 - GDAL 3.12（terrio の基準）での結果。3.8.4 との差（EPSG の版、PMTiles / STACIT ドライバー、Parquet は非対応）がありうる
 - PMTiles / MVT の書き出し、STACIT、Zarr、JPEG 2000、COPC、点群の GDAL / PDAL との比較（GDAL 3.8.4 に Parquet ドライバーなし。PDAL なし）
 - 大きなデータでの速度（ベンチマーク）
+
+## 5. 追加の突き合わせ（形式の相互運用、同じ夜の続き）
+
+- 入力: Sentinel-2 B04（512²、UInt16、EPSG:32654）。terrio 0.3.2 で `convert` した **Zarr、JPEG 2000、COG** を GDAL 3.8.4（Zarr、JP2OpenJPEG、GTiff ドライバー）で読むと、**画素が完全一致、地理変換と座標系も一致**（無損失）。
+- 日本語の属性（`札幌市`、`東京都千代田区`）を持つ GeoJSON を、**main のビルド**で Shapefile（`.cpg`=UTF-8）、FlatGeobuf、GeoPackage、PMTiles に書くと、GDAL（`ogrinfo`）が**正しい日本語で読む**。0.3.2 では同じ入力が #159 の panic（`千` の途中で切る）で、どの形式にも書けない（main で直る）。
+- GeoParquet は、この GDAL（apt）に Parquet ドライバーが無く、読めなかった（terrio の問題ではない）。
