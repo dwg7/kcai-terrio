@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""知識の塊が docs/knowledge-format.md に適合しているか検査する。
+"""踏み跡が docs/knowledge-format.md に適合しているか検査する。
 
 標準ライブラリのみで動作する。使い方:
     python3 scripts/validate_knowledge.py [knowledge ディレクトリ ...]
@@ -20,9 +20,9 @@ MAX_BODY_LINES = 200
 # 任意の拡張（必須ではない）。タグ（フロントマターのキー）も関係の種類も、自由に追加できる。
 # よく使われる関係の種類は docs/tags.md に、使われ方の実態は scripts/build_index.py の集計で分かる。
 TAG_KEY_RE = re.compile(r"^[a-z][a-z0-9_:-]*$")
-# 推奨の型（強制ではない）: 対比・批評の塊で使う中間見出し
+# 推奨の型（強制ではない）: 対比・批評の踏み跡で使う中間見出し
 REVIEW_HEADINGS = ["## 要点", "## 比べたもの", "## 一致している点", "## 新しい点", "## 食い違う点",
-                   "## 更新を要する塊", "## 確かめられなかったこと", "## 出典"]
+                   "## 更新を要する踏み跡", "## 確かめられなかったこと", "## 出典"]
 AS_OF_RE = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")
 
 
@@ -150,7 +150,7 @@ def check_file(path, all_ids, registry=None):
     if dups:
         errs.append(f"見出しが重複している: {dups}")
     if len(body.splitlines()) > MAX_BODY_LINES:
-        errs.append(f"本文が {MAX_BODY_LINES} 行を超えている（小さな塊に分ける）")
+        errs.append(f"本文が {MAX_BODY_LINES} 行を超えている（小さな踏み跡に分ける）")
     return errs, fm
 
 

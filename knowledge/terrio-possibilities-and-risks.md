@@ -70,7 +70,7 @@ terrio の価値は「**GDAL を入れられない場所で、GDAL 相当のこ�
 ## 気をつけること
 
 - 「可能性」のうち、ブラウザ、MCP（main）、STACIT、rasterio 互換（呼び出しの通り方）は `played` にした。値の同等性、Claude Code への MCP 登録、Hugging Face は**未試験**。
-- リスクの 1〜6 は、新しい版で直るかもしれない。直ったら、対応する塊を `stale` から確かめ直して更新する。
+- リスクの 1〜6 は、新しい版で直るかもしれない。直ったら、対応する踏み跡を `stale` から確かめ直して更新する。
 - issue の下書きは `drafts/upstream/`。GeoJSON の panic は hfu が #159 として投稿済み。残りの投稿は hfu が確認して行う。
 
 ## 出典

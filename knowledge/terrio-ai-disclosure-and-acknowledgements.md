@@ -43,7 +43,7 @@ terrio は、**「Claude Opus 5.5（Anthropic の AI モデル）を主に使い
 
 - 「AI が主に作った」という開示は、**品質の保証でも否定でもない**。実測では、日本語の入力で同じ型の panic が 3 か所あり（`terrio-source-quirks`）、一方で報告から数十分で直った（`upstream-issue-feedback-loop`）。
 - この開示は**公開サイトと main のもの**。**使っている配布版（0.3.2）の README には含まれない**。
-- このリポジトリ（kcai-terrio）の AI 開示は、塊の `authors` に書いている（AI 支援あり）。
+- このリポジトリ（kcai-terrio）の AI 開示は、踏み跡の `authors` に書いている（AI 支援あり）。
 
 ## 出典
 

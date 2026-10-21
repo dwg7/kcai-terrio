@@ -61,7 +61,7 @@ terrio grid tile.laz dsm.tif --tr 1 --stat max                      # DSM。DTM 
 | `filter cluster` | 次元 `cluster_id` が付く |
 | `filter normal` | 次元 `normal_z` などが付く（snake case。PDAL の名前を snake case にしたもの） |
 | `convert … --class 2 --returns last,only`（`smrf` 後） | 36,297 点 |
-| `filter smrf` → `hag_nn`、`grid`（min/max/mean/idw/count/stdev、`--bin`、`--method linear|nearest`） | 動いた（前の塊）。結果の正しさは未検証 |
+| `filter smrf` → `hag_nn`、`grid`（min/max/mean/idw/count/stdev、`--bin`、`--method linear|nearest`） | 動いた（前の踏み跡）。結果の正しさは未検証 |
 
 **形式の往復（played）**: LAZ から PLY、E57、EPT（`pcept/ept.json`）、COPC へ書き、読み戻した点数が 44,465 で一致。COPC は `LAS 1.4、点形式 7`。
 

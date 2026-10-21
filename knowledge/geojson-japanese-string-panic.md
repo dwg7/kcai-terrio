@@ -52,7 +52,7 @@ terrio info t.geojson     # panic
 
 - 回避策: 当面は、日本語の長い文字列を含む GeoJSON を terrio で読まない。GeoPackage、FlatGeobuf、GeoParquet、PMTiles など別の形式を使う（**他の形式で同じ種類の問題が起きないかは未確認**）。
 - 同じ型のバグ（バイト位置での文字列の切り出し）は、`zarr.rs`（パス名）と `csv.rs`（CSV）でも確認した（`japanese-path-panic-in-zarr-parse-name`、`terrio-source-quirks`）。
-- 新しい版で直ったら、この塊は `stale` から再確認する。
+- 新しい版で直ったら、この踏み跡は `stale` から再確認する。
 
 ## 出典
 

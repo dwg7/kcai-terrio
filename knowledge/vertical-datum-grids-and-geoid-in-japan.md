@@ -67,7 +67,7 @@ JS では `registerGrid('jp_gsi_gsigeo2011.tif', バイト)` で格子を渡し�
 - **高さを変換するなら、入力の CRS は 3 次元（`EPSG:6667`、`EPSG:4979`）か複合 CRS にする**。2 次元の `EPSG:6668` に高さを渡すと、**エラーも警告もなく高さが変わらない**（GDAL も同じ）。dwg7/plateau-mago-implicit のような標高の補正では、この点が決定的。
 - **どのジオイドモデルが使われるか**は、版による: terrio（新しい EPSG）は JPGEO2024、GDAL 3.8.4 は GSIGEO2011。成果物に使うなら、モデルを明示する（`registerGrid` や `TERRIO_GRID_DIR` に使う格子だけを置く）。
 - 測量成果には使わない（GDAL との比較は、GDAL 3.8.4 の少数の点だけ）。
-- **この塊の以前の版は、誤った結論を書いていた**（「日本のジオイドは適用されない」）。下書き（`drafts/upstream/2026-10-21-jgd2011-geoid-heights-unchanged.md`）は、投稿前に GDAL で確かめて、**取り下げた**。
+- **この踏み跡の以前の版は、誤った結論を書いていた**（「日本のジオイドは適用されない」）。下書き（`drafts/upstream/2026-10-21-jgd2011-geoid-heights-unchanged.md`）は、投稿前に GDAL で確かめて、**取り下げた**。
 
 ## 出典
 

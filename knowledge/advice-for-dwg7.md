@@ -1,6 +1,6 @@
 ---
 id: advice-for-dwg7
-title: dwg7 に対する助言（作業が進むごとに更新する生きた塊）
+title: dwg7 に対する助言（作業が進むごとに更新する生きた踏み跡）
 status: draft
 terrio_version: 0.3.2
 terrio_commit: 6779102
@@ -15,7 +15,7 @@ sources:
   - plays/2026-10-21-gdal-comparison.md
   - drafts/upstream/README.md
 authors:
-  - AI（Claude）が書いた助言。hfu / dwg7 の指示のもと。AI 支援あり。助言は、証拠となる塊への参照つきで、判断は dwg7 が行う
+  - AI（Claude）が書いた助言。hfu / dwg7 の指示のもと。AI 支援あり。助言は、証拠となる踏み跡への参照つきで、判断は dwg7 が行う
 reviewed_by: []
 updated: 2026-10-21
 related: [terrio-rust-library-and-features, terrio-xarray-integration, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
@@ -24,7 +24,7 @@ freshness: high
 
 ## 要点
 
-**この塊は生きている。** 作業が進むごとに「更新履歴」に 1 行足し、助言を見直す（`AGENTS.md` の規則）。助言は証拠つきで、確かめた度合いを付ける。判断は dwg7 が行う。
+**この踏み跡は生きている。** 作業が進むごとに「更新履歴」に 1 行足し、助言を見直す（`AGENTS.md` の規則）。助言は証拠つきで、確かめた度合いを付ける。判断は dwg7 が行う。
 
 いまの結論（2026-10-21）: terrio は、dwg7 の**前処理の一部（ラスタの再投影・圧縮・窓切り出し・形式変換、ベクタの形式変換）を置き換えられる見込み**がある。ただし **「入れ替える」より「並べて使い、GDAL と突き合わせる」** のが安全。日本語まわり（文字化け、panic）に落とし穴があり、主要な panic は上流で直りつつある。
 
@@ -39,7 +39,7 @@ freshness: high
 | 5 | **日本語の入力に注意**。0.3.2 の GeoJSON / CSV の日本語長文字列 panic は main で修正済み（#159 → #161、未リリース）。**Zarr の日本語の相対パス**の panic は main にも残る。配布版を使うなら、これを避ける | `geojson-japanese-string-panic`、`japanese-path-panic-in-zarr-parse-name`（played） |
 | 6 | **日本の座標変換は使える**。JGD2011 ↔ 平面直角（6669〜6687）は GDAL と小数 9 桁以上で一致。ジオイドは **3 次元の `EPSG:6667` → `6697`** で適用される（2 次元の 6668 では高さ不変。GDAL も同じ） | `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`（played） |
 | 7 | **タイル生成（tippecanoe）、SQL による幾何の検査・修復、配信は置き換えない**。terrio の範囲外（PMTiles の書き出しは可能だが、tippecanoe の代わりではない）。world 全体を EPSG:3857 に変換する工程は、南極の問題に注意 | `terrio-scope-included-and-excluded`、`hfu-dwg7-workflow-substitution-survey` |
-| 8 | **版を固定して使う**。配布版（0.3.2）と main は差があり、ドキュメントも main に追随する。pip / npm の版を決め、塊は版つきで読む。新しい版が出たら `stale` の確かめ直し | `terrio-release-vs-main-drift`、`terrio-install-platforms-and-release-history` |
+| 8 | **版を固定して使う**。配布版（0.3.2）と main は差があり、ドキュメントも main に追随する。pip / npm の版を決め、踏み跡は版つきで読む。新しい版が出たら `stale` の確かめ直し | `terrio-release-vs-main-drift`、`terrio-install-platforms-and-release-history` |
 | 9 | **上流への報告は、再現の最小化・GDAL との突き合わせ・版の明記**をして、未検証の主張を外す。#159 は報告から修正まで早かった。取り下げた下書き（ジオイド）は、投稿前の確認の価値を示す | `upstream-issue-feedback-loop`、`drafts/upstream/README.md` |
 | 10 | **Rust から使うなら、版に注意**。0.3.2 の crate は feature で絞れない（46 MB・302 クレート）。絞れるのは main（`geotiff` + `remote` で 24 MB・188 クレート）。ドキュメントの絞り込みの例は main 向け。API 自体（座標変換、遅延読み、COG 書き出し）は書いたとおりに動いた | `terrio-rust-library-and-features`（played） |
 | 11 | **公式ノートブックはそのまま動く**（27 セル中、失敗は `zarr` の欠落 1 件）。xarray の例は `pip install zarr` を足す。学習の入口に勧められる | `plays/2026-10-21-notebooks.md`（played） |
@@ -47,8 +47,8 @@ freshness: high
 
 ## 確かめたこと（何をして、何が起きたか）
 
-- 下の「更新履歴」を参照。助言ごとの証拠は、表の塊にある。
-- この塊自体は**助言**であり、個々の事実の確かめは各塊で行う。助言の根拠が `read-docs` / `read-source` の場合は、表で明示する（現時点で 1〜12 の根拠の主要部は `played`）。
+- 下の「更新履歴」を参照。助言ごとの証拠は、表の踏み跡にある。
+- この踏み跡自体は**助言**であり、個々の事実の確かめは各踏み跡で行う。助言の根拠が `read-docs` / `read-source` の場合は、表で明示する（現時点で 1〜12 の根拠の主要部は `played`）。
 
 ## 気をつけること
 
@@ -60,8 +60,8 @@ freshness: high
 ## 更新履歴
 
 - 2026-10-21 夜: 初版。ドキュメント全面消化、GDAL との突き合わせ（ジオイドの訂正を含む）までを反映。
-- 2026-10-21 夜（2）: 新しい版の確認（PyPI・crates.io・npm とも 0.3.2 のまま。`stale` にする塊なし）。公式ノートブックを実行（助言 11）。Rust のコードを書いて実行（助言 10、feature の食い違いを確認）。GDAL 3.8.4 の確認を済ませた下書き 2 件を追加（南極点の EPSG:3857、`--ot Int16` の nodata）。
+- 2026-10-21 夜（2）: 新しい版の確認（PyPI・crates.io・npm とも 0.3.2 のまま。`stale` にする踏み跡なし）。公式ノートブックを実行（助言 11）。Rust のコードを書いて実行（助言 10、feature の食い違いを確認）。GDAL 3.8.4 の確認を済ませた下書き 2 件を追加（南極点の EPSG:3857、`--ot Int16` の nodata）。
 
 ## 出典
 
-- 各塊（上の表）、`plays/2026-10-21-*.md`、`DECISIONS.md`
+- 各踏み跡（上の表）、`plays/2026-10-21-*.md`、`DECISIONS.md`

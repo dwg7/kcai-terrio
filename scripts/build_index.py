@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""知識の塊を、問い合わせできる索引（JSON）にし、タグの使われ方を集計する。
+"""踏み跡を、問い合わせできる索引（JSON）にし、タグの使われ方を集計する。
 
 目的: 構造化された知識に「さらに問う」ことで、予想していなかった発見を得る（人も LLM も）。
 フロントマターのキー（タグ）と関係の種類は自由に増やせる。ここでは、使われ方をそのまま集計する
@@ -8,13 +8,13 @@
 使い方:
     python3 scripts/build_index.py                      # build/index.json と build/tags.md を作る
     python3 scripts/build_index.py --stats              # タグ・関係・出典の使われ方を表示
-    python3 scripts/build_index.py --tag as_of          # そのタグを持つ塊
-    python3 scripts/build_index.py --tag kind=review    # タグと値が一致する塊（値は部分一致）
-    python3 scripts/build_index.py --rel contrasts      # その種類の関係を持つ塊
-    python3 scripts/build_index.py --cites junsoku-r7   # その出典を引いている塊（該当箇所つき）
+    python3 scripts/build_index.py --tag as_of          # そのタグを持つ踏み跡
+    python3 scripts/build_index.py --tag kind=review    # タグと値が一致する踏み跡（値は部分一致）
+    python3 scripts/build_index.py --rel contrasts      # その種類の関係を持つ踏み跡
+    python3 scripts/build_index.py --cites junsoku-r7   # その出典を引いている踏み跡（該当箇所つき）
     python3 scripts/build_index.py --links topic-x      # topic-x へのリンク元とリンク先
-    python3 scripts/build_index.py --orphans            # どこからもリンクされず、どこへもリンクしない塊
-    python3 scripts/build_index.py --grep 条番号         # 本文に語を含む塊
+    python3 scripts/build_index.py --orphans            # どこからもリンクされず、どこへもリンクしない踏み跡
+    python3 scripts/build_index.py --grep 条番号         # 本文に語を含む踏み跡
 """
 import argparse
 import json
@@ -38,15 +38,15 @@ def pair(item):
 
 def load(root):
     kdir = root / "knowledge"
-    chunks = {}
+    traces = {}
     for p in sorted(kdir.glob("*.md")):
         if p.name.lower() == "readme.md":
             continue
         fm, body = parse_front_matter(p.read_text(encoding="utf-8"))
-        chunks[fm["id"]] = (fm, body)
-    ids = set(chunks)
+        traces[fm["id"]] = (fm, body)
+    ids = set(traces)
     index = {}
-    for cid, (fm, body) in chunks.items():
+    for cid, (fm, body) in traces.items():
         kind = cid.split("-", 1)[0]
         tags = {k: v for k, v in fm.items() if k not in CORE and k not in ("relations", "cites")}
         rels = [pair(r) for r in fm.get("relations", [])]
@@ -71,7 +71,7 @@ def load(root):
             back[o].add(cid)
     for cid, c in index.items():
         c["links_in"] = sorted(back.get(cid, ()))
-    return index, chunks
+    return index, traces
 
 
 def stats(index):
@@ -91,16 +91,16 @@ def stats(index):
 def tags_md(index):
     tagkeys, tagvals, rels, srcs = stats(index)
     out = ["# タグの使われ方（自動集計）", "", "`python3 scripts/build_index.py` が作る。手で編集しない。", ""]
-    out += ["## フロントマターのタグ（必須項目を除く）", "", "| タグ | 使われた塊の数 | 主な値 |", "|---|---|---|"]
+    out += ["## フロントマターのタグ（必須項目を除く）", "", "| タグ | 使われた踏み跡の数 | 主な値 |", "|---|---|---|"]
     for k, n in tagkeys.most_common():
         vals = "、".join("%s（%d）" % (v, c) for v, c in tagvals[k].most_common(4))
         out.append("| `%s` | %d | %s |" % (k, n, vals))
     out += ["", "## 関係の種類（relations）", "", "| 種類 | 件数 |", "|---|---|"]
     out += ["| `%s` | %d |" % (k, n) for k, n in rels.most_common()]
-    out += ["", "## 出典（cites）の使われ方", "", "| 出典 id | 引用した塊の数 |", "|---|---|"]
+    out += ["", "## 出典（cites）の使われ方", "", "| 出典 id | 引用した踏み跡の数 |", "|---|---|"]
     out += ["| `%s` | %d |" % (k, n) for k, n in srcs.most_common()]
     kinds = Counter(c["kind"] for c in index.values())
-    out += ["", "## 塊の種類（id の接頭辞）", "", "| 接頭辞 | 塊の数 |", "|---|---|"]
+    out += ["", "## 踏み跡の種類（id の接頭辞）", "", "| 接頭辞 | 踏み跡の数 |", "|---|---|"]
     out += ["| `%s-` | %d |" % (k, n) for k, n in kinds.most_common()]
     return "\n".join(out) + "\n"
 
@@ -116,7 +116,7 @@ def main():
     ap.add_argument("--grep")
     ap.add_argument("--out", default="build")
     a = ap.parse_args()
-    index, chunks = load(ROOT)
+    index, traces = load(ROOT)
 
     if a.stats:
         print(tags_md(index))
@@ -147,7 +147,7 @@ def main():
             if not c["links_in"] and not c["links_out"]:
                 print(c["id"])
     elif a.grep:
-        for cid, (fm, body) in chunks.items():
+        for cid, (fm, body) in traces.items():
             if a.grep in body:
                 print("%s\t%s" % (cid, fm["title"]))
     else:
@@ -155,7 +155,7 @@ def main():
         out.mkdir(parents=True, exist_ok=True)
         (out / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
         (out / "tags.md").write_text(tags_md(index), encoding="utf-8")
-        print("索引を作成: %s（塊 %d 件）、%s" % (out / "index.json", len(index), out / "tags.md"))
+        print("索引を作成: %s（踏み跡 %d 件）、%s" % (out / "index.json", len(index), out / "tags.md"))
 
 
 if __name__ == "__main__":

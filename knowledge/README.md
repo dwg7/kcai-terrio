@@ -1,10 +1,10 @@
-# 知識の塊の一覧
+# 踏み跡の一覧
 
 `status` は kcai の `draft | reviewed | stable | deprecated` に、このリポジトリ独自の `stale`（新しい版でまだ確かめ直していない）を足したもの。AI は `reviewed` 以上にしない。形式は `AGENTS.md`。
 
-| 塊 | 状態 | 確かめた版 | 確かめた日 | 確かめ方 |
+| 踏み跡 | 状態 | 確かめた版 | 確かめた日 | 確かめ方 |
 |---|---|---|---|---|
-| [advice-for-dwg7](advice-for-dwg7.md): dwg7 に対する助言（作業が進むごとに更新する生きた塊） | draft | 0.3.2 | 2026-10-21 | played |
+| [advice-for-dwg7](advice-for-dwg7.md): dwg7 に対する助言（作業が進むごとに更新する生きた踏み跡） | draft | 0.3.2 | 2026-10-21 | played |
 | [cloud-native-read-behavior-matrix](cloud-native-read-behavior-matrix.md): クラウドネイティブな形式の読み込み方：どこまで範囲読み込みか（一覧） | draft | 0.3.2 | 2026-10-21 | played |
 | [cog-remote-window-overview-and-warp](cog-remote-window-overview-and-warp.md): リモート COG の窓読み・overview・縮小の使い分け | draft | 0.3.2 | 2026-10-21 | played |
 | [data-licenses-of-play-datasets](data-licenses-of-play-datasets.md): 遊びで使ったデータのライセンス表記（配信元が書いていること） | draft | 0.3.2 | 2026-10-21 | read-docs |
@@ -22,7 +22,7 @@
 | [terrio-conformance-and-testing-against-gdal](terrio-conformance-and-testing-against-gdal.md): GDAL との突き合わせ試験と適合性レポート：何を、いつ、どの版で比べたか | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio-contributing-and-governance](terrio-contributing-and-governance.md): terrio への貢献の作法と、プロジェクトの運営の様子 | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio-crs-forms-projections-grids-and-epochs](terrio-crs-forms-projections-grids-and-epochs.md): 座標系：受け付ける書式、計算できる投影、格子の探し方、高さとエポック | draft | 0.3.2 | 2026-10-21 | played |
-| [terrio-docs-coverage-map](terrio-docs-coverage-map.md): terrio ドキュメント全 25 ページの対応表：どの塊に消化したか、公開サイトとの一致、記述の食い違い | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio-docs-coverage-map](terrio-docs-coverage-map.md): terrio ドキュメント全 25 ページの対応表：どの踏み跡に消化したか、公開サイトとの一致、記述の食い違い | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio-formats-rasters-and-compression](terrio-formats-rasters-and-compression.md): 対応形式（ラスタ）と圧縮：表をバイナリの terrio formats と突き合わせた | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio-formats-vectors-streaming-and-tiles](terrio-formats-vectors-streaming-and-tiles.md): 対応形式（ベクタ・タイル・Arrow）：ストリーム変換、GeoParquet 1.1、タイルの書き出し、南極で落ちる例 | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio-install-platforms-and-release-history](terrio-install-platforms-and-release-history.md): terrio の入れ方、対応環境、版の履歴（PyPI・npm・crates.io） | draft | 0.3.2 | 2026-10-21 | played |
@@ -52,11 +52,11 @@
 
 ## 読む順序の目安
 
-1. 入口（ドキュメントの全体）: `terrio-docs-coverage-map`（全ページ → 塊の対応表と、食い違い 14 件）、`terrio-overview-and-getting-started`、`terrio-cli-overview`、`terrio-scope-included-and-excluded`、`why-terrio-comparison-with-alternatives`
+1. 入口（ドキュメントの全体）: `terrio-docs-coverage-map`（全ページ → 踏み跡の対応表と、食い違い 14 件）、`terrio-overview-and-getting-started`、`terrio-cli-overview`、`terrio-scope-included-and-excluded`、`why-terrio-comparison-with-alternatives`
 2. 版と配布: `terrio-release-vs-main-drift`、`terrio-install-platforms-and-release-history`、`terrio-license-and-third-party-notices`、`terrio-roadmap-and-open-items`
 3. クラウドネイティブ: `cloud-native-read-behavior-matrix`（一覧表。入口別の比較つき）、`cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`、`terrio-stac-and-stacit`、`terrio-point-clouds`、`terrio-js-cloud-native-reads-in-browser`
 4. 使い方: `terrio-cli-command-reference`、`terrio-processing-commands-smoke-test`、`terrio-python-api`、`terrio-rio-rasterio-compatible-api`、`terrio-xarray-integration`、`terrio-rust-library-and-features`、`terrio-js-api-and-playground`、`terrio-mcp-server`、`terrio-formats-rasters-and-compression`、`terrio-formats-vectors-streaming-and-tiles`
 5. 日本ローカル: `jgd2011-plane-rectangular-transform`、`terrio-crs-forms-projections-grids-and-epochs`、`vertical-datum-grids-and-geoid-in-japan`、`shapefile-cp932-attributes-not-decoded`、`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`
 6. 品質と評価: `terrio-conformance-and-testing-against-gdal`、`terrio-vs-gdal-spot-checks`、`terrio-benchmarks-vs-gdal`、`terrio-architecture-and-pure-rust-claim`、`terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`
 7. 運営と上流: `terrio-contributing-and-governance`、`upstream-issue-feedback-loop`、`terrio-ai-disclosure-and-acknowledgements`、`data-licenses-of-play-datasets`
-8. 助言（生きた塊。作業ごとに更新）: `advice-for-dwg7`
+8. 助言（生きた踏み跡。作業ごとに更新）: `advice-for-dwg7`

@@ -63,7 +63,7 @@ const r = await d.read({ bbox: [139.760, 35.676, 139.770, 35.686] }); r.toGeoJSO
 - 試した配信先は、`Range` を許可していた。`Content-Range` を公開していない配信先（Sentinel の S3、depot、flatgeobuf.org）でも動いた（なぜかは未確認。`Content-Length` などで足りているのかもしれない）。**CORS が違う配信先では失敗しうる**。ページは失敗を画面に出す。
 - 大きなベクタの bbox 読みは、行グループの統計で飛ばすため、**データの作り次第**: 5 GB の日本の建物（行グループ約 5,000 行）は 16 MiB で済んだが、Hugging Face の 430 MB の GeoParquet は**行グループが 1 つで統計がなく、bbox 読みでも約 394 MiB（ほぼ全体）を読んだ**（0 件だった理由は未確認。`info` に CRS が出ないので、bbox の座標系が合っていたかも分からない）。
 - `cacheSize` の既定が 256 MB（メモリ）。大きな窓や点群は、ブラウザのメモリに注意。
-- 版を上げたら、この塊と `docs/index.html` の `PINNED` を確かめ直す。
+- 版を上げたら、この踏み跡と `docs/index.html` の `PINNED` を確かめ直す。
 - wasm の読み込みが約 20 MB（圧縮前）。モバイルでは重い。
 
 ## 出典

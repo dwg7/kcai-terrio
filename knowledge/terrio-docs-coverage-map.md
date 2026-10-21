@@ -1,6 +1,6 @@
 ---
 id: terrio-docs-coverage-map
-title: terrio ドキュメント全 25 ページの対応表：どの塊に消化したか、公開サイトとの一致、記述の食い違い
+title: terrio ドキュメント全 25 ページの対応表：どの踏み跡に消化したか、公開サイトとの一致、記述の食い違い
 status: draft
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
@@ -22,7 +22,7 @@ freshness: high
 
 ## 要点
 
-公開サイト（https://terrio.opengeos.org/）の 25 ページを、すべて読み、塊にした。**サイトは、リポジトリの main の `docs/` と実質的に同じ内容**（サイト側の語が md に含まれる割合は 94〜100%。差は記法とリンク）。**サイトとリポジトリの main は、配布版（0.3.2）より先に進んでいる**。確かめられる記述は動かして確かめ、**ドキュメントの中の食い違いと、配布版との差を 14 件**挙げた。
+公開サイト（https://terrio.opengeos.org/）の 25 ページを、すべて読み、踏み跡にした。**サイトは、リポジトリの main の `docs/` と実質的に同じ内容**（サイト側の語が md に含まれる割合は 94〜100%。差は記法とリンク）。**サイトとリポジトリの main は、配布版（0.3.2）より先に進んでいる**。確かめられる記述は動かして確かめ、**ドキュメントの中の食い違いと、配布版との差を 14 件**挙げた。
 
 ## やり方（読み方）
 
@@ -31,9 +31,9 @@ freshness: high
 
 ## 確かめたこと（何をして、何が起きたか）
 
-**ページ → 塊**
+**ページ → 踏み跡**
 
-| ページ | 消化した塊 |
+| ページ | 消化した踏み跡 |
 |---|---|
 | Home | `terrio-overview-and-getting-started`、`terrio-scope-included-and-excluded` |
 | Why terrio? | `why-terrio-comparison-with-alternatives` |
