@@ -54,7 +54,7 @@ terrio warp $U out.tif --t-srs EPSG:6677 --te -10000 -40000 0 -30000 --te-srs EP
 - `--overview` は 0 始まりで、全解像度は含まない。
 - 窓読みの転送量はタイル数で決まる。窓を小さくしても減らないことがある。タイル境界に合わせると減る（未確認）。
 - この COG は 2026-10-18 の撮影。Sentinel-2 のアイテムは新しいものが出続けるので、同じ URL を後で使うなら STAC で探し直す。
-- ドキュメントは「`--overview 2`」の意味（0 始まりか）を書いていない。
+- `convert --help` には「overview N (0 is the largest)」とあり、実測と合う。一方 `docs/cli.md` と `docs/remote-data.md` は番号の意味を書いていない。
 
 ## 出典
 

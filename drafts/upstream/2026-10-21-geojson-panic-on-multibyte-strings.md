@@ -1,6 +1,6 @@
 # Draft issue for opengeos/terrio (not posted; hfu will review and post)
 
-**Title:** Panic reading GeoJSON with long non-ASCII string values (`is_datetime` slices a `&str` at byte 10)
+**Title:** Panic reading GeoJSON and CSV with long non-ASCII string values (`is_datetime` slices a `&str` at byte 10)
 
 Hello, and thank you for terrio. It is wonderful to see a pure-Rust GDAL-style tool grow so fast.
 While trying it on Japanese data, I found a small problem and I would like to report it in case it is useful.
@@ -29,6 +29,8 @@ terrio info t.geojson
 
 - `"札幌市北区"` (15 bytes) works. `"東京都千代田区"` (21 bytes) panics. `"abcdefghij"` works.
 - In Python the error is `pyo3_runtime.PanicException`, which derives from `BaseException`, so `except Exception:` does not catch it.
+
+The CSV driver has the same code (`crates/terrio/src/drivers/vector/csv.rs:587`): a CSV `x,y,name` / `139.7,35.7,東京都千代田区` panics in the same way.
 
 ## Likely cause
 

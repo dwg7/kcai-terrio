@@ -15,14 +15,15 @@ verified_how: played
 as_of: 2026-10-21
 sources:
   - plays/2026-10-21-first-contact.md（3.4）
-  - terrio docs/crs.md、docs/why-terrio.md（格子は適用しない旨）
-related: [cog-remote-window-overview-and-warp, terrio-scope-included-and-excluded]
+  - terrio docs/crs.md、docs/why-terrio.md（格子の適用についての記述が食い違う）
+  - plays/2026-10-21-japan-edge-cases-and-survey.md（3）
+related: [cog-remote-window-overview-and-warp, terrio-scope-included-and-excluded, vertical-datum-grids-and-geoid-in-japan]
 hazard: datum-shift-grids-not-applied
 ---
 
 ## 要点
 
-`terrio crs` は、JGD2011（EPSG:6668）、平面直角座標系（6669〜6687）、JGD2000（4612）、旧日本測地系（4301）を扱え、東京駅の座標を第IX系（6677）に変換すると x=−5992.92、y=−35363.24（東西、南北）になる。**座標は「経度 緯度」の順。** 一方、**測地系のずれの格子は適用されない**とドキュメントにあり、JGD2000→JGD2011 の変換は値が変わらなかった。
+`terrio crs` は、JGD2011（EPSG:6668）、平面直角座標系（6669〜6687）、JGD2000（4612）、旧日本測地系（4301）を扱え、東京駅の座標を第IX系（6677）に変換すると x=−5992.92、y=−35363.24（東西、南北）になる。**座標は「経度 緯度」の順。** 一方、JGD2000→JGD2011 の変換は値が変わらず、**日本の水平方向の格子は PROJ の CDN にもない**。高さ（ジオイド）の扱いは別の塊（`vertical-datum-grids-and-geoid-in-japan`）。
 
 ## やり方
 
@@ -45,7 +46,7 @@ terrio warp URL out.tif --t-srs EPSG:6677 --te -10000 -40000 0 -30000 --te-srs E
 
 ## 気をつけること
 
-- **JGD2000→JGD2011 の地殻変動の補正（PatchJGD など）は入っていない**。ドキュメントに「NTv2 などの格子は適用しない」とあり、実測でも 4612→6668 は恒等。東日本大震災後の地殻変動が大きい地域では、座標の差が実用上問題になりうる（大きさは未確認）。測量成果には使わない。
+- **JGD2000→JGD2011 の地殻変動の補正（PatchJGD など）は入っていない**。実測で 4612→6668 は恒等で、ネットワーク ON（PROJ の CDN から格子を取る設定）でも同じ。CDN に日本の水平方向の格子（`jp_` で始まるもの）はジオイド 2 つだけ。ドキュメントは `why-terrio.md`（格子は適用しない）と `crs.md`（適用する）で食い違う。東日本大震災後の地殻変動が大きい地域では、座標の差が実用上問題になりうる（大きさは未確認）。測量成果には使わない。
 - 4301（旧日本測地系）→6668 の変換が、何の方法（パラメータ変換か）かは未確認。
 - 座標の順序と、測量の X/Y の流儀の違いに注意する。
 - 6669〜6687 のうち、実際に変換したのは 6677（第IX系）だけ。他の系は名前の確認のみ。

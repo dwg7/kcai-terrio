@@ -16,7 +16,7 @@ sources:
   - terrio docs/why-terrio.md、docs/gdal.md、docs/formats.md、docs/remote-data.md（v0.3.2 と main cf6bd5d）
   - terrio ROADMAP.md（main cf6bd5d）
   - "`terrio formats` の出力（plays/2026-10-21-first-contact.md）"
-related: [terrio-cli-overview, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift]
+related: [terrio-cli-overview, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, vertical-datum-grids-and-geoid-in-japan, shapefile-cp932-attributes-not-decoded]
 ---
 
 ## 要点
@@ -36,7 +36,7 @@ terrio は「GDAL の全部の置き換え」ではなく、**よく使う形式
 - 独自 SDK が要る形式（MrSID、ECW、FileGDB ラスタ）、データベースドライバー（PostGIS など）。
 - GDAL の C API やオプション名の完全一致。
 - 回転した geotransform、GCP だけの位置合わせ。
-- **測地系のずれの格子（NTv2 など）と鉛直測地系の格子の適用**（`docs/why-terrio.md`: "does not apply NTv2 or other shift grids yet"）。
+- **測地系のずれの格子（NTv2 など）の適用**: `docs/why-terrio.md` は "does not apply NTv2 or other shift grids yet" と書くが、`docs/crs.md` は PROJ の格子を探して適用すると書き、実測でも EGM96 は適用された（`TERRIO_NETWORK=ON`）。ただし**日本のジオイドは適用されなかった**（`vertical-datum-grids-and-geoid-in-japan`）。
 - 幾何学アルゴリズム（バッファ、交差、簡略化）。`geo` クレートなどを使う。
 - **出力のリモート書き込み**（出力はローカルのみ）。
 - 既定のビルドは純 Rust。長い尾の形式（HDF4、GRIB、NITF、DXF、FileGDB の書き込みなど）は、任意の GDAL バックエンド（`gdal` feature）経由。**PyPI の wheel には入っていない**。
