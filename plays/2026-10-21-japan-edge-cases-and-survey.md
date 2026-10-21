@@ -81,3 +81,8 @@
 - STACIT、Zarr、FlatGeobuf・COPC のリモート
 - `COG` 書き出しの `TILING_SCHEME=GoogleMapsCompatible`（4×4 の入力では判別できなかった）、`warp` の `-dstalpha` 相当（`--help` に見当たらない）
 - 出力 GeoJSON の EPSG:3857 を 4326 に直すこと、大きなベクタ PMTiles の書き出し（tippecanoe との比較）
+
+## 8. 上流への報告の状況
+
+- 2026-10-21: hfu が GeoJSON の panic を opengeos/terrio#159 として投稿した（本文は hfu が整えた版）。
+- 未投稿の下書き: #159 への CSV のコメント案、日本語パスの panic、CP932 の Shapefile、日本のジオイド（質問）。

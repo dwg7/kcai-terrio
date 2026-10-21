@@ -41,7 +41,8 @@ terrio info t.geojson     # panic
 - ソース（v0.3.2 と main cf6bd5d で同じ）: `is_datetime` が `b.len() >= 19` を確かめたあと `is_date(&s[..10])` で `&str` をバイト 10 で切る。日本語の 3 バイト文字では、バイト 10 が文字の途中になる。
 - **CSV でも同じ**: `csv.rs:587` に同じ `is_date(&s[..10])` がある。`x,y,name` / `139.7,35.7,東京都千代田区` の CSV を `terrio info`、`convert`、Python の `open_vector` で開くと panic（`札幌市北区` は通る）。
 - 修正案（下書きに記載）: バイト列のまま比較するか、`s.get(..10)` を使う。
-- issue の下書きを `drafts/upstream/` に置いた（**投稿は未了。hfu が確認して投稿する**）。
+- hfu が issue を投稿した（opengeos/terrio#159。内容は `drafts/upstream/2026-10-21-geojson-panic-on-multibyte-strings.md`）。CSV での再現は、コメント案を `drafts/upstream/2026-10-21-comment-on-159-csv-same-code.md` に置いた（**未投稿。hfu が確認して投稿する**）。
+- 注意: 投稿された本文は「GDAL は同じ値を問題なく読む」と書くが、**この環境には GDAL がなく、私は確かめていない**。
 
 ## 気をつけること
 
