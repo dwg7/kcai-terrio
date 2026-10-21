@@ -46,7 +46,7 @@ terrio.transform_points([139.767125], [35.681236], "EPSG:6668", "EPSG:6677")
 
 ## 気をつけること
 
-- Arrow（PyCapsule）、GeoPandas、Polars、DuckDB との相互運用は、ドキュメントに詳しい（`to_arrow()`、`from_arrow()`、GeoArrow の WKB とネイティブ、`GeoDataFrame.from_arrow`、GDAL の Arrow ストリームからの取り込み）が、**この塊では動かしていない**（検証用の環境は作ったが、時間の都合で未実施）。
+- **Arrow の相互運用（played、別の仮想環境に pyarrow 26.0、GeoPandas 1.2、Polars 2.0）**: `layer.to_arrow()` → `pa.table`（177 行、geometry 列に `ARROW:extension:name`）、`GeoDataFrame.from_arrow`（177 行、CRS EPSG:4326）、`polars.DataFrame(t)`（177×169）、`to_arrow(geometry_encoding="geoarrow")` の拡張名は `geoarrow.multipolygon`、`terrio.from_arrow(pa_table)`（177）、`write_vector(pa_table, …gpkg, layer_name=…)` がすべて通った。DuckDB と GDAL の Arrow ストリームは未確認。
 - `polygonize` の連結性の既定は、CLI（4 連結）と Python（引数で指定）で、同じ入力でも結果が違って見える。指定を明示する。
 - 日本語の相対パスや CP932 の Shapefile などの入口の問題は、Python でも同じ（`terrio-source-quirks`）。
 

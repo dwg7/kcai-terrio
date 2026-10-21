@@ -31,4 +31,6 @@ Also unchanged: `6668 → 6697`, `6668 → 6668+6695`, and PROJ strings with `+g
 1. Is the Japanese vertical transformation expected to be selected from the EPSG data, or is it not covered yet?
 2. For a `+geoidgrids=` PROJ string, which direction and CRS pair should I use?
 
+One more observation: with terrio-js 0.3.2 in Node, registering the grid directly (`registerGrid("jp_gsi_gsigeo2011.tif", bytes)`) and transforming `EPSG:6668 → EPSG:6697` also leaves the height unchanged (86.7 → 86.7), while the same call with `us_nga_egm96_15.tif` for `EPSG:4979 → EPSG:4326+5773` works. So the grid lookup seems fine, and the issue may be in how the Japanese vertical transformation is selected.
+
 I can test a build or a different invocation if that helps. Thank you!

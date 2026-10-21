@@ -46,6 +46,7 @@ echo "139.767125 35.681236 50" | TERRIO_NETWORK=ON terrio crs EPSG:6697 --to EPS
 - ネットワーク OFF（既定）: EGM96 の変換で高さ 50 → 50（変わらない）。
 - `TERRIO_NETWORK=ON`: `us_nga_egm96_15.tif`（約 2.6 MB）を取得して 50 → 13.5559。
 - 日本のジオイド（`TERRIO_NETWORK=ON`）: `EPSG:6697 → 6668`、`6668 → 6697`、`6668 → 6668+6695`、`+geoidgrids=jp_gsi_gsigeo2011.tif` の PROJ 文字列（両方向）、`jp_gsi_jpgeo2024.tif` のどれも高さ不変で、格子の取得も起きなかった。
+- **WebAssembly 版（terrio-js 0.3.2、Node）でも同じ**: `registerGrid('jp_gsi_gsigeo2011.tif', バイト)` で格子を直接登録して `EPSG:6668 → EPSG:6697`（高さ 86.7）を変換しても、高さは 86.7 のまま。同じ方法の EGM96（`us_nga_egm96_15.tif`）は 100 → 125.05 に変わる。**格子の探索ではなく、日本の変換の選択に原因がある可能性が高い**（未確定）。
 - 格子ファイル自体は `terrio info` で読める（1201×1800、EPSG:6668、Float32、東経 119.99〜150.01、北緯 20.01〜50.01）。
 - PROJ の CDN の `jp_` は `jp_gsi_gsigeo2011.tif`、`jp_gsi_jpgeo2024.tif`、README だけ。
 - ドキュメントの食い違い: `why-terrio.md` は「格子はまだ適用しない」、`crs.md` は「格子を探して適用する」。後者が実態に近い。

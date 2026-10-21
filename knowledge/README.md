@@ -21,9 +21,11 @@
 | [GDAL との突き合わせ試験と適合性レポート：何を、いつ、どの版で比べたか](terrio-conformance-and-testing-against-gdal.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio への貢献の作法と、プロジェクトの運営の様子](terrio-contributing-and-governance.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [座標系：受け付ける書式、計算できる投影、格子の探し方、高さとエポック](terrio-crs-forms-projections-grids-and-epochs.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio ドキュメント全 25 ページの対応表：どの塊に消化したか、公開サイトとの一致、記述の食い違い](terrio-docs-coverage-map.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [対応形式（ラスタ）と圧縮：表をバイナリの terrio formats と突き合わせた](terrio-formats-rasters-and-compression.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [対応形式（ベクタ・タイル・Arrow）：ストリーム変換、GeoParquet 1.1、タイルの書き出し、南極で落ちる例](terrio-formats-vectors-streaming-and-tiles.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio の入れ方、対応環境、版の履歴（PyPI・npm・crates.io）](terrio-install-platforms-and-release-history.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio-js の API と、公式プレイグラウンド：Node とブラウザで動かして確かめた](terrio-js-api-and-playground.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [ブラウザ（WebAssembly）で terrio を使う：openUrl の範囲読み込みと、このリポジトリのページ](terrio-js-cloud-native-reads-in-browser.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio のライセンス：MIT、同梱される依存と第三者の告知、0.3.2 の配布物に LICENSE がない件](terrio-license-and-third-party-notices.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある](terrio-mcp-server.md) | draft | 0.3.2 | 2026-10-21 | played |
@@ -34,9 +36,12 @@
 | [Python API（terrio）：ドキュメントの例 30 件を動かした結果](terrio-python-api.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [リリース版（PyPI の 0.3.2）と main のずれ：ドキュメントは先行する](terrio-release-vs-main-drift.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか](terrio-rio-rasterio-compatible-api.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio のロードマップ：完了とされたこと、未完了の 21 項目、設計の決定](terrio-roadmap-and-open-items.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
+| [Rust ライブラリ：入口、Cargo の feature、API の安定性方針（配布版との差に注意）](terrio-rust-library-and-features.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio が含む機能と含まない機能](terrio-scope-included-and-excluded.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio のソースコードの癖（規模、作り、同じ型の弱点）](terrio-source-quirks.md) | draft | 0.3.2 | 2026-10-21 | read-source |
 | [STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす](terrio-stac-and-stacit.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [xarray 連携（terrio.xarray）：リモート COG を遅延で開き、窓だけ取って再投影する](terrio-xarray-integration.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [上流への報告から修正までの流れ：opengeos/terrio#159 の体験（AI が下書き、hfu が投稿、作者が当日修正）](upstream-issue-feedback-loop.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [格子とジオイド：EGM96 は適用されるが、日本のジオイドは適用されなかった](vertical-datum-grids-and-geoid-in-japan.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio と他の選択肢（GDAL、gdal クレート、GeoRust、GeoArrow、whitebox、OxiGeo）：どれを選ぶか](why-terrio-comparison-with-alternatives.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
@@ -45,9 +50,10 @@
 
 ## 読む順序の目安
 
-1. 全体像: `terrio-cli-overview`、`terrio-scope-included-and-excluded`、`terrio-release-vs-main-drift`
-2. クラウドネイティブ: `cloud-native-read-behavior-matrix`（一覧表。入口別の比較つき）、`cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`、`terrio-js-cloud-native-reads-in-browser`
-3. 使い方: `terrio-processing-commands-smoke-test`、`terrio-rio-rasterio-compatible-api`、`terrio-mcp-server`
-4. 日本ローカル: `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`、`shapefile-cp932-attributes-not-decoded`、`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`
-5. 上流への報告: `upstream-issue-feedback-loop`
-6. 評価: `terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`
+1. 入口（ドキュメントの全体）: `terrio-docs-coverage-map`（全ページ → 塊の対応表と、食い違い 14 件）、`terrio-overview-and-getting-started`、`terrio-cli-overview`、`terrio-scope-included-and-excluded`、`why-terrio-comparison-with-alternatives`
+2. 版と配布: `terrio-release-vs-main-drift`、`terrio-install-platforms-and-release-history`、`terrio-license-and-third-party-notices`、`terrio-roadmap-and-open-items`
+3. クラウドネイティブ: `cloud-native-read-behavior-matrix`（一覧表。入口別の比較つき）、`cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`、`terrio-stac-and-stacit`、`terrio-point-clouds`、`terrio-js-cloud-native-reads-in-browser`
+4. 使い方: `terrio-cli-command-reference`、`terrio-processing-commands-smoke-test`、`terrio-python-api`、`terrio-rio-rasterio-compatible-api`、`terrio-xarray-integration`、`terrio-rust-library-and-features`、`terrio-js-api-and-playground`、`terrio-mcp-server`、`terrio-formats-rasters-and-compression`、`terrio-formats-vectors-streaming-and-tiles`
+5. 日本ローカル: `jgd2011-plane-rectangular-transform`、`terrio-crs-forms-projections-grids-and-epochs`、`vertical-datum-grids-and-geoid-in-japan`、`shapefile-cp932-attributes-not-decoded`、`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`
+6. 品質と評価: `terrio-conformance-and-testing-against-gdal`、`terrio-benchmarks-vs-gdal`、`terrio-architecture-and-pure-rust-claim`、`terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`
+7. 運営と上流: `terrio-contributing-and-governance`、`upstream-issue-feedback-loop`、`terrio-ai-disclosure-and-acknowledgements`、`data-licenses-of-play-datasets`
