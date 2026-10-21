@@ -16,6 +16,7 @@ sources:
   - "PyPI: terrio（版 0.1.1, 0.2.0, 0.3.1, 0.3.2）"
   - "opengeos/terrio のタグ v0.3.2（a08e7d8、2026-10-19、Release 0.3.2 #106）と main（cf6bd5d、2026-10-21）"
   - plays/2026-10-21-first-contact.md
+  - plays/2026-10-21-untested-items.md（main のビルドと再確認）
 related: [terrio-cli-overview, terrio-scope-included-and-excluded]
 freshness: high
 ---
@@ -40,6 +41,7 @@ terrio --help | grep -c mcp                               # 機能の有無は�
 - `terrio mcp --help` → `error: unrecognized subcommand 'mcp'`。`terrio --help` にも出ない。
 - main（cf6bd5d）の `crates/terrio-cli/src/lib.rs` には `Command::Mcp` があり、タグ v0.3.2（a08e7d8）には `Mcp` がない（grep で 0 件）。
 - 一方、`geojson.rs` の panic の箇所は、タグと main で同じ。wheel の panic の行番号（275）は、どちらのソースとも合う。
+- **main を実際にビルドして比べた**（`cargo build --release -p terrio-cli`、6 分 33 秒）。`terrio --version` は main も `terrio 0.3.2` と出す。`terrio mcp` は動く（`terrio-mcp-server`）。一方、**日本語の panic（GeoJSON、CSV、相対パス）、CP932 の文字化け、日本のジオイドの高さ不変、FlatGeobuf の全量取得は、main でも同じ**だった（`plays/2026-10-21-untested-items.md` の 6）。
 - main は 2026-10-21 だけで 10 件前後のコミット（座標系、netCDF、Cargo features など）。**リリースの間隔より、main の進みが速い**。
 
 ## 気をつけること

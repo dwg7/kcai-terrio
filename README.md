@@ -9,7 +9,7 @@
 - [`knowledge/`](knowledge/README.md): 知識の塊（題名、状態、確かめた版の一覧つき）
 - [`plays/`](plays/): 遊びの記録（日時、terrio の版、環境、コマンド、結果、発見）
 - [`drafts/upstream/`](drafts/upstream/): terrio への issue の下書き（投稿は hfu が確認して行う）
-- [`docs/`](docs/): ブラウザ（WebAssembly）で遊ぶページ（GitHub Pages。準備中）
+- [`docs/index.html`](docs/index.html): ブラウザ（WebAssembly）で遊ぶページ（terrio-js を CDN から版を固定して読む。GitHub Pages で公開予定）
 - [`DECISIONS.md`](DECISIONS.md): 決めたことと理由、kcai との食い違い
 - [`AGENTS.md`](AGENTS.md): AI 向け案内の本体（`CLAUDE.md` は入口だけ）
 

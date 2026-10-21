@@ -43,3 +43,16 @@
 
 - プロンプトは「候補の配信先のどれにも届かない」としていたが、2026-10-21 のこのセッションでは**候補のすべてに届いた**。追加で `depot.optgeo.org`、`r2-public.protomaps.com`、`cdn.proj.org`、`cdn.jsdelivr.net`、`registry.npmjs.org` にも届いた。
 - `github.com` のウェブページ（curl の Range 付き）は 403 だが、`git clone` は通る。
+
+## 2026-10-21: ブラウザ版のページと、検証用のビルド
+
+### 決定事項
+
+1. `docs/index.html` を置いた。terrio-js を jsDelivr から**版を固定**（`0.3.2`）して読み込む単一ファイルで、ビルド工程はない。範囲読み込み（6 種）、JGD2011 ↔ 平面直角座標系の変換、日本語の文字列の panic の確認、手元のファイルの `info` を持つ。実 Chromium（Playwright）で全部動くことを確かめた。**GitHub Pages の有効化（Settings → Pages → `main` / `/docs`）は hfu の操作が要る**（AI のツールでは設定できない）。
+2. main（`cf6bd5d`）を `cargo build --release -p terrio-cli` でビルドして、`terrio mcp` と main での不具合の再確認に使った。ビルド成果物は `/tmp` に置き、**リポジトリに入れない**。配布版（PyPI）が基準である方針（2026-10-21 の決定 3）は変えない。
+3. 転送量の測定は、背景の通信が混ざる `/proc/net/dev` から、terrio 自身のログ（`TERRIO_HTTP_LOG=YES`）と JS 版の `stats()` に切り替えた。
+
+### 留意点
+
+- 5 GB の GeoParquet に、丸ごと取得の `info` は実行していない（8 秒で打ち切り、一時ファイル 221 MB を手で消した）。以後、巨大なファイルには `timeout` と、終了後の `/tmp/terrio-*` の掃除を付ける。
+- 他の人のコード（公開リポジトリの取得物）は実行していない。`terrio.rio` の確認は、呼び出しの形だけを真似た合成データで行った。

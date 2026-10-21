@@ -16,7 +16,7 @@ as_of: 2026-10-21
 sources:
   - plays/2026-10-21-japan-edge-cases-and-survey.md（5）
   - "公開リポジトリ 75 件の浅い複製（2026-10-21）。代表: hfu/kompressor、hfu/abidjan-martin、hfu/terrain2021、hfu/kitavolca、hfu/tha-adm、hfu/zip2seq、hfu/area-forecast、hfu/senrigan、dwg7/snow-hokkaido、dwg7/cafebabe、dwg7/plateau-mago-implicit"
-related: [terrio-scope-included-and-excluded, shapefile-cp932-attributes-not-decoded, vertical-datum-grids-and-geoid-in-japan, cloud-native-read-behavior-matrix, terrio-possibilities-and-risks]
+related: [terrio-rio-rasterio-compatible-api, terrio-processing-commands-smoke-test, terrio-scope-included-and-excluded, shapefile-cp932-attributes-not-decoded, vertical-datum-grids-and-geoid-in-japan, cloud-native-read-behavior-matrix, terrio-possibilities-and-risks]
 freshness: high
 ---
 
@@ -37,10 +37,10 @@ hfu と dwg7 の公開リポジトリは、**タイル配信（PMTiles、Martin�
 | 処理（リポジトリ） | いまの道具 | terrio での見通し | 確かめ方 |
 |---|---|---|---|
 | GeoTIFF の一括再圧縮と検証（hfu/kompressor） | `gdal_translate -co COMPRESS=ZSTD/DEFLATE/LZW/LERC_ZSTD`、`ZSTD_LEVEL`、`ZLEVEL`、predictor、`TILED`、`BIGTIFF`、検証に `gdalinfo` | `convert --compress`（ZSTD、DEFLATE、LZW ほか）と `--tile-size`、`--bigtiff`、検証は `info`。**圧縮レベル、predictor、LERC の指定はオプションに見当たらない** | read-docs（`--help`） |
-| COG の作成（hfu/abidjan-martin） | `gdalwarp -t_srs EPSG:3857 -r bilinear -dstalpha -co TILED -co COMPRESS=LZW` → `gdal_translate -of COG -co TILING_SCHEME=GoogleMapsCompatible …` | `warp`（`--t-srs`、`-r`、`--tr`）は動いた。**`--dstalpha` に当たるオプションが `--help` にない**。COG の `TILING_SCHEME=GoogleMapsCompatible` などは**未確認**（4×4 の入力では判別できなかった） | warp は played、COG オプションは未確認 |
+| COG の作成（hfu/abidjan-martin） | `gdalwarp -t_srs EPSG:3857 -r bilinear -dstalpha -co TILED -co COMPRESS=LZW` → `gdal_translate -of COG -co TILING_SCHEME=GoogleMapsCompatible …` | `warp`（`--t-srs`、`-r`、`--tr`）は動いた。**`--dstalpha` はない**（`unexpected argument`）。COG の `TILING_SCHEME=GoogleMapsCompatible` は**エラーなしで無視される**（画素サイズが元のまま）。この処理は、いまは置き換えられない | played（`terrio-processing-commands-smoke-test`） |
 | 航空写真のラスタタイル（dwg7/cafebabe の pattern） | `gdalwarp` → MBTiles(WebP) → `gdaladdo` → `pmtiles convert` | `convert … out.pmtiles --co TILE_FORMAT=WEBP` で一段にできる**はず**（ドキュメント） | 未試験 |
 | ベクタの形式変換と列の選択（hfu/tha-adm、zip2seq、area-forecast、kitavolca） | `ogr2ogr -f GeoJSONSeq /vsistdout/ in.shp -select …`、`/vsizip/` | `convert --select`、`-f GeoJSONSeq`、zip 内（`a.zip!x.shp` や `/vsizip/`）は可（ドキュメント）。**出力は `/vsistdout/` が使えず、`/dev/stdout` で代用**。UTF-8 の日本語は通る | stdout は played |
-| rasterio による窓読み・ラスタ化（dwg7/snow-hokkaido） | `rasterio.open`、`windows.from_bounds`、`features.rasterize`、`transform.from_origin`、`sample`、`Resampling` | `terrio.rio`（rasterio 互換）に `windows` `features` `transform` `enums` があり、import はできた。**動作の同等性は未確認** | import だけ played |
+| rasterio による窓読み・ラスタ化（dwg7/snow-hokkaido） | `rasterio.open`、`windows.from_bounds`、`features.rasterize`、`transform.from_origin`、`sample`、`Resampling` | `terrio.rio`（rasterio 互換）で、同じ呼び出し 12 件（2 バンド書き込み、`driver="COG"`、`boundless` 読み、`Env` 越しのリモート COG 窓読み、`rasterize`、`sample`、`warp.transform_bounds` など）が通った。**値の同等性は未確認**（`terrio-rio-rasterio-compatible-api`） | played（呼び出しの通り方） |
 | 座標の変換（pyproj が 3 リポジトリ。JGD2011 や平面直角座標系の言及は 16 リポジトリ） | pyproj、GDAL | `terrio crs`、`warp`、`--t-srs`。**水平方向は JGD2011 ↔ 平面直角で動いた**。旧日本測地系・JGD2000 の格子補正はなし | played（`jgd2011-plane-rectangular-transform`） |
 | クラウドのデータの確認（PMTiles、COG の `info`） | `pmtiles show`、`gdalinfo /vsicurl/` | `terrio info URL`。Range が効く配信なら小さな転送で済む。Range を無視する配信では全体を読む（要 `timeout`） | played |
 

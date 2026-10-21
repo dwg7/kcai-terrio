@@ -13,8 +13,12 @@
 | [PMTiles をリモートで読む（ラスタ・ベクタ、日本語属性、Range を無視する配信）](pmtiles-remote-reading.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [CP932（Shift_JIS）の Shapefile 属性が、黙って文字化けする](shapefile-cp932-attributes-not-decoded.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio コマンドラインの概要（GDAL のどのコマンドに当たるか）](terrio-cli-overview.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
+| [ブラウザ（WebAssembly）で terrio を使う：openUrl の範囲読み込みと、このリポジトリのページ](terrio-js-cloud-native-reads-in-browser.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある](terrio-mcp-server.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio が開く可能性と、使うときのリスク](terrio-possibilities-and-risks.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG）](terrio-processing-commands-smoke-test.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [リリース版（PyPI の 0.3.2）と main のずれ：ドキュメントは先行する](terrio-release-vs-main-drift.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか](terrio-rio-rasterio-compatible-api.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio が含む機能と含まない機能](terrio-scope-included-and-excluded.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio のソースコードの癖（規模、作り、同じ型の弱点）](terrio-source-quirks.md) | draft | 0.3.2 | 2026-10-21 | read-source |
 | [格子とジオイド：EGM96 は適用されるが、日本のジオイドは適用されなかった](vertical-datum-grids-and-geoid-in-japan.md) | draft | 0.3.2 | 2026-10-21 | played |
@@ -24,6 +28,7 @@
 ## 読む順序の目安
 
 1. 全体像: `terrio-cli-overview`、`terrio-scope-included-and-excluded`、`terrio-release-vs-main-drift`
-2. クラウドネイティブ: `cloud-native-read-behavior-matrix`（一覧表）、`cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`
-3. 日本ローカル: `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`、`shapefile-cp932-attributes-not-decoded`、`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`
-4. 評価: `terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`
+2. クラウドネイティブ: `cloud-native-read-behavior-matrix`（一覧表。入口別の比較つき）、`cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`、`terrio-js-cloud-native-reads-in-browser`
+3. 使い方: `terrio-processing-commands-smoke-test`、`terrio-rio-rasterio-compatible-api`、`terrio-mcp-server`
+4. 日本ローカル: `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`、`shapefile-cp932-attributes-not-decoded`、`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`
+5. 評価: `terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`

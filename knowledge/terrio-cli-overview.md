@@ -36,7 +36,7 @@ related: [terrio-scope-included-and-excluded, terrio-release-vs-main-drift]
 | `crs` | gdalsrsinfo, gdaltransform | 座標系の説明と座標変換（`--to`） |
 | `formats` | gdalinfo --formats | 対応形式の一覧 |
 | `grid` / `filter` | PDAL の writers.gdal / filters | 点群のラスタ化、地面分類などのフィルタ |
-| `mcp` | （なし） | AI エージェント向け MCP サーバー。**v0.3.2 のリリースには入っていない**（`terrio-release-vs-main-drift`） |
+| `mcp` | （なし） | AI エージェント向け MCP サーバー。**v0.3.2 のリリースには入っていない**（`terrio-release-vs-main-drift`、`terrio-mcp-server`） |
 
 ## やり方
 
@@ -51,7 +51,7 @@ terrio <コマンド> --help   # 全オプション
 ## 確かめたこと（何をして、何が起きたか）
 
 - `terrio --help` は 15 個のサブコマンド（`mcp` を除く）を出す。この一覧と上の表の対応は、`docs/gdal.md` の対応表と `--help` の説明文（"like gdal_translate" など）から作った（**読んで確認**。表の「相当」の厳密な同等性までは確かめていない）。
-- 実際に動かしたのは `info` `convert` `translate` `warp` `crs` `formats` だけ（`plays/2026-10-21-first-contact.md`）。`dem` `calc` `mosaic` `rasterize` `polygonize` `proximity` `sieve` `grid` `filter` は**未試験**。
+- 動かしたのは `info` `convert` `translate` `warp` `crs` `formats`（`plays/2026-10-21-first-contact.md`）と、`dem` `calc` `mosaic` `rasterize` `polygonize` `proximity` `sieve` `grid` `filter`（`terrio-processing-commands-smoke-test`）。`mcp` は main のビルドで確認した（`terrio-mcp-server`）。値の正しさは、どれも未検証。
 
 ## 気をつけること
 

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>kcai-terrio ブラウザで遊ぶ</title>
+<style>
+  :root { --bg:#fbfbf8; --fg:#1d2127; --muted:#5b6470; --card:#ffffff; --line:#d9dde3; --accent:#1f6f5c; --bad:#b3261e; --ok:#1f6f5c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14171b; --fg:#e7eaee; --muted:#9aa3ad; --card:#1b2026; --line:#303842; --accent:#6cc4ab; --bad:#ff8a80; --ok:#6cc4ab; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.65 system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif; }
+  main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  h1 { font-size:1.5rem; margin:.2rem 0 .4rem; }
+  h2 { font-size:1.1rem; margin:0 0 .5rem; }
+  p, li { color:var(--fg); }
+  .muted { color:var(--muted); font-size:.9rem; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.1rem; margin:1rem 0; }
+  button, select, input { font:inherit; color:inherit; background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:.35rem .6rem; }
+  button { cursor:pointer; background:var(--accent); color:#fff; border-color:var(--accent); }
+  td button { white-space:nowrap; }
+  button:disabled { opacity:.5; cursor:progress; }
+  .row { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:.4rem 0; }
+  pre { background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:.6rem .75rem; overflow:auto; font-size:.82rem; line-height:1.5; white-space:pre-wrap; word-break:break-word; margin:.4rem 0 0; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); }
+  code { font-size:.9em; }
+  table { border-collapse:collapse; width:100%; font-size:.9rem; }
+  th, td { border-bottom:1px solid var(--line); padding:.3rem .4rem; text-align:left; vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+  <h1>kcai-terrio：ブラウザで terrio を遊ぶ</h1>
+  <p class="muted">
+    <a href="https://github.com/opengeos/terrio">terrio</a>（Qiusheng Wu さん作、MIT）を WebAssembly（<code>terrio-js</code>）でこのページに読み込みます。
+    データを取りに行くのは<strong>あなたのブラウザ</strong>です（相手側の CORS 設定に左右されます）。
+    知識の塊は <a href="https://github.com/dwg7/kcai-terrio/tree/main/knowledge">knowledge/</a>、遊びの記録は <a href="https://github.com/dwg7/kcai-terrio/tree/main/plays">plays/</a>。
+  </p>
+  <p id="status" class="muted">terrio-js を読み込み中…</p>
+
+  <section>
+    <h2>1. 座標系：JGD2011 ↔ 平面直角座標系</h2>
+    <div class="row">
+      <label>経度 <input id="lon" value="139.767125" size="11"></label>
+      <label>緯度 <input id="lat" value="35.681236" size="11"></label>
+      <label>系
+        <select id="zone"></select>
+      </label>
+      <button id="btn-crs">変換</button>
+    </div>
+    <pre id="out-crs">（東京駅の座標が初期値です）</pre>
+    <p class="muted">座標は「経度 緯度」の順。東西（x）、南北（y）の順で出ます。測地系の格子補正やジオイドは入っていません（<a href="https://github.com/dwg7/kcai-terrio/blob/main/knowledge/jgd2011-plane-rectangular-transform.md">塊を読む</a>）。</p>
+  </section>
+
+  <section>
+    <h2>2. 範囲読み込み（<code>openUrl</code>）</h2>
+    <p class="muted">ファイルを丸ごとは取りません。結果に、要求の数と受信バイト数（<code>stats()</code>）を出します。大きなものは時間がかかります。</p>
+    <table id="presets"></table>
+    <pre id="out-remote">（ボタンを押してください）</pre>
+  </section>
+
+  <section>
+    <h2>3. 日本語の文字列は通るか</h2>
+    <p class="muted">terrio 0.3.2 の CLI は、日本語の長い文字列を含む GeoJSON / CSV で panic します（<a href="https://github.com/opengeos/terrio/issues/159">opengeos/terrio#159</a>）。WebAssembly 版ではどうなるかを、あなたのブラウザで確かめます。</p>
+    <div class="row"><button id="btn-jp">確かめる</button></div>
+    <pre id="out-jp">（ボタンを押してください）</pre>
+  </section>
+
+  <section>
+    <h2>4. 手元のファイルを開く</h2>
+    <div class="row"><input type="file" id="file"></div>
+    <pre id="out-file">（ファイルは送信されません。このブラウザの中だけで読みます）</pre>
+  </section>
+
+  <p class="muted">
+    使っている版: <code id="ver">…</code>（CDN で固定。<code>terrio-js@0.3.2</code>）。版を上げたら、塊を <code>stale</code> にして確かめ直します。<br>
+    ライセンス: このページは CC0 1.0。terrio（MIT）と、各データの利用条件には適用されません。
+  </p>
+</main>
+
+<script type="module">
+const PINNED = "0.3.2";
+const CDN = `https://cdn.jsdelivr.net/npm/terrio-js@${PINNED}/terrio.js`;
+const $ = (id) => document.getElementById(id);
+const results = (window.__results = { pinned: PINNED, steps: {} });
+const fmt = (v) => JSON.stringify(v, (k, x) => (typeof x === "bigint" ? Number(x) : x), 2);
+const kib = (n) => (n >= 1048576 ? (n / 1048576).toFixed(1) + " MiB" : (n / 1024).toFixed(0) + " KiB");
+
+let T;
+try {
+  T = await import(CDN);
+  await T.default();
+  $("ver").textContent = "terrio-js@" + PINNED + "（wasm の version(): " + T.version() + "）";
+  $("status").textContent = "terrio-js を読み込みました。";
+  $("status").className = "ok";
+  results.version = T.version();
+} catch (e) {
+  $("status").textContent = "terrio-js を読み込めませんでした: " + e;
+  $("status").className = "bad";
+  results.loadError = String(e);
+  throw e;
+}
+
+// ---- 1. 座標系 ----
+const zone = $("zone");
+const roman = ["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX"];
+for (let i = 0; i < 19; i++) {
+  const o = document.createElement("option");
+  o.value = "EPSG:" + (6669 + i); o.textContent = `${roman[i]}系（EPSG:${6669 + i}）`;
+  if (i === 8) o.selected = true;
+  zone.appendChild(o);
+}
+$("btn-crs").onclick = () => {
+  try {
+    const lon = parseFloat($("lon").value), lat = parseFloat($("lat").value), z = zone.value;
+    const [xs, ys] = T.transformPoints([lon], [lat], "EPSG:6668", z);
+    const [bl, bb] = T.transformPoints([xs[0]], [ys[0]], z, "EPSG:6668");
+    $("out-crs").textContent = `EPSG:6668 (${lon}, ${lat}) → ${z}\n  東西 x = ${xs[0].toFixed(4)}\n  南北 y = ${ys[0].toFixed(4)}\n逆変換: (${bl[0].toFixed(9)}, ${bb[0].toFixed(9)})`;
+    results.steps.crs = { x: xs[0], y: ys[0], zone: z };
+  } catch (e) { $("out-crs").textContent = "失敗: " + e; results.steps.crs = { error: String(e) }; }
+};
+
+// ---- 2. 範囲読み込み ----
+const U = {
+  cog: "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/54/S/UE/2026/10/S2C_54SUE_20261018_0_L2A/B04.tif",
+  pmRaster: "https://r2-public.protomaps.com/protomaps-sample-datasets/terrarium_z9.pmtiles",
+  pmVector: "https://depot.optgeo.org/ksj_n03_hkd.pmtiles",
+  fgb: "https://flatgeobuf.org/test/data/UScounties.fgb",
+  pq: "https://data.source.coop/vida/google-microsoft-open-buildings/geoparquet/by_country/country_iso=JPN/JPN.parquet",
+  copc: "https://s3.amazonaws.com/hobu-lidar/autzen-classified.copc.laz",
+};
+const presets = [
+  ["cog", "Sentinel-2 COG（東京、216 MB）", "info と 256×256 の窓", async (d) => {
+    const a = await d.readBand(1, new Uint32Array([5000, 5000, 256, 256]));
+    let s = 0; for (const v of a) s += v;
+    return { info: { size: [d.width, d.height], crs: d.crs, overviews: d.overviews }, window: { length: a.length, mean: +(s / a.length).toFixed(1) } };
+  }],
+  ["pmRaster", "PMTiles ラスタ（Protomaps、30.5 GB）", "info", async (d) => ({ format: d.format, kind: d.kind, size: d.size, info: d.info() })],
+  ["pmVector", "PMTiles ベクタ（国土数値情報 N03 北海道、2.2 MB）", "info", async (d) => ({ format: d.format, kind: d.kind, info: d.info() })],
+  ["fgb", "FlatGeobuf（米国の郡、14 MB）", "bbox で読む（コロラド周辺）", async (d) => {
+    const r = await d.read({ bbox: [-109, 37, -102, 41] }); const g = r.toGeoJSON();
+    return { features: g.features.length, first: g.features[0]?.properties };
+  }],
+  ["pq", "GeoParquet（日本の建物、5 GB）", "bbox で読む（東京駅の約 1 km 四方。約 17 MB）", async (d) => {
+    const r = await d.read({ bbox: [139.760, 35.676, 139.770, 35.686] }); const g = r.toGeoJSON();
+    return { features: g.features.length, first: g.features[0]?.properties };
+  }],
+  ["copc", "COPC 点群（Autzen、81 MB）", "info", async (d) => ({ format: d.format, kind: d.kind, info: d.info() })],
+];
+const tbl = $("presets");
+tbl.innerHTML = "<tr><th>データ</th><th>操作</th><th></th></tr>";
+for (const [key, name, what, fn] of presets) {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td>${name}</td><td class="muted">${what}</td><td><button data-k="${key}">試す</button></td>`;
+  tbl.appendChild(tr);
+  tr.querySelector("button").onclick = async (ev) => {
+    const btn = ev.currentTarget; btn.disabled = true;
+    const out = $("out-remote"); out.textContent = `${name}: 取得中…`;
+    const t0 = performance.now();
+    try {
+      const d = await T.openUrl(U[key], {});
+      const res = await fn(d);
+      const st = d.stats();
+      const ms = Math.round(performance.now() - t0);
+      out.textContent = `${name}\n要求 ${st.requests} 回、受信 ${kib(st.bytes)}、${ms} ms\n` + fmt(res).slice(0, 1800);
+      results.steps[key] = { ok: true, requests: st.requests, bytes: st.bytes, ms };
+    } catch (e) {
+      out.textContent = `${name}: 失敗\n${e}\n\n（ブラウザでは、相手が Range を許可し、Content-Range を公開（CORS）している必要があります）`;
+      results.steps[key] = { ok: false, error: String(e) };
+    } finally { btn.disabled = false; }
+  };
+}
+
+// ---- 3. 日本語の文字列 ----
+$("btn-jp").onclick = () => {
+  const out = []; const enc = new TextEncoder();
+  const cases = [
+    ["GeoJSON 札幌市北区（15 バイト）", "a.geojson", '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[141.35,43.06]},"properties":{"name":"札幌市北区"}}]}'],
+    ["GeoJSON 東京都千代田区（21 バイト）", "b.geojson", '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[139.76,35.68]},"properties":{"name":"東京都千代田区"}}]}'],
+    ["CSV 東京都千代田区", "c.csv", "x,y,name\n139.76,35.68,東京都千代田区\n"],
+  ];
+  results.steps.jp = [];
+  for (const [label, fname, text] of cases) {
+    try { const ds = open(enc.encode(text), fname); out.push(`OK   ${label}: ${ds.info ? "info あり" : "開けた"}`); results.steps.jp.push({ label, ok: true }); }
+    catch (e) { out.push(`失敗 ${label}: ${e}`); results.steps.jp.push({ label, ok: false, error: String(e).slice(0, 120) }); }
+  }
+  $("out-jp").textContent = out.join("\n");
+  function open(bytes, name) { return T.open(bytes, name); }
+};
+
+// ---- 4. ファイル ----
+$("file").onchange = async (ev) => {
+  const f = ev.target.files[0]; if (!f) return;
+  try {
+    const bytes = new Uint8Array(await f.arrayBuffer());
+    const ds = T.open(bytes, f.name);
+    $("out-file").textContent = fmt(ds.info()).slice(0, 4000);
+  } catch (e) { $("out-file").textContent = "開けませんでした: " + e; }
+};
+results.ready = true;
+</script>
+</body>
+</html>
