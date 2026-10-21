@@ -17,9 +17,11 @@ STATUS = {
     "2026-10-21-geojson-panic-on-multibyte-strings.md": ("posted", "hfu が #159 として投稿。作者が #161（baf4768）で修正。配布版は未リリース"),
     "2026-10-21-comment-on-159-csv-same-code.md": ("obsolete", "CSV も #161 で直ったので不要"),
     "2026-10-21-zarr-parse-name-panic-on-multibyte-path.md": ("ready", "日本語の相対パスで panic。最新 main（6779102）でも再現。**#159 と同じ型で、最優先**"),
-    "2026-10-21-shapefile-cp932-not-decoded.md": ("ready", "CP932 の Shapefile が黙って文字化け。最新 main でも同じ"),
-    "2026-10-21-jgd2011-geoid-heights-unchanged.md": ("ready", "質問。日本のジオイドで高さが変わらない。最新 main でも同じ"),
-    "2026-10-21-cog-tiling-scheme-ignored-and-dstalpha.md": ("ready", "質問・要望。TILING_SCHEME が黙って無視される、--dstalpha がない"),
+    "2026-10-21-shapefile-cp932-not-decoded.md": ("ready", "CP932 の Shapefile が黙って文字化け。最新 main でも同じ。GDAL 3.8.4 は正しく読む（確認済み）"),
+    "2026-10-21-jgd2011-geoid-heights-unchanged.md": ("obsolete", "取り下げ。2 次元の EPSG:6668 を使った誤り。3 次元の 6667 なら適用される（GDAL とも一致）"),
+    "2026-10-21-web-mercator-fails-at-south-pole.md": ("ready", "緯度 -90 の点（南極）を EPSG:3857 に変換すると失敗。GDAL は成功。入門の例と PMTiles 既定の書き出しに影響。GDAL 3.8.4 で確認済み"),
+    "2026-10-21-translate-ot-int16-leaves-out-of-range-nodata.md": ("ready", "質問。--ot Int16 で範囲外の nodata がそのまま。GDAL は -32768 に丸めて警告。GDAL 3.8.4 で確認済み"),
+    "2026-10-21-cog-tiling-scheme-ignored-and-dstalpha.md": ("ready", "質問・要望（GDAL 3.8.4 で比較済み）。TILING_SCHEME が黙って無視される、--dstalpha がない"),
     "2026-10-21-cli-range-reads-for-flatgeobuf-and-geoparquet.md": ("ready", "質問。CLI の FlatGeobuf / GeoParquet は全量取得（JS 版は範囲読み）。中断時の一時ファイル"),
 }
 LIMIT = 7000  # GitHub の URL 長の実用的な上限の目安（超えたら貼り付けで投稿）

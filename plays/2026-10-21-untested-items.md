@@ -122,3 +122,8 @@
 - main の CLI で `mcp` を Claude Code に登録しての実使用
 - STACIT の `--outsize` などでの縮小、Zarr の `CRS unknown` の原因
 - 大きなベクタ PMTiles の書き出し（tippecanoe との比較）
+
+## 訂正（2026-10-21 夜、GDAL 3.8.4 との突き合わせの後）
+
+- 上で「日本のジオイドが適用されない／高さが変わらない」と書いた記述は、**誤りだった**。`EPSG:6668`（2 次元）を使ったためで、GDAL/PROJ も同じく高さを変えない。3 次元の `EPSG:6667` から `EPSG:6697` へなら、terrio は適用する（JPGEO2024。GDAL 3.8.4 は GSIGEO2011 で約 0.1 m 差。同じ格子なら小数 11 桁まで一致）。詳細は `plays/2026-10-21-gdal-comparison.md` と `knowledge/vertical-datum-grids-and-geoid-in-japan.md`。
+- 「`calc` の `/` が整数に丸まる」は、GDAL の `gdal_calc.py` も同じ既定（terrio の不具合ではない）。

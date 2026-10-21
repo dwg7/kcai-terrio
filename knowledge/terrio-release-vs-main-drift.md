@@ -41,7 +41,7 @@ terrio --help | grep -c mcp                               # 機能の有無は�
 - `terrio mcp --help` → `error: unrecognized subcommand 'mcp'`。`terrio --help` にも出ない。
 - main（cf6bd5d）の `crates/terrio-cli/src/lib.rs` には `Command::Mcp` があり、タグ v0.3.2（a08e7d8）には `Mcp` がない（grep で 0 件）。
 - 一方、`geojson.rs` の panic の箇所は、タグと main で同じ。wheel の panic の行番号（275）は、どちらのソースとも合う。
-- **main を実際にビルドして比べた**（`cargo build --release -p terrio-cli`、6 分 33 秒）。`terrio --version` は main も `terrio 0.3.2` と出す。`terrio mcp` は動く（`terrio-mcp-server`）。一方、**日本語の panic（GeoJSON、CSV、相対パス）、CP932 の文字化け、日本のジオイドの高さ不変、FlatGeobuf の全量取得は、main でも同じ**だった（`plays/2026-10-21-untested-items.md` の 6）。
+- **main を実際にビルドして比べた**（`cargo build --release -p terrio-cli`、6 分 33 秒）。`terrio --version` は main も `terrio 0.3.2` と出す。`terrio mcp` は動く（`terrio-mcp-server`）。一方、**日本語の panic（GeoJSON、CSV、相対パス）、CP932 の文字化け、FlatGeobuf の全量取得は、main でも同じ**（日本のジオイドは、3 次元の CRS なら適用される。当初の誤りを訂正した）だった（`plays/2026-10-21-untested-items.md` の 6）。
 - main は 2026-10-21 だけで 10 件前後のコミット（座標系、netCDF、Cargo features など）。**リリースの間隔より、main の進みが速い**。
 
 ## 更新（2026-10-21 夜）

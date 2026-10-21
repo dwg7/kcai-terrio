@@ -51,7 +51,7 @@ hfu と dwg7 の公開リポジトリは、**タイル配信（PMTiles、Martin�
 | ベクタタイルの生成（tippecanoe が 20 リポジトリ。`-zg`、`--drop-densest-as-needed`、`--extend-zooms-if-still-dropping`、`--no-tile-size-limit` など） | terrio は GeoJSON → ベクタ PMTiles を**書ける**（400 四角形で確認）が、書き方は GDAL の MVT ライタ相当。tippecanoe の「タイルのサイズに合わせて地物を間引く・ズームを延ばす」方針の代わりにはならない。大きなデータでの比較は未実施 |
 | 幾何の検査・修復（hfu/terrain2021: `-dialect SQLite -sql "… ST_IsValid(Geometry)=0 …"`、unary union、面積によるズーム決定） | `--sql` は OGR SQL の部分集合で、`ST_*` を含む SQL は `SQL: expected FROM` で失敗。幾何アルゴリズムは範囲外と明言されている。`--skipfailures` もない |
 | Shift_JIS の Shapefile（hfu/kitavolca の `SHAPE_ENCODING CP932`） | **黙って文字化けする**（`shapefile-cp932-attributes-not-decoded`） |
-| 日本のジオイド補正（dwg7/plateau-mago-implicit。JGD2011 と GSIGEO2011 を扱う） | terrio では高さが変わらなかった（`vertical-datum-grids-and-geoid-in-japan`） |
+| 日本のジオイド補正（dwg7/plateau-mago-implicit。JGD2011 と GSIGEO2011 を扱う） | **訂正**: 3 次元の CRS（`EPSG:6667`）から変換すれば terrio でも適用できる（GSIGEO2011 の格子を渡すと GDAL と小数 11 桁まで一致）。ただし terrio は新しい JPGEO2024 を優先し、GDAL 3.8.4 は GSIGEO2011 なので、モデルを明示する必要がある（`vertical-datum-grids-and-geoid-in-japan`）。**「代替できなさそう」ではなく、条件つきで代替できそう** |
 | タイルの配信と表示（Martin が 45、MapLibre が 54、`pmtiles serve`） | terrio はサーバーでも描画でもない |
 | 動的なタイル作成（rio-tiler: hfu/senrigan） | 同上 |
 | 大きな GeoParquet の部分読みと分析（DuckDB が 5 リポジトリ） | terrio の GeoParquet は全量取得（656 MiB を実測）。分析は DuckDB / GeoParquet のほうが向く |

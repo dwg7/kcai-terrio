@@ -1,3 +1,5 @@
+> **取り下げ（OBSOLETE）**: この下書きは**投稿しない**。2 次元の `EPSG:6668` を使ったための誤りで、3 次元の `EPSG:6667 → EPSG:6697` なら terrio は日本のジオイドを適用する。GDAL 3.8.4 でも 2 次元は高さ不変で、同じ格子なら小数 11 桁まで一致した（`plays/2026-10-21-gdal-comparison.md`、`knowledge/vertical-datum-grids-and-geoid-in-japan.md`）。経緯の記録として残す。
+
 # Draft question for opengeos/terrio (not posted; hfu will review and post)
 
 **Title:** Question: should `EPSG:6697 → EPSG:6668` apply the Japanese geoid (`jp_gsi_gsigeo2011.tif`)? Heights stay unchanged in 0.3.2

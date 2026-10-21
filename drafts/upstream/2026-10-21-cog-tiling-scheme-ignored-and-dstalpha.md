@@ -16,6 +16,8 @@ terrio convert w3857.tif cog.tif -f COG --co TILING_SCHEME=GoogleMapsCompatible
 terrio info cog.tif    # Pixel size: (12.32192258630899, -12.32192258630899), 1 overview
 ```
 
+Checked with GDAL 3.8.4 (Ubuntu apt) on the same input: the COG driver with `TILING_SCHEME=GoogleMapsCompatible` gives pixel size 9.5546 m aligned to a 1024x1024 tile grid, and `gdalwarp -dstalpha` writes a 2-band file with alpha.
+
 GDAL's COG driver would reproject/align to the Web Mercator tile grid (pixel size from a zoom level, and `ZOOM_LEVEL_STRATEGY`, `ALIGNED_LEVELS`). terrio accepts the option and writes a normal COG with the source pixel size.
 It would help to either support it or print a warning/error for unsupported COG creation options, because the result looks valid.
 

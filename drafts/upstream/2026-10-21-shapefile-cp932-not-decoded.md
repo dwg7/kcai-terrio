@@ -20,7 +20,7 @@ Reproduction (one point, `name` = 札幌市 stored as CP932 bytes `8E 44 96 79 8
 | `.cpg` = `CP932`, `SHIFT_JIS`, `Shift_JIS` or `932` | same |
 | `SHAPE_ENCODING=CP932` in the environment | same |
 
-GDAL reads these correctly (`.cpg`, or `--config SHAPE_ENCODING CP932`).
+GDAL 3.8.4 (Ubuntu apt) reads these correctly: with `.cpg` = `CP932` or `SHIFT_JIS`, or with `SHAPE_ENCODING=CP932`, the name is `札幌市`; with `.cpg` = `UTF-8` or no `.cpg` it is also garbled, as expected.
 
 ## What I found in the source
 

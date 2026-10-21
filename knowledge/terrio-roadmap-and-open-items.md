@@ -46,7 +46,7 @@ freshness: high
 **この遊びの発見との対応**
 - 「リモートの格子を範囲要求で読む」は未完了 → NADCON5 の格子を **全体**（139,914 バイトの 1 要求）で取った実測と合う。
 - 「自前の FlatGeobuf 読み取り」は未完了で、WASM の FlatGeobuf は 14 MB で動いたが、**大きなファイルでオーバーフローする可能性**がある（未検証）。
-- 「鉛直 ↔ 鉛直」と「複数の中間測地系」が未完了。日本のジオイドが適用されない件（`vertical-datum-grids-and-geoid-in-japan`）が、ここに入るかは**分からない**（ロードマップに日本の格子の項目はない）。
+- 「鉛直 ↔ 鉛直」と「複数の中間測地系」が未完了。日本の高さの変換は、3 次元の CRS から変換すれば動く（`vertical-datum-grids-and-geoid-in-japan`。当初の「適用されない」は誤りで訂正した）。ロードマップに日本の格子の項目はない。
 - **ロードマップは「完了」を、配布版より先に書く**: 「Windows ARM64 と Pyodide の wheel」は完了（Pyodide の wheel は GitHub のリリースに付く）だが、**PyPI の 0.3.2 に Windows ARM64 の wheel はない**（`terrio-install-platforms-and-release-history`）。「WebAssembly でリモートを範囲読み（COG、PMTiles、COPC、FlatGeobuf は bbox、GeoParquet は行グループ）」は完了で、**`docs/javascript.md` には書かれていない**が、実測で確かめた（`terrio-js-cloud-native-reads-in-browser`）。
 - 公開の節: 「crates.io と npm に 0.1.0 と 0.1.1、PyPI に 0.1.1」（0.1.0 は PyPI にない。`terrio-install-platforms-and-release-history` と合う）。
 

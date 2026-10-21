@@ -53,7 +53,7 @@ TERRIO_GRID_DIR=~/grids terrio crs EPSG:27700 --to EPSG:4258 434422 233624      
 **格子（played）**: ドキュメントの例 `TERRIO_NETWORK=ON terrio crs EPSG:4267 --to EPSG:4269 -100 40` で、`https://cdn.proj.org/us_noaa_nadcon5_nad27_nad83_1986_conus.tif` を**全体で**取得（139,914 バイト、要求 1 回）し、結果が `-100.0004055982497 40.00000580229538`。ネットワークなし（格子なし）では `-100.00041558862637 39.999996883362` と、約 1 m の差（緯度で 9e-6°、経度で 1e-6°）。
 **エポック（played）**: `echo "135 -25 0" | terrio crs EPSG:7912 --to EPSG:7843 --s_coord_epoch 2010.0` は `135.0000030617912 -24.99999469886912 -0.0015074610710144043`、エポックなしは `135 -24.999999999999996 0`（約 0.3 m の差）。**引数で `x y z` を渡すと `coordinates come in x y pairs` になる**（3 次元は標準入力）。
 
-**高さと鉛直測地系（read-docs、一部 played）**: 高さを持つ CRS の間（`EPSG:4979`、複合 CRS）では、ジオイドモデル（EGM96、EGM2008、GEOID18、OSGM15 など）が高さを楕円体高と相互に変える。**適用できる格子がないと高さは保たれる**（PROJ の ballpark と同じ）。鉛直 CRS どうしは楕円体高を経由し、PROJ の直接の鉛直変換（VERTCON など）は使わない。**日本のジオイドは適用されなかった**（`vertical-datum-grids-and-geoid-in-japan`）。
+**高さと鉛直測地系（read-docs、一部 played）**: 高さを持つ CRS の間（`EPSG:4979`、複合 CRS）では、ジオイドモデル（EGM96、EGM2008、GEOID18、OSGM15 など）が高さを楕円体高と相互に変える。**適用できる格子がないと高さは保たれる**（PROJ の ballpark と同じ）。鉛直 CRS どうしは楕円体高を経由し、PROJ の直接の鉛直変換（VERTCON など）は使わない。**日本のジオイドは、3 次元の CRS（`EPSG:6667`）から `EPSG:6697` に変換すれば適用される**（2 次元の `EPSG:6668` では、GDAL も高さを変えない。`vertical-datum-grids-and-geoid-in-japan`）。
 
 **動的測地系（read-docs）**: ITRF、WGS 84 の実現、ETRF などは、座標のエポックに依存する。動的 → 静的は元のエポック、静的 → 動的は先のエポック。15 パラメータのヘルマート変換と速度格子に対応。
 

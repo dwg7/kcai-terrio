@@ -36,7 +36,7 @@ terrio は「GDAL の全部の置き換え」ではなく、**よく使う形式
 - 独自 SDK が要る形式（MrSID、ECW、FileGDB ラスタ）、データベースドライバー（PostGIS など）。
 - GDAL の C API やオプション名の完全一致。
 - 回転した geotransform、GCP だけの位置合わせ。
-- **測地系のずれの格子（NTv2 など）の適用**: `docs/why-terrio.md` は "does not apply NTv2 or other shift grids yet" と書くが、`docs/crs.md` は PROJ の格子を探して適用すると書き、実測でも EGM96 は適用された（`TERRIO_NETWORK=ON`）。ただし**日本のジオイドは適用されなかった**（`vertical-datum-grids-and-geoid-in-japan`）。
+- **測地系のずれの格子（NTv2 など）の適用**: `docs/why-terrio.md` は "does not apply NTv2 or other shift grids yet" と書くが、`docs/crs.md` は PROJ の格子を探して適用すると書き、実測でも EGM96 は適用された（`TERRIO_NETWORK=ON`）。日本のジオイドも、3 次元の CRS（`EPSG:6667`）から変換すれば適用される（2 次元の `EPSG:6668` では、GDAL も高さを変えない。`vertical-datum-grids-and-geoid-in-japan`）。
 - 幾何学アルゴリズム（バッファ、交差、簡略化）。`geo` クレートなどを使う。
 - **出力のリモート書き込み**（出力はローカルのみ）。
 - 既定のビルドは純 Rust。長い尾の形式（HDF4、GRIB、NITF、DXF、FileGDB の書き込みなど）は、任意の GDAL バックエンド（`gdal` feature）経由。**PyPI の wheel には入っていない**。

@@ -67,6 +67,11 @@ related: []
 - `drafts/upstream/`: terrio への issue の下書き。再現手順と版を明記し、敬意をもって、やさしい英語で書く。**投稿は hfu が確認して hfu が行う。**
   `python3 scripts/upstream_index.py > drafts/upstream/README.md` で、状態の一覧と投稿用リンクを作る。同じ型の弱点は、まとめて探してから報告する。未検証の主張は、投稿前に外す。
 
+## 生きた塊
+
+- `knowledge/advice-for-dwg7.md`（dwg7 に対する助言）は、**作業が進むごとに更新する**。更新履歴に 1 行足し、助言の表を見直し、`updated` を直す。
+- 上流への下書きは、書く前に、可能なら **GDAL（または対応する別実装）と突き合わせる**。版を明記し、確かめていない主張は外す。
+
 ## ブラウザ版
 
 `docs/` に terrio-js を使う小さなページを置き、GitHub Pages で公開する。ビルド工程は持たず、CDN から版を固定して読み込む。何がブラウザで動き、何が動かないかも塊にする。

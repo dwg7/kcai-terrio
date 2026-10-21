@@ -60,7 +60,7 @@
 2. wheel の SBOM は 282 コンポーネント。GPL 単独なし。`ring`、`zstd-sys` があり、「C の依存は Zstandard だけ」のドキュメントの記述と合わない可能性
 3. **ドキュメントの食い違いと配布版との差 14 件**（`terrio-docs-coverage-map`）
 4. **入門ページの EPSG:3857 の例が失敗する**（南極）。PMTiles の既定の書き出しも失敗
-5. `translate --ot Int16` で nodata が範囲外のまま。`calc` の `/` が整数に丸まる
+5. `translate --ot Int16` で nodata が範囲外のまま。`calc` の `/` が整数に丸まる（GDAL 3.8.4 の `gdal_calc.py` も同じ。GDAL と同じ既定）
 6. STACIT の窓は重なる全シーンから読む（`max_items` で絞れる）
 7. 日本のジオイドは、JS で格子を直接登録しても不変（変換の選択側の可能性）。conformance の格子の一覧（128 行）に日本の格子（`jp_`）がない
 8. 公式プレイグラウンドで日本語の長い文字列が落ちる（#161 の修正は 0.3.2 固定のため未反映）
@@ -72,3 +72,8 @@
 - DuckDB と GDAL の Arrow ストリーム、`terrio-gdal`（GDAL バックエンド）、Pyodide の wheel
 - インストーラ（`curl | sh`）、Windows と macOS
 - LERC・LZMA・JPEG XL・JPEG の YCbCr の GeoTIFF、netCDF/HDF5 の実ファイル
+
+## 訂正（2026-10-21 夜、GDAL 3.8.4 との突き合わせの後）
+
+- 上で「日本のジオイドが適用されない／高さが変わらない」と書いた記述は、**誤りだった**。`EPSG:6668`（2 次元）を使ったためで、GDAL/PROJ も同じく高さを変えない。3 次元の `EPSG:6667` から `EPSG:6697` へなら、terrio は適用する（JPGEO2024。GDAL 3.8.4 は GSIGEO2011 で約 0.1 m 差。同じ格子なら小数 11 桁まで一致）。詳細は `plays/2026-10-21-gdal-comparison.md` と `knowledge/vertical-datum-grids-and-geoid-in-japan.md`。
+- 「`calc` の `/` が整数に丸まる」は、GDAL の `gdal_calc.py` も同じ既定（terrio の不具合ではない）。
