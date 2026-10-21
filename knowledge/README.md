@@ -31,6 +31,7 @@
 | [点群（LAS/LAZ/COPC/EPT/PLY/E57）：範囲読み、フィルター、グリッド化、ドキュメントの例の再現](terrio-point-clouds.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio が開く可能性と、使うときのリスク](terrio-possibilities-and-risks.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG）](terrio-processing-commands-smoke-test.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [Python API（terrio）：ドキュメントの例 30 件を動かした結果](terrio-python-api.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [リリース版（PyPI の 0.3.2）と main のずれ：ドキュメントは先行する](terrio-release-vs-main-drift.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか](terrio-rio-rasterio-compatible-api.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio が含む機能と含まない機能](terrio-scope-included-and-excluded.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
