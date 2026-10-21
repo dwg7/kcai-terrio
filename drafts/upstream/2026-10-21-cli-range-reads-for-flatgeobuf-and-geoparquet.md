@@ -6,7 +6,7 @@ Hello, and thank you for terrio. terrio-js is impressive: with `openUrl`, it rea
 
 ## Versions
 
-terrio 0.3.2 (PyPI wheel), terrio-js 0.3.2, and main at `cf6bd5d` (built from source).
+terrio 0.3.2 (PyPI wheel), terrio-js 0.3.2, and main at `6779102` (2026-10-21, built from source).
 
 ## What I measured
 

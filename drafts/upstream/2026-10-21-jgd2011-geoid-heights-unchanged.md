@@ -6,7 +6,7 @@ Hello, and thank you for terrio. I am not sure whether this is a bug or my usage
 
 ## Version
 
-terrio 0.3.2 (PyPI wheel, Linux x86_64).
+terrio 0.3.2 (PyPI wheel, Linux x86_64); same result on main at `6779102` (2026-10-21, after #163).
 
 ## What works
 

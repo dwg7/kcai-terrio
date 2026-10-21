@@ -44,6 +44,10 @@ terrio --help | grep -c mcp                               # 機能の有無は�
 - **main を実際にビルドして比べた**（`cargo build --release -p terrio-cli`、6 分 33 秒）。`terrio --version` は main も `terrio 0.3.2` と出す。`terrio mcp` は動く（`terrio-mcp-server`）。一方、**日本語の panic（GeoJSON、CSV、相対パス）、CP932 の文字化け、日本のジオイドの高さ不変、FlatGeobuf の全量取得は、main でも同じ**だった（`plays/2026-10-21-untested-items.md` の 6）。
 - main は 2026-10-21 だけで 10 件前後のコミット（座標系、netCDF、Cargo features など）。**リリースの間隔より、main の進みが速い**。
 
+## 更新（2026-10-21 夜）
+
+- main は `6779102`（#164）まで進んだ。PyPI は 0.3.2 のまま。**修正が main に入って、配布版にはまだ出ない**例が出た: GeoJSON / CSV の日本語 panic は #161（`baf4768`）で直ったが、`pip install terrio` で入る 0.3.2 には入っていない（`upstream-issue-feedback-loop`）。
+
 ## 気をつけること
 
 - `pip install` した版で、ドキュメントの例が動くとは限らない。動かないときは、タグのドキュメントと照らす。

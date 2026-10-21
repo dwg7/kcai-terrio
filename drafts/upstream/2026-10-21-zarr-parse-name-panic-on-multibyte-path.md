@@ -2,12 +2,12 @@
 
 **Title:** Panic when a dataset path has a multi-byte character across byte 5 (e.g. a relative path like `日本地図.tif`) — `zarr::parse_name` slices `&str` at byte 5
 
-Hello, and thank you for terrio. While trying it with Japanese file names I found a panic that is easy to hit, so I would like to report it. (It is the same kind of problem as the GeoJSON one I report separately: slicing a `&str` at a fixed byte index.)
+Hello, and thank you for terrio. While trying it with Japanese file names I found a panic that is easy to hit, so I would like to report it. (It is the same kind of problem as #159, which was fixed in #161 — thank you for the quick fix! — but in a different place: slicing a `&str` at a fixed byte index.)
 
 ## Version
 
 - terrio 0.3.2 (`pip install terrio`, Linux x86_64, Python 3.13)
-- Source checked at tag `v0.3.2` (`a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6`) and main (`cf6bd5dbcb6021f99ffde6c7f2c0f4f3f311ed2b`); the code is the same.
+- Source checked at tag `v0.3.2` (`a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6`). Re-checked on main at `6779102281ad2835cbc23fba3138e01a138bc6f9` (2026-10-21, after #161): still panics.
 
 ## What happens
 

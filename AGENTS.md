@@ -65,6 +65,7 @@ related: []
 
 - `plays/YYYY-MM-DD-<題>.md`: 日時、terrio の版、環境、打ったコマンド、結果の要約、発見。大きな出力は要約する。
 - `drafts/upstream/`: terrio への issue の下書き。再現手順と版を明記し、敬意をもって、やさしい英語で書く。**投稿は hfu が確認して hfu が行う。**
+  `python3 scripts/upstream_index.py > drafts/upstream/README.md` で、状態の一覧と投稿用リンクを作る。同じ型の弱点は、まとめて探してから報告する。未検証の主張は、投稿前に外す。
 
 ## ブラウザ版
 

@@ -1,4 +1,6 @@
-# Draft comment for opengeos/terrio#159 (not posted; hfu will review and post)
+# OBSOLETE — do not post: the CSV reader was fixed together with #159 in #161 (baf4768)
+
+(Kept as a record. Original draft below.)
 
 Additional information: the CSV reader has the same code, and it panics in the same way.
 

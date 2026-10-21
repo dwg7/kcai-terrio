@@ -21,6 +21,7 @@
 | [rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか](terrio-rio-rasterio-compatible-api.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio が含む機能と含まない機能](terrio-scope-included-and-excluded.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio のソースコードの癖（規模、作り、同じ型の弱点）](terrio-source-quirks.md) | draft | 0.3.2 | 2026-10-21 | read-source |
+| [上流への報告から修正までの流れ：opengeos/terrio#159 の体験（AI が下書き、hfu が投稿、作者が当日修正）](upstream-issue-feedback-loop.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [格子とジオイド：EGM96 は適用されるが、日本のジオイドは適用されなかった](vertical-datum-grids-and-geoid-in-japan.md) | draft | 0.3.2 | 2026-10-21 | played |
 
 `played` は実際に動かした。`read-docs` / `read-source` は読んだだけ。
@@ -31,4 +32,5 @@
 2. クラウドネイティブ: `cloud-native-read-behavior-matrix`（一覧表。入口別の比較つき）、`cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`、`terrio-js-cloud-native-reads-in-browser`
 3. 使い方: `terrio-processing-commands-smoke-test`、`terrio-rio-rasterio-compatible-api`、`terrio-mcp-server`
 4. 日本ローカル: `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`、`shapefile-cp932-attributes-not-decoded`、`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`
-5. 評価: `terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`
+5. 上流への報告: `upstream-issue-feedback-loop`
+6. 評価: `terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`

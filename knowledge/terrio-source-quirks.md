@@ -47,6 +47,7 @@ terrio は、約 10 万行の Rust（4 つのクレート）が、**GDAL を基�
 | `drivers/png.rs:89`（`read_world_file`） | `&ext[..1]` | 再現できなかった（未知の拡張子は先に拒否される） |
 | `drivers/hdf5.rs:37`、`netcdf.rs:22` | `s.get(..5).filter(...)` | **安全な書き方**。同じ作りの `zarr.rs` だけが違う |
 
+- **更新（2026-10-21 夜）**: `geojson.rs` と `csv.rs` は、作者が #161 で直した（バイト列で判定。`parse_date` と MIF の日付も）。`zarr.rs:1310` は最新の main でも残っている。
 - 安全な書き方が同じコードベースに既にある。Clippy の `string_slice`（バイト位置での文字列スライスを警告する）を有効にすれば、機械的に拾える（**提案。試していない**）。
 - panic はエラーとして扱われず、CLI は Rust のバックトレース（41 行ほど）を標準エラーに出して終了コード 1、Python では `BaseException` 系の `PanicException`。
 

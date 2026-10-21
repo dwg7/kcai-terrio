@@ -16,13 +16,15 @@ authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
 updated: 2026-10-21
-related: [geojson-japanese-string-panic, terrio-source-quirks]
+related: [upstream-issue-feedback-loop, geojson-japanese-string-panic, terrio-source-quirks]
 hazard: multibyte-path-slicing-panic
 finding:
   - utf8-boundary-panic-in-zarr-parse-name
 ---
 
 ## 要点
+
+**2026-10-21 更新: 最新の main（`6779102`）でも、まだ panic する（`zarr.rs:1310`）。** 同じ型の GeoJSON / CSV の panic は、#161 で直った（`upstream-issue-feedback-loop`）。この塊の下書きは、hfu の投稿を待っている。
 
 **日本語のファイル名を相対パスで渡すと、terrio が panic する場合がある。** どの形式でも起こる（パスを最初に Zarr 名として調べるため）。5 バイト目が日本語の文字の途中に当たるとき: `日本地図.tif`、`標高.tif`、`データ/x.tif`。絶対パス（`/tmp/…/日本地図.tif`）は通る。日本で最も自然な使い方（日本語名のファイルを相対パスで）に当たるので、日本ローカルでは影響が大きい。
 

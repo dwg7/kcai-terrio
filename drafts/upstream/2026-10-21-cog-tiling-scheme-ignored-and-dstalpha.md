@@ -6,7 +6,7 @@ Hello, and thank you for terrio. I am replacing a GDAL pipeline that makes web-m
 
 ## Version
 
-terrio 0.3.2 (PyPI wheel, Linux x86_64) and main at `cf6bd5d` (built from source). Both behave the same.
+terrio 0.3.2 (PyPI wheel, Linux x86_64) and main at `6779102` (2026-10-21, built from source). Both behave the same.
 
 ## 1. `TILING_SCHEME` is ignored without a message
 

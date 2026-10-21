@@ -45,7 +45,7 @@ terrio の価値は「**GDAL を入れられない場所で、GDAL 相当のこ�
 **実測したもの（黙って誤る・止まる）**
 
 1. **日本語の相対パスで panic**（`日本地図.tif`）。ほぼ全形式（`japanese-path-panic-in-zarr-parse-name`）
-2. **日本語の長い文字列を含む GeoJSON と CSV で panic**（`geojson-japanese-string-panic`）
+2. **日本語の長い文字列を含む GeoJSON と CSV で panic**（`geojson-japanese-string-panic`）。**main では #161 で修正済み、配布版は未リリース**（`upstream-issue-feedback-loop`）
 3. **CP932 の Shapefile が黙って文字化け**（`shapefile-cp932-attributes-not-decoded`）
 4. **日本のジオイドが適用されず、高さが黙って変わらない**（`vertical-datum-grids-and-geoid-in-japan`）
 5. **縮小（`translate --outsize`、`warp`）で COG をほぼ全量取得**（208 MiB）、**GeoParquet の `info` で 656 MiB を取得**、**FlatGeobuf は `--spat` でも全量**、JPEG 2000 の overview もほぼ全体（`cloud-native-read-behavior-matrix`）
