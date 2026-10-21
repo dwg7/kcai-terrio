@@ -18,7 +18,7 @@ authors:
   - AI（Claude）が書いた助言。hfu / dwg7 の指示のもと。AI 支援あり。助言は、証拠となる塊への参照つきで、判断は dwg7 が行う
 reviewed_by: []
 updated: 2026-10-21
-related: [hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
+related: [terrio-rust-library-and-features, terrio-xarray-integration, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
 freshness: high
 ---
 
@@ -41,12 +41,14 @@ freshness: high
 | 7 | **タイル生成（tippecanoe）、SQL による幾何の検査・修復、配信は置き換えない**。terrio の範囲外（PMTiles の書き出しは可能だが、tippecanoe の代わりではない）。world 全体を EPSG:3857 に変換する工程は、南極の問題に注意 | `terrio-scope-included-and-excluded`、`hfu-dwg7-workflow-substitution-survey` |
 | 8 | **版を固定して使う**。配布版（0.3.2）と main は差があり、ドキュメントも main に追随する。pip / npm の版を決め、塊は版つきで読む。新しい版が出たら `stale` の確かめ直し | `terrio-release-vs-main-drift`、`terrio-install-platforms-and-release-history` |
 | 9 | **上流への報告は、再現の最小化・GDAL との突き合わせ・版の明記**をして、未検証の主張を外す。#159 は報告から修正まで早かった。取り下げた下書き（ジオイド）は、投稿前の確認の価値を示す | `upstream-issue-feedback-loop`、`drafts/upstream/README.md` |
-| 10 | **MCP（`terrio mcp`）は main の機能**で、配布版にない。書き込みは一時的な場所に限る | `terrio-mcp-server`（played、main） |
+| 10 | **Rust から使うなら、版に注意**。0.3.2 の crate は feature で絞れない（46 MB・302 クレート）。絞れるのは main（`geotiff` + `remote` で 24 MB・188 クレート）。ドキュメントの絞り込みの例は main 向け。API 自体（座標変換、遅延読み、COG 書き出し）は書いたとおりに動いた | `terrio-rust-library-and-features`（played） |
+| 11 | **公式ノートブックはそのまま動く**（27 セル中、失敗は `zarr` の欠落 1 件）。xarray の例は `pip install zarr` を足す。学習の入口に勧められる | `plays/2026-10-21-notebooks.md`（played） |
+| 12 | **MCP（`terrio mcp`）は main の機能**で、配布版にない。書き込みは一時的な場所に限る | `terrio-mcp-server`（played、main） |
 
 ## 確かめたこと（何をして、何が起きたか）
 
 - 下の「更新履歴」を参照。助言ごとの証拠は、表の塊にある。
-- この塊自体は**助言**であり、個々の事実の確かめは各塊で行う。助言の根拠が `read-docs` / `read-source` の場合は、表で明示する（現時点で 1〜10 の根拠の主要部は `played`）。
+- この塊自体は**助言**であり、個々の事実の確かめは各塊で行う。助言の根拠が `read-docs` / `read-source` の場合は、表で明示する（現時点で 1〜12 の根拠の主要部は `played`）。
 
 ## 気をつけること
 
@@ -58,7 +60,7 @@ freshness: high
 ## 更新履歴
 
 - 2026-10-21 夜: 初版。ドキュメント全面消化、GDAL との突き合わせ（ジオイドの訂正を含む）までを反映。
-- （次の更新: Notebooks、Rust、新しい版の確認の後）
+- 2026-10-21 夜（2）: 新しい版の確認（PyPI・crates.io・npm とも 0.3.2 のまま。`stale` にする塊なし）。公式ノートブックを実行（助言 11）。Rust のコードを書いて実行（助言 10、feature の食い違いを確認）。GDAL 3.8.4 の確認を済ませた下書き 2 件を追加（南極点の EPSG:3857、`--ot Int16` の nodata）。
 
 ## 出典
 

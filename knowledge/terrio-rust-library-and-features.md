@@ -47,7 +47,11 @@ terrio::stream::convert("buildings.gpkg", "buildings.fgb", &ConvertOptions::defa
 - **0.3.2 のタグとの差（played / read-source）**: main の `terrio` クレートの `[features]` は上の一覧（`default` に多数）だが、**v0.3.2 のタグは `[features] default = []`**（feature 分けは #154 で main に入った）。**ドキュメントの例 `terrio = { version = "0.3", default-features = false, features = ["geotiff"] }` は、0.3.2 の crate ではそのまま通るか未確認**。
 - **ドキュメントの食い違い**: ページの冒頭は「API リファレンスは、terrio が**公開されたら** docs.rs にある。それまでは `cargo doc`」と書く（古い記述）。一方、terrio は crates.io に**公開済み**（0.1.1〜0.3.2）。同じサイトの `installation.md` は `cargo add terrio` を案内する。冒頭の依存の書き方は `git = …` のまま。
 - **WebAssembly**: ライブラリは `wasm32-unknown-unknown` でビルドでき、ネットワークと一時ファイルはネイティブのみ。JPEG 2000 には、グローバルアロケータ `terrio::NullSafeAllocator` と、リンクフラグ `-C link-arg=--allow-undefined` が要る（OpenJPEG の移植が null ポインタを解放するため）。
-- この塊は**ドキュメントを読んだもの**。Rust のコードは、この遊びでは書いて動かしていない。
+- **書いて動かした（played、2026-10-21）**: crates.io の 0.3.2 と、main のソース（パス依存）で、小さな Rust プログラムを作った（`plays/2026-10-21-rust-and-notebooks.md`）。
+  - `Transformer::new(&SpatialRef::parse("EPSG:6668")?, …"EPSG:6677")` で `-5992.919570 -35363.237745`（CLI と GDAL の値と同じ）。`open_raster_lazy(url)` + `read_window(Window::new(..), &WindowOptions { bands: vec![1], overview: Some(2) })` は遠隔 COG を範囲読み込み（HTTP 206 が 2 本、約 0.7 MB）。`write_raster_dataset` で COG（DEFLATE）を書いて読み戻せた。この塊の例のとおりで、**コンパイルは 1 回で通った**。
+  - ライブラリ層でも、`Transformer` の (180, −90) → EPSG:3857 は `Err(cannot transform (180, -90))`（CLI だけの問題ではない）。
+  - **ドキュメントの例 `default-features = false, features = ["geotiff"]` は、crates.io の 0.3.2 では解決に失敗する**（`terrio` に `geotiff` という feature が無い。あるのは `default` と `gdal`）。main のソースでは通る。→ 例は main 向け。
+  - main で `features = ["geotiff", "remote"]` にすると、同じプログラムが動き、実行ファイルは **24 MB・依存 188 クレート**（0.3.2 の既定は 46 MB・302 クレート）。ビルドは約 2.5 分（8 コア級のクラウド環境）。
 
 ## 気をつけること
 
