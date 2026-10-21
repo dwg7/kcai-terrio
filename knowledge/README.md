@@ -6,23 +6,39 @@
 |---|---|---|---|---|
 | [クラウドネイティブな形式の読み込み方：どこまで範囲読み込みか（一覧）](cloud-native-read-behavior-matrix.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [リモート COG の窓読み・overview・縮小の使い分け](cog-remote-window-overview-and-warp.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [遊びで使ったデータのライセンス表記（配信元が書いていること）](data-licenses-of-play-datasets.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [日本語の長い文字列を含む GeoJSON と CSV で terrio が panic する（0.3.2）](geojson-japanese-string-panic.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [hfu と dwg7 の公開リポジトリの処理のうち、terrio で代替できそうなものと、できなさそうなもの](hfu-dwg7-workflow-substitution-survey.md) | draft | 0.3.2 | 2026-10-21 | read-source |
 | [日本語から始まる相対パスで terrio が panic する（Zarr 名の判定）](japanese-path-panic-in-zarr-parse-name.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [JGD2011 と平面直角座標系（EPSG:6669〜6687）の変換と、測地系のずれ](jgd2011-plane-rectangular-transform.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [PMTiles をリモートで読む（ラスタ・ベクタ、日本語属性、Range を無視する配信）](pmtiles-remote-reading.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [CP932（Shift_JIS）の Shapefile 属性が、黙って文字化けする](shapefile-cp932-attributes-not-decoded.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio の AI 開示と謝辞：誰の仕事の上にあるか](terrio-ai-disclosure-and-acknowledgements.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
+| [terrio の構成と「純 Rust」の中身（ドキュメントと SBOM を突き合わせる）](terrio-architecture-and-pure-rust-claim.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [GDAL との速度とメモリの比較（作者の計測）と、読むときの注意](terrio-benchmarks-vs-gdal.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
+| [コマンドごとの主なオプションと決まり（cli.md の要約と、確かめた点）](terrio-cli-command-reference.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio コマンドラインの概要（GDAL のどのコマンドに当たるか）](terrio-cli-overview.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
+| [GDAL との突き合わせ試験と適合性レポート：何を、いつ、どの版で比べたか](terrio-conformance-and-testing-against-gdal.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
+| [terrio への貢献の作法と、プロジェクトの運営の様子](terrio-contributing-and-governance.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
+| [座標系：受け付ける書式、計算できる投影、格子の探し方、高さとエポック](terrio-crs-forms-projections-grids-and-epochs.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [対応形式（ラスタ）と圧縮：表をバイナリの terrio formats と突き合わせた](terrio-formats-rasters-and-compression.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [対応形式（ベクタ・タイル・Arrow）：ストリーム変換、GeoParquet 1.1、タイルの書き出し、南極で落ちる例](terrio-formats-vectors-streaming-and-tiles.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio の入れ方、対応環境、版の履歴（PyPI・npm・crates.io）](terrio-install-platforms-and-release-history.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [ブラウザ（WebAssembly）で terrio を使う：openUrl の範囲読み込みと、このリポジトリのページ](terrio-js-cloud-native-reads-in-browser.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio のライセンス：MIT、同梱される依存と第三者の告知、0.3.2 の配布物に LICENSE がない件](terrio-license-and-third-party-notices.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある](terrio-mcp-server.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio の概観と入門の手順（トップページ、Getting Started、Notebooks を実際に動かす）](terrio-overview-and-getting-started.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [点群（LAS/LAZ/COPC/EPT/PLY/E57）：範囲読み、フィルター、グリッド化、ドキュメントの例の再現](terrio-point-clouds.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio が開く可能性と、使うときのリスク](terrio-possibilities-and-risks.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG）](terrio-processing-commands-smoke-test.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [リリース版（PyPI の 0.3.2）と main のずれ：ドキュメントは先行する](terrio-release-vs-main-drift.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか](terrio-rio-rasterio-compatible-api.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio が含む機能と含まない機能](terrio-scope-included-and-excluded.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio のソースコードの癖（規模、作り、同じ型の弱点）](terrio-source-quirks.md) | draft | 0.3.2 | 2026-10-21 | read-source |
+| [STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす](terrio-stac-and-stacit.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [上流への報告から修正までの流れ：opengeos/terrio#159 の体験（AI が下書き、hfu が投稿、作者が当日修正）](upstream-issue-feedback-loop.md) | draft | 0.3.2 | 2026-10-21 | played |
 | [格子とジオイド：EGM96 は適用されるが、日本のジオイドは適用されなかった](vertical-datum-grids-and-geoid-in-japan.md) | draft | 0.3.2 | 2026-10-21 | played |
+| [terrio と他の選択肢（GDAL、gdal クレート、GeoRust、GeoArrow、whitebox、OxiGeo）：どれを選ぶか](why-terrio-comparison-with-alternatives.md) | draft | 0.3.2 | 2026-10-21 | read-docs |
 
 `played` は実際に動かした。`read-docs` / `read-source` は読んだだけ。
 

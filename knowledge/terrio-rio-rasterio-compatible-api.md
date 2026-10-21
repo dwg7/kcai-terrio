@@ -14,9 +14,9 @@ verified_on: 2026-10-21
 verified_how: played
 sources:
   - plays/2026-10-21-untested-items.md（3）
-  - terrio docs/rasterio.md
+  - terrio docs/rasterio.md（main 6779102）
   - dwg7/snow-hokkaido の src/*.py（公開。呼び出しの形だけ参照し、実行はしていない）
-related: [hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks]
+related: [terrio-python-api, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-formats-rasters-and-compression]
 freshness: high
 ---
 
@@ -65,6 +65,23 @@ with rasterio.open("out.tif", "w", driver="GTiff", width=300, height=200, count=
 - `COG` で書いたファイルを `terrio.info` で見ると `Driver: GTiff`（GDAL と同じ扱い）。
 - `Window` の値が `np.float64`（rasterio は Python の float）。
 - 名前の確認: `windows` `features` `transform` `enums` `warp` `io` `mask` `merge` `env` `sample` がある（`vrt` は未確認）。
+
+## ドキュメントの内容と、追加で確かめたこと（2026-10-21 夜）
+
+**対応範囲（read-docs）**: \`rio.open\`（\`r\` \`r+\` \`w\` \`w+\`、パス、URL、ファイルオブジェクト、\`MemoryFile\`）、データセットの属性とメソッド（\`read\` の \`window\` \`out_shape\` \`resampling\` \`masked\` \`boundless\` \`fill_value\`、\`write\`、\`sample\`、\`build_overviews\`、\`statistics\` など）、\`crs\`、\`transform\`、\`windows\`、\`features\`（\`rasterize\` \`shapes\` \`geometry_mask\` \`sieve\`）、\`warp\`（\`reproject\` \`calculate_default_transform\` \`transform_bounds\` \`transform_geom\`）、\`merge\`、\`mask\`、\`vrt.WarpedVRT\`、\`io\`（\`MemoryFile\` \`ZipMemoryFile\`）、\`control\`/\`rpc\`、\`shutil\`、\`stack\`、\`env\`/\`session\`（\`Env\` は GDAL のオプションと認証情報を terrio が読む環境変数に変え、**他は受け付けて無視**）、\`plot\`。
+
+**仕組み（read-docs）**: GeoTIFF/COG と JPEG 2000 は、ローカルでもリモートでも窓ごとの遅延読み（overview は GDAL の選び方）。**ほかの形式（ASCII グリッド、ERDAS、ENVI、netCDF、Zarr）は、開くときに全部読む**。回転・南北反転の変換、GCP、RPC を読み書きできる。書き込みは、閉じるときにファイルへ（既定で 512 MB 超は一時ファイルに溜め、行ごとに書く。\`TERRIO_RIO_IN_MEMORY_LIMIT\`）。**GeoTIFF の nodata は 1 つだけ**（バンドごとに違う値を渡すと最後のバンドの値を書き、GDAL と同じ警告）。
+
+**rasterio との一致（作者の比較、read-docs）**: 実ファイルとリモート COG で 160 チェック: **128 同一、17 許容内、15 既知の差**。既知の差は、バイリニア・キュービック・平均の縮小読み（nodata の近く）、\`-inf\` の nodata の boundless 読み、VRT の窓の読み、ESRI の \`.prj\` の EPSG 識別。**rasterio 1.5（GDAL 3.12）との突き合わせで、この遊びでは rasterio を使っていない**。
+
+**対応していないもの（read-docs）**: 外部の \`.msk\` マスク、RPC 変換器、\`gauss\` の再サンプリング、PROJJSON/WKT2 の出力、**不可逆の GeoTIFF コーデックと YCbCr の JPEG（GDAL と違う復号）、LERC・LZMA・JPEG XL の復号**（※ドキュメント間で、\`formats.md\` は「LERC・LZMA・JPEG XL を読める」と書く。\`rasterio.md\` の記述と食い違う）、\`r+\` は全部書き直す、バンドの色テーブルはバンド 1 のみ、\`opener=\`、コマンドライン \`rio\`。
+
+**追加で確かめた（played、0.3.2）**:
+- \`read(1)\` は**通常の \`ndarray\`**、\`read(1, masked=True)\` で \`MaskedArray\`（B04 の nodata は 0.0）。\`dataset_mask()\` と \`read_masks()\` は uint8。
+- 端数のある窓 \`Window(10.5, 10.25, 100.5, 50.75)\` が読め、形は (51, 101)。
+- エラー: 存在しないファイルは \`terrio.rio.errors.RasterioIOError\`、不正な CRS は \`CRSError\`、範囲外のバンドは \`IndexError\`（rasterio と同じ型）。
+- \`CRS.from_epsg(6677)\`: \`to_epsg()=6677\`、\`is_projected=True\`、\`linear_units='metre'\`。\`CRS.from_string('EPSG:6668').is_geographic=True\`。
+- \`rasterio.Env(GDAL_HTTP_MAX_RETRY='3', FOO_BAR='x')\` が受け付けられる（未知のキーも）。
 
 ## 気をつけること
 
