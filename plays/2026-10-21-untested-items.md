@@ -109,10 +109,16 @@
 7. `terrio mcp` は main にあり、プロトコルどおり動く。配布版にはない
 8. 日本語の panic は、main でも、WebAssembly でも、MCP 経由でも同じ
 
-## 8. まだ試していないこと
+## 8. Hugging Face の GeoParquet と、一時ファイルの場所
 
-- Hugging Face のデータセット（実データの URL が見つからず）、Source Cooperative の COG
+- 対象: `huggingface.co/datasets/severo/geoparquet/resolve/main/nz-building-outlines.parquet`（430,146,888 バイト）。URL は **302 で署名付きの CDN（`us.aws.cdn.hf.co`、xet）へ転送**され、転送先は `accept-ranges: bytes`、`access-control-allow-origin: *`
+- CLI 0.3.2: リダイレクトを追って（4 秒で打ち切り）ダウンロードを始めた。**`TMPDIR=/tmp/work/tmpx` を指定すると、一時ディレクトリ `terrio-XXXXXX` がそこにできた**（`TMPDIR` は効く。ソースは `tempfile::Builder` で `vfs.rs:311`）。打ち切り後に残ったので手で消した
+- terrio-js `openUrl`: `info` は 2 要求・約 97 KiB で、**行グループが 1 つ（330 万行、430 MB、bbox の統計なし）**。`read({bbox:[174.76,-36.86,174.78,-36.84]})` は 0 件で、**約 394 MiB（ファイルのほぼ全体）を読んだ**（3 要求、約 10.7 秒）。行グループが 1 つで統計がないと、範囲読みの利点がない。0 件の理由は未確認（bbox の座標系が違う可能性。`info` に CRS が出ない）
+- Source Cooperative の日本の建物（5 GB）は、行グループが約 5,000 行ずつ（フッター約 15 MB）で、bbox 読みが効いた。**範囲読みの効き方は、ファイルの行グループの作りで決まる**
+
+## 9. まだ試していないこと
+
+- Source Cooperative の COG
 - main の CLI で `mcp` を Claude Code に登録しての実使用
 - STACIT の `--outsize` などでの縮小、Zarr の `CRS unknown` の原因
 - 大きなベクタ PMTiles の書き出し（tippecanoe との比較）
-- `TMPDIR` / `TERRIO_` の環境変数で、ダウンロードの一時ファイルの場所を変えられるか

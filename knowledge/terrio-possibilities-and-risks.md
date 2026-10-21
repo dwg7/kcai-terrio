@@ -51,7 +51,7 @@ terrio の価値は「**GDAL を入れられない場所で、GDAL 相当のこ�
 5. **縮小（`translate --outsize`、`warp`）で COG をほぼ全量取得**（208 MiB）、**GeoParquet の `info` で 656 MiB を取得**、**FlatGeobuf は `--spat` でも全量**、JPEG 2000 の overview もほぼ全体（`cloud-native-read-behavior-matrix`）
 6. **配信が Range を無視すると、terrio は全体を読み続ける**（`timeout` が必須。`TERRIO_HTTP_TIMEOUT` の既定は無し）
 7. **ドキュメントが配布版より先行**し、記述同士も食い違う（`terrio-release-vs-main-drift`）
-8. **中断すると、ダウンロード中の一時ファイルが残る**（5 GB の GeoParquet を 8 秒で打ち切ると 221 MB が `/tmp/terrio-XXXX/` に残った）。ディスクの割り当てに注意し、`timeout` で止めたあとに掃除する
+8. **中断すると、ダウンロード中の一時ファイルが残る**（5 GB の GeoParquet を 8 秒で打ち切ると 221 MB が `/tmp/terrio-XXXX/` に残った）。場所は `TMPDIR` で変えられる（Hugging Face の GeoParquet で確認）。ディスクの割り当てに注意し、`TMPDIR` を作業用の場所にして、`timeout` で止めたあとに掃除する
 9. **COG の `TILING_SCHEME` が黙って無視される**。`warp --dstalpha` がない（`terrio-processing-commands-smoke-test`）
 10. **入口によって結果が違う**（CLI / Python と WebAssembly で、FlatGeobuf と GeoParquet の読み方が違う）
 

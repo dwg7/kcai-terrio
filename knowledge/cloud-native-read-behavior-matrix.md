@@ -53,6 +53,7 @@ finding:
 | 同上 | `convert --bounds`（700 ft 四方）/ 同＋`--max-level 2` | 6.9 MiB / 1.6 MiB | **範囲読み込み**（八分木のノード単位。レベルで転送量を落とせる） | played |
 | FlatGeobuf（14.1 MB） | `info` / `convert --spat` | 13.8 MiB（どちらも） | **全量**（空間インデックスは使われない） | played |
 | GeoParquet（Source Cooperative、日本の建物 **5.06 GB**） | `info`（8 秒で打ち切り） | 8 秒で 221 MB を一時ファイルへ | **全量ダウンロード**（最初に Range 0-65535、すぐ全体の GET）。**中断すると一時ファイルが残る** | played |
+| GeoParquet（Hugging Face、430 MB、302 で CDN へ） | `info`（4 秒で打ち切り） | 4 秒で一時ファイルを書き始めた | **全量ダウンロード**（リダイレクトは追う。一時ファイルは `TMPDIR` の下にできる） | played |
 | Shapefile / GeoJSON（リモート） | — | — | **未試験**（ドキュメントは「一時ディレクトリへ先に取得」） | read-docs |
 
 ## 入口によって違う：WebAssembly 版は、より範囲読みする
@@ -68,6 +69,7 @@ finding:
 | PMTiles 30 GB の `info` | 0.84 MiB | 832 KiB（同じ） |
 | COPC の `info` | 118 KiB | 118 KiB（同じ） |
 
+- WebAssembly 版の範囲読みは、**ファイルの作りに左右される**: Hugging Face の GeoParquet（430 MB）は行グループが 1 つで統計がなく、bbox 読みでも約 394 MiB（ほぼ全体）を読んだ。Source Cooperative の日本の建物（約 5,000 行ずつの行グループ）は 16 MiB で済んだ。
 - ブラウザでは、相手が `Range` を許可しているだけで通った（試した 6 つの配信先すべて）。詳細は `terrio-js-cloud-native-reads-in-browser`。
 - 「FlatGeobuf / GeoParquet のクラウド読み」が必要なら、今は **JS 版のほうが進んでいる**。CLI に入るかは不明（main の CLI も、FlatGeobuf は全量だった）。
 
