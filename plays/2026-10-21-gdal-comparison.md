@@ -56,3 +56,12 @@
 - 入力: Sentinel-2 B04（512²、UInt16、EPSG:32654）。terrio 0.3.2 で `convert` した **Zarr、JPEG 2000、COG** を GDAL 3.8.4（Zarr、JP2OpenJPEG、GTiff ドライバー）で読むと、**画素が完全一致、地理変換と座標系も一致**（無損失）。
 - 日本語の属性（`札幌市`、`東京都千代田区`）を持つ GeoJSON を、**main のビルド**で Shapefile（`.cpg`=UTF-8）、FlatGeobuf、GeoPackage、PMTiles に書くと、GDAL（`ogrinfo`）が**正しい日本語で読む**。0.3.2 では同じ入力が #159 の panic（`千` の途中で切る）で、どの形式にも書けない（main で直る）。
 - GeoParquet は、この GDAL（apt）に Parquet ドライバーが無く、読めなかった（terrio の問題ではない）。
+
+## 6. PMTiles（MVT）の突き合わせ
+
+- 入力: opengeos/data の `countries.geojson`（179 地物。**このデータに南極は無く**、`--where "name <> 'Antarctica'"` は何も除かない）。terrio 0.3.2 で `convert c.geojson c.pmtiles`（既定: EPSG:3857 へ変換、z0〜5、形式 pbf）。
+- GDAL 3.8.4 の PMTiles ドライバーで読める。メタデータ: `minzoom=0`、`maxzoom=5`、`format=pbf`、`bounds=-180,-55.61,180,83.65`。ズーム別（`ZOOM_LEVEL=n`）の地物片の数: z0 178、z1 220、z2 234、z3 296、z4 457、z5 839。**幾何はすべて有効**（invalid 0）。属性は `mvt_id`、`id`、`name`。
+- z0 には Bermuda（小さな島）が無く、z1 から出る。小さな地物が低ズームで落ちる、よくある単純化として自然。
+- `terrio info` は地物片を 806 と数える（最大ズームの GDAL の数 839 と一致しない）。数え方の違い（バッファ、重複の扱い）と思われるが、**原因は確かめていない**。
+- 注意: python3.12 の GDAL バインディングは、データセットを変数に保持せずに `GetLayer(0)` を使うと segfault する（GDAL 側の既知の使い方の注意で、terrio とは無関係）。
+- 未確認のまま: STACIT、COPC（PDAL が無い）。

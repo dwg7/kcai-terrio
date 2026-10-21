@@ -72,6 +72,10 @@ ogr2ogr -f GeoJSON out.geojson countries.gpkg -t_srs EPSG:3857
 - 日本語属性は、main のビルドで書いた Shapefile（`.cpg`=UTF-8）、FlatGeobuf、GeoPackage、PMTiles を GDAL が正しく読む。0.3.2 は #159 の panic で書けない（played）。
 - GeoParquet は GDAL 側のドライバーが無く、突き合わせできなかった。
 
+## PMTiles（MVT）
+
+terrio 0.3.2 が書いた PMTiles（国界 179 地物、z0〜5）を GDAL 3.8.4 が読めた。幾何はすべて有効、属性は `mvt_id` / `id` / `name`、小さな島は低ズームで落ちる。`terrio info` の地物片の数（806）は GDAL の最大ズームの数（839）と一致せず、原因は未確認（`plays/2026-10-21-gdal-comparison.md` §6、played）。STACIT と COPC は GDAL / PDAL との突き合わせが未了。
+
 ## 気をつけること
 
 - **GDAL は 3.8.4 で、terrio の基準（3.12）ではない**。EPSG の版、ドライバーの有無（Parquet、PDAL なし）の違いがある。ずれがあっても、3.12 で同じとは限らない。
