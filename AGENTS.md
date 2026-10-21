@@ -9,7 +9,7 @@
 1. terrio で、クラウドネイティブなデータを、クラウドネイティブに触って遊びきる。
 2. その遊びから得た知識を、kcai の方式で Markdown の踏み跡として残す。
 
-[dwg7/kcai](https://github.com/dwg7/kcai)（知識共創 AI）の最初期のインスタンスの一つで、コンセプトを小さく実地で試す場です。原則・形式は kcai に従います。食い違いを見つけたら `DECISIONS.md` に書き、管理責任者（hfu）に知らせます。
+[dwg7/kcai](https://github.com/dwg7/kcai)（Knowledge Co-created with AI、AI と共創した知識。kcai は AI の名前ではなく、BYOA のための知識表現）の最初期のインスタンスの一つで、コンセプトを小さく実地で試す場です。原則・形式は kcai に従います。食い違いを見つけたら `DECISIONS.md` に書き、管理責任者（hfu）に知らせます。
 
 terrio は Qiusheng Wu さん（opengeos）による、GDAL を使わない Pure Rust の地理空間データ入出力ライブラリ（MIT）。CLI（`terrio`）、Python（`pip install terrio`）、JavaScript/WebAssembly（npm `terrio-js`）、Rust、MCP サーバー（`terrio mcp`）から使えます。2026-10-14 に始まったばかりで変化が速く、知識がすぐ古くなります。
 

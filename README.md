@@ -1,6 +1,6 @@
 # kcai-terrio
 
-[terrio](https://github.com/opengeos/terrio)（GDAL を使わない Pure Rust の地理空間データ入出力ライブラリ）で、**クラウドネイティブなデータをクラウドネイティブに触って遊びきり**、その遊びから得た知識を [kcai](https://github.com/dwg7/kcai)（知識共創 AI）の方式で Markdown の踏み跡として残すリポジトリです。kcai の最初期のインスタンスの一つで、「変化の速い分野で、版と確認日を記録する仕組みが役に立つか」を試す場でもあります。
+[terrio](https://github.com/opengeos/terrio)（GDAL を使わない Pure Rust の地理空間データ入出力ライブラリ）で、**クラウドネイティブなデータをクラウドネイティブに触って遊びきり**、その遊びから得た知識を [kcai](https://github.com/dwg7/kcai)（Knowledge Co-created with AI（AI と共創した知識））の方式で Markdown の踏み跡として残すリポジトリです。kcai の最初期のインスタンスの一つで、「変化の速い分野で、版と確認日を記録する仕組みが役に立つか」を試す場でもあります。
 
 管理責任者: hfu（外部への発信、承認、マージの権限）。準拠する kcai: `dwg7/kcai` コミット 66d3840（2026-10-21）。
 
