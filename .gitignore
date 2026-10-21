@@ -1,0 +1,18 @@
+# 大きなデータと一時ファイルは入れない(AGENTS.md)
+tmp/
+work/
+build/
+*.tif
+*.tiff
+*.pmtiles
+*.parquet
+*.fgb
+*.laz
+*.las
+*.copc.laz
+*.gpkg
+*.mbtiles
+*.zarr/
+*.pdf
+*.zip
+__pycache__/
