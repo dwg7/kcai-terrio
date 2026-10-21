@@ -87,7 +87,14 @@ related: []
 - 判断が分かれることは推測で埋めず、hfu に質問する。決定は `DECISIONS.md` に追記する（消さない）。
 - コミットは `main` に対して、こまめに行い、積極的に push してよい（hfu の指示。`DECISIONS.md`）。
 
+## 関わり方（kcai の原則 10〜13）
+
+- 働きかけない。組織に採用や参加を求めない。読まれることは妨げない。
+- 参加は個人として、公開できることだけ。公開データ・公開ドキュメント・個人として公開してよい経験に限り、所属組織の内部の知識は持ち込まない。
+- 閉じた環境でも読める形で配る（版つきのひとまとまり。設計は kcai の `docs/distribution.md`）。踏み跡ごとに、どこまで確かめたか（`verified_how`）を示す。
+- 隠さないが、前に出さない。宣伝や勧誘をしない。組織の公式な取り組み、あるいは誰かの推薦を受けたものとして示さない。SNS の原稿でも同じ。
+
 ## 参照先
 
-- kcai: `PRINCIPLES.md`、`docs/knowledge-format.md`、`docs/asking.md`、`docs/unsaid.md`
+- kcai: `PRINCIPLES.md`、`docs/knowledge-format.md`、`docs/asking.md`、`docs/unsaid.md`、`docs/human-role.md`、`docs/co-creation.md`、`docs/distribution.md`
 - 道具: `python3 scripts/build_index.py --stats` ほか（kcai のコピー）
