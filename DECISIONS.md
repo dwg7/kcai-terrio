@@ -119,3 +119,8 @@
 - kcai の main（`PRINCIPLES.md` の原則 10〜13、`docs/conformance.md` の「関わり方（必須）」、`templates/instance/README.md`）を読み、`README.md` に「関わり方」の節を、`AGENTS.md` に同じ趣旨の節を足した。内容は、組織に参加や採用を求めない、参加は個人として公開できることだけ、閉じた環境でも読める形で配る、宣伝や勧誘をしない。
 - 別セッションからの連絡で依頼されたが、依頼の根拠は kcai の main の文書で確かめた上で反映した。
 - 未了: `templates/instance/` の差分の完全な取り込み、版つきの束（`docs/distribution.md`）の作り方。次の機会に読んで判断する。hfu の指示を待つ。
+
+## 2026-10-22: hfu の回答（QUESTIONS.md の A-1、A-2）
+
+1. GDAL との突き合わせは「目的にはしないが、上流に出す主張の確認と、助言の根拠には使う」と書き換えてよい。`AGENTS.md` を改めた。
+2. 上流への下書き 6 件は、推奨の順（Zarr の日本語パス → 南極点の EPSG:3857 → CP932 → `--ot Int16` → COG の TILING_SCHEME / dstalpha → CLI の全量取得）で、一度にまとめず少しずつ出す進め方でよい。投稿は引き続き hfu。
