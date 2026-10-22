@@ -38,15 +38,15 @@ def pair(item):
 
 def load(root):
     kdir = root / "knowledge"
-    traces = {}
+    chunks = {}
     for p in sorted(kdir.glob("*.md")):
         if p.name.lower() == "readme.md":
             continue
         fm, body = parse_front_matter(p.read_text(encoding="utf-8"))
-        traces[fm["id"]] = (fm, body)
-    ids = set(traces)
+        chunks[fm["id"]] = (fm, body)
+    ids = set(chunks)
     index = {}
-    for cid, (fm, body) in traces.items():
+    for cid, (fm, body) in chunks.items():
         kind = cid.split("-", 1)[0]
         tags = {k: v for k, v in fm.items() if k not in CORE and k not in ("relations", "cites")}
         rels = [pair(r) for r in fm.get("relations", [])]
@@ -71,7 +71,7 @@ def load(root):
             back[o].add(cid)
     for cid, c in index.items():
         c["links_in"] = sorted(back.get(cid, ()))
-    return index, traces
+    return index, chunks
 
 
 def stats(index):
@@ -116,7 +116,7 @@ def main():
     ap.add_argument("--grep")
     ap.add_argument("--out", default="build")
     a = ap.parse_args()
-    index, traces = load(ROOT)
+    index, chunks = load(ROOT)
 
     if a.stats:
         print(tags_md(index))
@@ -147,7 +147,7 @@ def main():
             if not c["links_in"] and not c["links_out"]:
                 print(c["id"])
     elif a.grep:
-        for cid, (fm, body) in traces.items():
+        for cid, (fm, body) in chunks.items():
             if a.grep in body:
                 print("%s\t%s" % (cid, fm["title"]))
     else:

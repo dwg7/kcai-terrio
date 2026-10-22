@@ -129,3 +129,10 @@
 
 - SNS（Facebook / LinkedIn）の原稿の更新は、もう扱わない（忘れてよい）。
 - 大伴真吾さんへの言及は、今のままの扱いで自然でよい。以後、この件は確認しない。
+
+## 2026-10-22: hfu の回答（B の 4 件と公開ページ）と、その実施
+
+- `scripts/` を kcai の新版に差し替えた（`validate_knowledge.py` の `STATUSES` に `stale` だけ足す。DECISIONS の独自拡張）。`templates/instance/` の差分は、`SOURCES.md`（出典台帳）の追加と、`AGENTS.md` に「出典のない断定はしない／本文を転載しない」を足すことで取り込んだ。`build_pdf.py` も kcai の版を置いた（まだ使っていない）。
+- PDAL / GDAL 3.12 以降を入れてよい、との許可を受け、conda-forge から GDAL 3.13.3 と PDAL 2.10.2 を入れて突き合わせた（`plays/2026-10-22-gdal-313-pdal-comparison.md`）。COPC・`filter range`・STACIT は一致。**`-ot Int16` の下書きは、新しい GDAL が terrio と同じだったので取り下げた**（GDAL の版依存）。
+- terrio の新版が出たら `stale` を確かめ直す定期実行を設定してよい、との許可を受けた（実施は別記）。
+- 公開ページ（`docs/index.html`）に、踏み跡の一覧や助言へのリンクを足してほしい、との依頼を受けた（実施は別記）。

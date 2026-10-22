@@ -6,7 +6,7 @@ Hello, and thank you for terrio. While following the getting-started page with a
 
 ## Version
 
-terrio 0.3.2 (PyPI wheel, Linux x86_64). Same on main at `6779102` (2026-10-21). Compared with GDAL 3.8.4 / PROJ 9.4 (Ubuntu apt), which is older than terrio's stated baseline.
+terrio 0.3.2 (PyPI wheel, Linux x86_64). Same on main at `6779102` (2026-10-21). Compared with GDAL 3.8.4 / PROJ 9.4 (Ubuntu apt) and with GDAL 3.13.3 (conda-forge); both convert the same input without error.
 
 ## Minimal reproduction
 

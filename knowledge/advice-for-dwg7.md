@@ -34,7 +34,7 @@ freshness: high
 |---|---|---|
 | 1 | **ブラウザ（terrio-js）で範囲読みを使う**のが、いちばん効く。COG / PMTiles / COPC / FlatGeobuf / GeoParquet を `openUrl` で部分取得できる（GeoParquet 5 GB → 16.4 MiB）。CLI / Python の FlatGeobuf・GeoParquet は**全量取得**なので、同じ感覚で使わない | `terrio-js-cloud-native-reads-in-browser`、`cloud-native-read-behavior-matrix`（played） |
 | 2 | **COG / PMTiles の範囲読みは CLI でも有効**。大きな COG の窓切り出し・概観は丸ごとダウンロード不要。ただし downsample 系（translate / warp）は原寸を読む。`--overview N` で概観を使う | `cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`（played） |
-| 3 | **GDAL を捨てない**。画素・座標は約 30 項目で GDAL 3.8.4 と一致したが、差もある（南極点の EPSG:3857 変換の失敗、`-ot Int16` の nodata、COG `TILING_SCHEME` の黙殺、`--dstalpha` なし）。新しい工程に入れるときは、小さな入力で GDAL と並べる | `terrio-vs-gdal-spot-checks`（played、GDAL 3.8.4 は terrio の基準より古い） |
+| 3 | **GDAL を捨てない**。画素・座標は約 30 項目で GDAL 3.8.4 と一致したが、差もある（南極点の EPSG:3857 変換の失敗、COG `TILING_SCHEME` の黙殺、`--dstalpha` なし、CP932）。COPC・`filter range`・STACIT は PDAL 2.10.2 / GDAL 3.13.3 と一致した。GDAL の版で挙動が変わる例もある（`-ot Int16` の nodata）ので、比べるなら新しい GDAL でも。新しい工程に入れるときは、小さな入力で GDAL と並べる | `terrio-vs-gdal-spot-checks`（played、GDAL 3.8.4 は terrio の基準より古い） |
 | 4 | **Shift_JIS（CP932）の Shapefile は、いまは terrio に任せない**。属性が黙って文字化けする。UTF-8 に変換してから使うか、GDAL で読む | `shapefile-cp932-attributes-not-decoded`（played） |
 | 5 | **日本語の入力に注意**。0.3.2 の GeoJSON / CSV の日本語長文字列 panic は main で修正済み（#159 → #161、未リリース）。**Zarr の日本語の相対パス**の panic は main にも残る。配布版を使うなら、これを避ける | `geojson-japanese-string-panic`、`japanese-path-panic-in-zarr-parse-name`（played） |
 | 6 | **日本の座標変換は使える**。JGD2011 ↔ 平面直角（6669〜6687）は GDAL と小数 9 桁以上で一致。ジオイドは **3 次元の `EPSG:6667` → `6697`** で適用される（2 次元の 6668 では高さ不変。GDAL も同じ） | `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`（played） |
@@ -75,6 +75,7 @@ kcai の `docs/human-role.md` に従い、この踏み跡の助言は、**dwg7 �
 - 2026-10-21 深夜: 用語を「塊」から「踏み跡」に改めた（kcai に追随）。kcai の `docs/human-role.md` を読み、「ケースに則した問い」の節を足した。
 - 2026-10-21 深夜（2）: Zarr・JP2・COG が GDAL と画素一致、日本語属性は main の書き出しを GDAL が正しく読むことを確認（助言 3 と 5 の裏づけ）。
 - 2026-10-21 深夜（3）: PMTiles を GDAL が読めることを確認（幾何は有効）。タイル生成の代替の可否（助言 7）は、PMTiles の書き出しが使える水準という補強。tippecanoe 相当の機能（属性の間引き、ズーム別の単純化の制御）は未確認のまま。
+- 2026-10-22: GDAL 3.13.3 / PDAL 2.10.2（conda-forge）で突き合わせ。COPC・`filter range`・STACIT は一致（助言 3 を補強）。`-ot Int16` の下書きは、新しい GDAL が terrio と同じなので取り下げ（GDAL の版依存）。scripts を kcai の新版に差し替え、`SOURCES.md` を追加した。
 
 ## 出典
 

@@ -74,7 +74,13 @@ ogr2ogr -f GeoJSON out.geojson countries.gpkg -t_srs EPSG:3857
 
 ## PMTiles（MVT）
 
-terrio 0.3.2 が書いた PMTiles（国界 179 地物、z0〜5）を GDAL 3.8.4 が読めた。幾何はすべて有効、属性は `mvt_id` / `id` / `name`、小さな島は低ズームで落ちる。`terrio info` の地物片の数（806）は GDAL の最大ズームの数（839）と一致せず、原因は未確認（`plays/2026-10-21-gdal-comparison.md` §6、played）。STACIT と COPC は GDAL / PDAL との突き合わせが未了。
+terrio 0.3.2 が書いた PMTiles（国界 179 地物、z0〜5）を GDAL 3.8.4 が読めた。幾何はすべて有効、属性は `mvt_id` / `id` / `name`、小さな島は低ズームで落ちる。`terrio info` の地物片の数（806）は GDAL の最大ズームの数（839）と一致せず、原因は未確認（`plays/2026-10-21-gdal-comparison.md` §6、played）。STACIT と COPC は、2026-10-22 に GDAL 3.13.3 / PDAL 2.10.2 と突き合わせて一致した（下の節）。
+
+## GDAL 3.13.3 と PDAL 2.10.2 との突き合わせ（2026-10-22）
+
+- **COPC**（terrio が書いた 44,465 点）と `filter range` 3 種（1313 / 6720 / 379 点）は、PDAL と点数も統計も**一致**。**STACIT**（東京の検索結果、窓 512²）は、GDAL の STACIT ドライバーと画素が**完全一致**（played）。
+- 南極点の EPSG:3857、COG の `TILING_SCHEME`、`--dstalpha`、CP932 は、**新しい GDAL（3.13.3）でも差が残る**。
+- **`-ot Int16` の nodata は、GDAL 3.13.3 では terrio と同じ（−999999 のまま）**。3.8.4 だけが丸めていた。→ 下書きを取り下げた。**GDAL の版で挙動が変わる**ので、上流に出す主張は新しい GDAL でも確かめる（`plays/2026-10-22-gdal-313-pdal-comparison.md`）。
 
 ## 気をつけること
 

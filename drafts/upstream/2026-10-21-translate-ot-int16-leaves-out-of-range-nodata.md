@@ -1,3 +1,5 @@
+> **取り下げ（OBSOLETE）**: この下書きは**投稿しない**。GDAL 3.8.4 は nodata を -32768 に丸めて警告するが、**GDAL 3.13.3（新しい版）は terrio と同じく -999999 のまま残す**（警告なし）。terrio の挙動は、新しい GDAL と同じで、不具合とは言えない。GDAL の版による違いだった。（`plays/2026-10-22-gdal-313-pdal-comparison.md`）
+
 # Draft issue for opengeos/terrio (not posted; hfu will review and post)
 
 **Title:** `translate --ot Int16` keeps an out-of-range nodata value (-999999) without a warning; GDAL clamps it and warns
