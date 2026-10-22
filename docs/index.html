@@ -36,7 +36,7 @@
   <p class="muted">
     <a href="https://github.com/opengeos/terrio">terrio</a>（Qiusheng Wu さん作、MIT）を WebAssembly（<code>terrio-js</code>）でこのページに読み込みます。
     データを取りに行くのは<strong>あなたのブラウザ</strong>です（相手側の CORS 設定に左右されます）。
-    踏み跡は <a href="https://github.com/dwg7/kcai-terrio/tree/main/knowledge">knowledge/</a>、遊びの記録は <a href="https://github.com/dwg7/kcai-terrio/tree/main/plays">plays/</a>。
+    踏み跡は <a href="#traces">下の一覧</a>（<a href="https://github.com/dwg7/kcai-terrio/tree/main/knowledge">knowledge/</a>）、まず読むなら <a href="https://github.com/dwg7/kcai-terrio/blob/main/knowledge/advice-for-dwg7.md">dwg7 に対する助言</a>、遊びの記録は <a href="https://github.com/dwg7/kcai-terrio/tree/main/plays">plays/</a>。
   </p>
   <p id="status" class="muted">terrio-js を読み込み中…</p>
 
@@ -78,6 +78,12 @@
     使っている版: <code id="ver">…</code>（CDN で固定。<code>terrio-js@0.3.2</code>）。版を上げたら、踏み跡を <code>stale</code> にして確かめ直します。<br>
     ライセンス: このページは CC0 1.0。terrio（MIT）と、各データの利用条件には適用されません。
   </p>
+  <section id="traces">
+    <h2>5. 踏み跡の一覧</h2>
+    <p class="muted">terrio で遊んで確かめたことの記録です（<code>knowledge/README.md</code> を読み込んで表示します）。<strong>状態が draft のものは、人が確認していません</strong>。<code>played</code> は実際に動かしたもの、<code>read-docs</code> / <code>read-source</code> は読んだだけです。</p>
+    <p id="traces-status" class="muted">読み込み中…</p>
+    <table id="traces-table" hidden><thead><tr><th>踏み跡</th><th>状態</th><th>版</th><th>確かめた日</th><th>確かめ方</th></tr></thead><tbody></tbody></table>
+  </section>
 </main>
 
 <script type="module">
@@ -200,6 +206,30 @@ $("file").onchange = async (ev) => {
   } catch (e) { $("out-file").textContent = "開けませんでした: " + e; }
 };
 results.ready = true;
+</script>
+<script>
+(async () => {
+  const st = document.getElementById("traces-status"), tb = document.querySelector("#traces-table tbody");
+  try {
+    const base = "https://github.com/dwg7/kcai-terrio/blob/main/knowledge/";
+    const r = await fetch("https://raw.githubusercontent.com/dwg7/kcai-terrio/main/knowledge/README.md");
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    let n = 0;
+    for (const line of (await r.text()).split("\n")) {
+      const m = line.match(/^\| \[([^\]]+)\]\(([^)]+)\): (.+?) \| (\S+) \| (\S+) \| (\S+) \| (\S+) \|$/);
+      if (!m) continue;
+      const tr = document.createElement("tr");
+      const a = document.createElement("a"); a.href = base + m[2]; a.textContent = m[3];
+      const td0 = document.createElement("td"); td0.appendChild(a); tr.appendChild(td0);
+      for (const v of m.slice(4)) { const td = document.createElement("td"); td.textContent = v; tr.appendChild(td); }
+      tb.appendChild(tr); n++;
+    }
+    document.getElementById("traces-table").hidden = false;
+    st.textContent = n + " 件";
+  } catch (e) {
+    st.innerHTML = '読み込めませんでした（' + String(e.message).replace(/</g, "&lt;") + '）。<a href="https://github.com/dwg7/kcai-terrio/tree/main/knowledge">knowledge/</a> を直接ご覧ください。';
+  }
+})();
 </script>
 </body>
 </html>
