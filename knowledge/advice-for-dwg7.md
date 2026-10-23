@@ -18,7 +18,7 @@ authors:
   - AI（Claude）が書いた助言。hfu / dwg7 の指示のもと。AI 支援あり。助言は、証拠となる踏み跡への参照つきで、判断は dwg7 が行う
 reviewed_by: []
 updated: 2026-10-21
-related: [terrio-rust-library-and-features, terrio-xarray-integration, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
+related: [terrio-source-scale-and-origins, terrio-rust-library-and-features, terrio-xarray-integration, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
 freshness: high
 ---
 
@@ -76,6 +76,7 @@ kcai の `docs/human-role.md` に従い、この踏み跡の助言は、**dwg7 �
 - 2026-10-21 深夜（2）: Zarr・JP2・COG が GDAL と画素一致、日本語属性は main の書き出しを GDAL が正しく読むことを確認（助言 3 と 5 の裏づけ）。
 - 2026-10-21 深夜（3）: PMTiles を GDAL が読めることを確認（幾何は有効）。タイル生成の代替の可否（助言 7）は、PMTiles の書き出しが使える水準という補強。tippecanoe 相当の機能（属性の間引き、ズーム別の単純化の制御）は未確認のまま。
 - 2026-10-22: GDAL 3.13.3 / PDAL 2.10.2（conda-forge）で突き合わせ。COPC・`filter range`・STACIT は一致（助言 3 を補強）。`-ot Int16` の下書きは、新しい GDAL が terrio と同じなので取り下げ（GDAL の版依存）。scripts を kcai の新版に差し替え、`SOURCES.md` を追加した。
+- 2026-10-23: **terrio 0.4.0〜0.4.2 が 2026-10-22 に出ていた**（PyPI・crates.io で確認）。この遊びの踏み跡は 0.3.2 で確かめたもので、新版での確かめ直しは**未了**（定期実行または次の作業で行う）。助言の表は 0.3.2 の事実で、0.4.x では変わりうる。ソースの規模と起源を分析した（`terrio-source-scale-and-origins`）。
 
 ## 出典
 

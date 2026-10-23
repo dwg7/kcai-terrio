@@ -41,6 +41,7 @@
 | [terrio-rust-library-and-features](terrio-rust-library-and-features.md): Rust ライブラリ：入口、Cargo の feature、API の安定性方針（配布版との差に注意） | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio-scope-included-and-excluded](terrio-scope-included-and-excluded.md): terrio が含む機能と含まない機能 | draft | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio-source-quirks](terrio-source-quirks.md): terrio のソースコードの癖（規模、作り、同じ型の弱点） | draft | 0.3.2 | 2026-10-21 | read-source |
+| [terrio-source-scale-and-origins](terrio-source-scale-and-origins.md): terrio のソースコードの規模と起源（誰が、いつ、何の上に作ったか） | draft | 0.4.2 | 2026-10-23 | read-source |
 | [terrio-stac-and-stacit](terrio-stac-and-stacit.md): STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio-vs-gdal-spot-checks](terrio-vs-gdal-spot-checks.md): GDAL 3.8.4 との突き合わせ（約 30 項目）：一致したこと、食い違い、訂正したこと | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio-xarray-integration](terrio-xarray-integration.md): xarray 連携（terrio.xarray）：リモート COG を遅延で開き、窓だけ取って再投影する | draft | 0.3.2 | 2026-10-21 | played |
@@ -57,6 +58,6 @@
 3. クラウドネイティブ: `cloud-native-read-behavior-matrix`（一覧表。入口別の比較つき）、`cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`、`terrio-stac-and-stacit`、`terrio-point-clouds`、`terrio-js-cloud-native-reads-in-browser`
 4. 使い方: `terrio-cli-command-reference`、`terrio-processing-commands-smoke-test`、`terrio-python-api`、`terrio-rio-rasterio-compatible-api`、`terrio-xarray-integration`、`terrio-rust-library-and-features`、`terrio-js-api-and-playground`、`terrio-mcp-server`、`terrio-formats-rasters-and-compression`、`terrio-formats-vectors-streaming-and-tiles`
 5. 日本ローカル: `jgd2011-plane-rectangular-transform`、`terrio-crs-forms-projections-grids-and-epochs`、`vertical-datum-grids-and-geoid-in-japan`、`shapefile-cp932-attributes-not-decoded`、`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`
-6. 品質と評価: `terrio-conformance-and-testing-against-gdal`、`terrio-vs-gdal-spot-checks`、`terrio-benchmarks-vs-gdal`、`terrio-architecture-and-pure-rust-claim`、`terrio-source-quirks`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`
+6. 品質と評価: `terrio-conformance-and-testing-against-gdal`、`terrio-vs-gdal-spot-checks`、`terrio-benchmarks-vs-gdal`、`terrio-architecture-and-pure-rust-claim`、`terrio-source-quirks`、`terrio-source-scale-and-origins`、`terrio-possibilities-and-risks`、`hfu-dwg7-workflow-substitution-survey`
 7. 運営と上流: `terrio-contributing-and-governance`、`upstream-issue-feedback-loop`、`terrio-ai-disclosure-and-acknowledgements`、`data-licenses-of-play-datasets`
 8. 助言（生きた踏み跡。作業ごとに更新）: `advice-for-dwg7`
