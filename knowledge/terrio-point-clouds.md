@@ -9,7 +9,7 @@ environment: Claude Code クラウドセッション（Linux x86_64、Python 3.1
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 verified_on: 2026-10-21
 verified_how: played
 as_of: 2026-10-21
@@ -78,6 +78,10 @@ terrio grid tile.laz dsm.tif --tr 1 --stat max                      # DSM。DTM 
 - TIN のグリッド（`--method linear`）は、`gdal_grid` と **99.91% のセルが一致**で、完全一致ではない（ドキュメントが断っている）。
 - `TMPDIR` に一時ファイルを置く書き出しがあるので、サイズに注意（`terrio-possibilities-and-risks`）。
 - フィルターの結果の中身（分類の正しさ）は、見ていない。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で、COPC（44,465 点）の `info` と `filter range`（`Classification[2:2],Z[450:460)` → 1313 点、`Z[500:)` → 6720 点）は、PDAL 2.10.2 と一致した値のまま。played（部分）。点群の他の機能は確かめ直していない。main は PDAL のフィルタを多数足した（#210、#205）。
 
 ## 出典
 

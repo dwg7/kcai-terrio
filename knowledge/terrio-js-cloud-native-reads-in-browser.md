@@ -1,16 +1,16 @@
 ---
 id: terrio-js-cloud-native-reads-in-browser
 title: ブラウザ（WebAssembly）で terrio を使う：openUrl の範囲読み込みと、このリポジトリのページ
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: wasm
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -65,6 +65,10 @@ const r = await d.read({ bbox: [139.760, 35.676, 139.770, 35.686] }); r.toGeoJSO
 - `cacheSize` の既定が 256 MB（メモリ）。大きな窓や点群は、ブラウザのメモリに注意。
 - 版を上げたら、この踏み跡と `docs/index.html` の `PINNED` を確かめ直す。
 - wasm の読み込みが約 20 MB（圧縮前）。モバイルでは重い。
+
+## 0.4.2 での再確認（2026-10-24）
+
+**terrio-js 0.4.2**（npm の最新）で、公開ページを 0.4.2 に固定して実ブラウザ（Chromium）で 6 つの試料を再実行した。COG 3 要求・6.2 MiB、PMTiles（ラスタ）12 要求・832 KiB、PMTiles（ベクタ）1 要求・64 KiB、FlatGeobuf 4 要求・768 KiB、COPC 2 要求・118 KiB、GeoParquet（5 GB）7 要求・**16.4 MiB**。0.3.2 と**同じ結果**。座標変換（6668 → 6677）も同じ値、日本語の文字列は GeoJSON / CSV とも通る。played。
 
 ## 出典
 

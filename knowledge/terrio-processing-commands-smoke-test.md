@@ -1,16 +1,16 @@
 ---
 id: terrio-processing-commands-smoke-test
 title: 処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 sources:
   - plays/2026-10-21-untested-items.md（2）
@@ -58,6 +58,10 @@ terrio convert in.tif out.tif -f COG --compress DEFLATE --tile-size 256
 - `calc` は NumPy の型規則なので、整数の演算は型に注意（`astype` と `--type`）。
 - COG の `TILING_SCHEME` を使う処理（hfu/abidjan-martin）は、いまは置き換えられない。**黙って無視される**ので、出力の画素サイズを確かめる。
 - `--help` の名前は GDAL と違うものがある（`grid` の `--tr`、`--stat`、`--method`）。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で、GDAL 3.8.4（apt）と比べた。`dem` の hillshade・slope・aspect・TRI・TPI・roughness、`--multidirectional`、`--compute-edges`（DSM 140×140）、`translate` の `--srcwin`・`--outsize -r bilinear`・`--ot Byte --scale`、`warp`（EPSG:32654 → 6677、10 m。near・bilinear・cubic・average）、`calc`（NDVI、`A*60`）、`proximity`、`sieve`、`mosaic`（`gdal_merge.py`）は、**すべて画素が完全一致**（差 0）。`warp` の地理変換は GDAL と 2e-9 m 以内。played。`polygonize`・`rasterize`・`grid` と、他のコマンドの細かい引数は 0.4.2 では**確かめ直していない**。注意: GDAL 側の出力の一部（`gdal_calc.py`、`gdal_merge.py`）は、この回は生成に失敗し、先の回に作った出力と比べた。
 
 ## 出典
 

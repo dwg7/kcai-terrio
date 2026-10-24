@@ -1,16 +1,16 @@
 ---
 id: terrio-stac-and-stacit
 title: STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -49,6 +49,10 @@ terrio info 'STAC:"https://…/items/S2B_…":red'          # 1 つのアイテ�
 - **窓の転送量は、重なるシーンの数に比例する**。雲の多い日付も含めて読む。`max_items` は**新しい順に並べた先頭ではなく、「ドキュメントの重ね順」に従う**ので、どのシーンが残るかは、結果で確かめる（この例では、新しい 2026-10-18 が上に出た）。
 - STAC API の POST ページング、STACTA（タイルつきアセット）、署名つき URL（Planetary Computer）は未対応（ロードマップの未完了）。
 - STAC のデータのライセンスは、コレクションごとに違う（`data-licenses-of-play-datasets`: Sentinel-2 は `proprietary` と表示）。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で、東京の検索結果の `STACIT:"…":asset=red` の窓（512²）は、全アイテムで 11 要求・**17.5 MiB**、`max_items=1` で 4 要求・**6.25 MiB**。0.3.2 と同じ。画素は GDAL 3.8.4 の STACIT ドライバーと**完全一致**（`max_items=1` も一致）。played。main には POST 検索・ページ送り・Planetary Computer の署名（#197）と STACTA（#218）が加わった（未確認）。
 
 ## 出典
 

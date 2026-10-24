@@ -9,7 +9,7 @@ environment: Claude Code クラウドセッション（Linux x86_64、Python 3.1
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 verified_on: 2026-10-21
 verified_how: played
 as_of: 2026-10-21
@@ -52,6 +52,10 @@ T.registerGrid("us_nga_egm96_15.tif", gridBytes);                          // �
 - ブラウザ・Node で使う前に、**引数の型と順**を `terrio.d.ts` で確かめる（誤ると原因の分かりにくいトラップ）。
 - WASM のバイナリは 20 MB（配信は圧縮される）。ロードマップの未完了: 自前の FlatGeobuf 読み取り、スレッド、サイズの縮小、4 GB 超（`terrio-roadmap-and-open-items`）。
 - プレイグラウンドはデータを送信しない（ブラウザの中だけ）。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio-js **0.4.2** は npm の最新で、公開ページ（`docs/index.html`）を 0.4.2 に固定して動作した（`terrio-js-cloud-native-reads-in-browser` を参照）。API 全体と公式プレイグラウンドは確かめ直していない。
 
 ## 出典
 

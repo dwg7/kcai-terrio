@@ -63,7 +63,7 @@
 
   <section>
     <h2>3. 日本語の文字列は通るか</h2>
-    <p class="muted">terrio 0.3.2 の CLI は、日本語の長い文字列を含む GeoJSON / CSV で panic します（<a href="https://github.com/opengeos/terrio/issues/159">opengeos/terrio#159</a>）。WebAssembly 版ではどうなるかを、あなたのブラウザで確かめます。</p>
+    <p class="muted">terrio 0.3.2 の CLI は、日本語の長い文字列を含む GeoJSON / CSV で panic しました（0.4.0 で修正済み）（<a href="https://github.com/opengeos/terrio/issues/159">opengeos/terrio#159</a>）。WebAssembly 版ではどうなるかを、あなたのブラウザで確かめます。</p>
     <div class="row"><button id="btn-jp">確かめる</button></div>
     <pre id="out-jp">（ボタンを押してください）</pre>
   </section>
@@ -75,7 +75,7 @@
   </section>
 
   <p class="muted">
-    使っている版: <code id="ver">…</code>（CDN で固定。<code>terrio-js@0.3.2</code>）。版を上げたら、踏み跡を <code>stale</code> にして確かめ直します。<br>
+    使っている版: <code id="ver">…</code>（CDN で固定。<code>terrio-js@0.4.2</code>）。版を上げたら、踏み跡を <code>stale</code> にして確かめ直します。<br>
     ライセンス: このページは CC0 1.0。terrio（MIT）と、各データの利用条件には適用されません。
   </p>
   <section id="traces">
@@ -87,7 +87,7 @@
 </main>
 
 <script type="module">
-const PINNED = "0.3.2";
+const PINNED = "0.4.2";
 const CDN = `https://cdn.jsdelivr.net/npm/terrio-js@${PINNED}/terrio.js`;
 const $ = (id) => document.getElementById(id);
 const results = (window.__results = { pinned: PINNED, steps: {} });

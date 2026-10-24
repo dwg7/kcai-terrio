@@ -1,16 +1,16 @@
 ---
 id: terrio-mcp-server
 title: terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.4.2
 terrio_commit: cf6bd5dbcb6021f99ffde6c7f2c0f4f3f311ed2b
 interface: mcp
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 sources:
   - plays/2026-10-21-untested-items.md（5、6）
@@ -55,6 +55,10 @@ JSON-RPC の例（`initialize` → `notifications/initialized` → `tools/list` 
 - ツールは**書き込みもできる**（`convert` など）。出力先をこのリポジトリの一時的な場所に限る（`AGENTS.md` の方針）。認証情報は渡さない。
 - バックトレースが長く、AI の文脈を食う（41 行ほど）。
 - Claude Code への実登録と、AI が自律的に使う場面は**未試験**。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2**（配布版）で `terrio mcp` を起動し、標準入出力で `initialize` と `tools/list` を送った。サーバー名 `terrio`、版 `0.4.2`、**ツール 15 個**（info convert formats crs rasterize polygonize translate warp mosaic dem calc proximity sieve grid filter）。`mcp` は 0.4.0 から配布版に入った。ツールの呼び出し（書き込みを含む）は今回は確かめ直していない。played（接続と一覧のみ）。
 
 ## 出典
 

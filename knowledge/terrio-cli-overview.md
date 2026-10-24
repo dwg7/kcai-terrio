@@ -8,7 +8,7 @@ environment: Claude Code クラウドセッション（Linux x86_64、Python 3.1
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
 verified_on: 2026-10-21
 verified_how: read-docs
@@ -58,6 +58,10 @@ terrio <コマンド> --help   # 全オプション
 - GDAL のオプション名は、ほぼ「ハイフン付きの kebab-case」に対応する（`-t_srs` → `--t-srs`、`-co COMPRESS=DEFLATE` → `--compress DEFLATE`）。同じ名前とは限らない（`docs/gdal.md` の対応表を見る）。
 - `crs --to` の座標は `x y`（経度 緯度、東 北）の順。緯度・経度の順だと失敗する（`jgd2011-plane-rectangular-transform`）。
 - ヘルプは長い。`--help` が一番新しい。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** のサブコマンドは `info convert formats crs rasterize polygonize translate warp mosaic dem calc proximity sieve grid filter mcp`（`mcp` が加わった）。played（一覧のみ）。
 
 ## 出典
 

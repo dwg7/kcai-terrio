@@ -28,14 +28,14 @@
 | [terrio-formats-vectors-streaming-and-tiles](terrio-formats-vectors-streaming-and-tiles.md): 対応形式（ベクタ・タイル・Arrow）：ストリーム変換、GeoParquet 1.1、タイルの書き出し、南極で落ちる例 | stale | 0.3.2 | 2026-10-21 | played |
 | [terrio-install-platforms-and-release-history](terrio-install-platforms-and-release-history.md): terrio の入れ方、対応環境、版の履歴（PyPI・npm・crates.io） | stale | 0.3.2 | 2026-10-21 | played |
 | [terrio-js-api-and-playground](terrio-js-api-and-playground.md): terrio-js の API と、公式プレイグラウンド：Node とブラウザで動かして確かめた | stale | 0.3.2 | 2026-10-21 | played |
-| [terrio-js-cloud-native-reads-in-browser](terrio-js-cloud-native-reads-in-browser.md): ブラウザ（WebAssembly）で terrio を使う：openUrl の範囲読み込みと、このリポジトリのページ | stale | 0.3.2 | 2026-10-21 | played |
+| [terrio-js-cloud-native-reads-in-browser](terrio-js-cloud-native-reads-in-browser.md): ブラウザ（WebAssembly）で terrio を使う：openUrl の範囲読み込みと、このリポジトリのページ | draft | 0.4.2 | 2026-10-24 | played |
 | [terrio-license-and-third-party-notices](terrio-license-and-third-party-notices.md): terrio のライセンス：MIT、同梱される依存と第三者の告知、0.3.2 の配布物に LICENSE がない件 | stale | 0.3.2 | 2026-10-21 | played |
-| [terrio-mcp-server](terrio-mcp-server.md): terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある | stale | 0.3.2 | 2026-10-21 | played |
+| [terrio-mcp-server](terrio-mcp-server.md): terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある | draft | 0.4.2 | 2026-10-24 | played |
 | [terrio-overview-and-getting-started](terrio-overview-and-getting-started.md): terrio の概観と入門の手順（トップページ、Getting Started、Notebooks を実際に動かす） | stale | 0.3.2 | 2026-10-21 | played |
 | [terrio-point-clouds](terrio-point-clouds.md): 点群（LAS/LAZ/COPC/EPT/PLY/E57）：範囲読み、フィルター、グリッド化、ドキュメントの例の再現 | stale | 0.3.2 | 2026-10-21 | played |
 | [terrio-possibilities-and-risks](terrio-possibilities-and-risks.md): terrio が開く可能性と、使うときのリスク | stale | 0.3.2 | 2026-10-21 | played |
-| [terrio-processing-commands-smoke-test](terrio-processing-commands-smoke-test.md): 処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG） | stale | 0.3.2 | 2026-10-21 | played |
-| [terrio-python-api](terrio-python-api.md): Python API（terrio）：ドキュメントの例 30 件を動かした結果 | stale | 0.3.2 | 2026-10-21 | played |
+| [terrio-processing-commands-smoke-test](terrio-processing-commands-smoke-test.md): 処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG） | draft | 0.4.2 | 2026-10-24 | played |
+| [terrio-python-api](terrio-python-api.md): Python API（terrio）：ドキュメントの例 30 件を動かした結果 | draft | 0.4.2 | 2026-10-24 | played |
 | [terrio-release-vs-main-drift](terrio-release-vs-main-drift.md): リリース版（PyPI の 0.3.2）と main のずれ：ドキュメントは先行する | draft | 0.3.2 | 2026-10-21 | played |
 | [terrio-rio-rasterio-compatible-api](terrio-rio-rasterio-compatible-api.md): rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか | stale | 0.3.2 | 2026-10-21 | played |
 | [terrio-roadmap-and-open-items](terrio-roadmap-and-open-items.md): terrio のロードマップ：完了とされたこと、未完了の 21 項目、設計の決定 | stale | 0.3.2 | 2026-10-21 | read-docs |
@@ -43,9 +43,9 @@
 | [terrio-scope-included-and-excluded](terrio-scope-included-and-excluded.md): terrio が含む機能と含まない機能 | stale | 0.3.2 | 2026-10-21 | read-docs |
 | [terrio-source-quirks](terrio-source-quirks.md): terrio のソースコードの癖（規模、作り、同じ型の弱点） | stale | 0.3.2 | 2026-10-21 | read-source |
 | [terrio-source-scale-and-origins](terrio-source-scale-and-origins.md): terrio のソースコードの規模と起源（誰が、いつ、何の上に作ったか） | draft | 0.4.2 | 2026-10-23 | read-source |
-| [terrio-stac-and-stacit](terrio-stac-and-stacit.md): STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす | stale | 0.3.2 | 2026-10-21 | played |
+| [terrio-stac-and-stacit](terrio-stac-and-stacit.md): STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす | draft | 0.4.2 | 2026-10-24 | played |
 | [terrio-vs-gdal-spot-checks](terrio-vs-gdal-spot-checks.md): GDAL 3.8.4 との突き合わせ（約 30 項目）：一致したこと、食い違い、訂正したこと | draft | 0.3.2 | 2026-10-21 | played |
-| [terrio-xarray-integration](terrio-xarray-integration.md): xarray 連携（terrio.xarray）：リモート COG を遅延で開き、窓だけ取って再投影する | stale | 0.3.2 | 2026-10-21 | played |
+| [terrio-xarray-integration](terrio-xarray-integration.md): xarray 連携（terrio.xarray）：リモート COG を遅延で開き、窓だけ取って再投影する | draft | 0.4.2 | 2026-10-24 | played |
 | [upstream-issue-feedback-loop](upstream-issue-feedback-loop.md): 上流への報告から修正までの流れ：opengeos/terrio#159 の体験（AI が下書き、hfu が投稿、作者が当日修正） | stale | 0.3.2 | 2026-10-21 | played |
 | [vertical-datum-grids-and-geoid-in-japan](vertical-datum-grids-and-geoid-in-japan.md): 格子とジオイド：日本の高さの変換は「3 次元の CRS」から（GDAL と突き合わせて訂正した） | draft | 0.4.2 | 2026-10-24 | played |
 | [why-terrio-comparison-with-alternatives](why-terrio-comparison-with-alternatives.md): terrio と他の選択肢（GDAL、gdal クレート、GeoRust、GeoArrow、whitebox、OxiGeo）：どれを選ぶか | stale | 0.3.2 | 2026-10-21 | read-docs |

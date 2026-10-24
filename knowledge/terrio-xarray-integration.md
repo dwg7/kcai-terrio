@@ -1,16 +1,16 @@
 ---
 id: terrio-xarray-integration
 title: xarray 連携（terrio.xarray）：リモート COG を遅延で開き、窓だけ取って再投影する
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、Chromium 1194）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -56,6 +56,10 @@ txr.register_rio_accessor()                                       # rioxarray �
 - `to_raster` は、出力全体をメモリに持ってから書く（dask でもチャンクごとに計算して書き手のバッファへ）。
 - `chunks=True` だと、この COG では**幅いっぱいのチャンク**（3612）になった。大きなファイルでは `chunks` を明示する。
 - 日本の座標系（JGD2011 など）と日本語のバンド名・パスは、**この踏み跡では試していない**。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で、公式ノートブック `xarray.ipynb` のコードセル 12 個が、`zarr` パッケージを入れた環境で**すべて成功**（`open_rasterio`、`clip_box`、概観、`reproject`、`clip`、`merge_arrays`、`engine="terrio"`、COG / Zarr への書き出しと読み戻し、`rio` アクセサ互換）。`terrio[xarray]` の依存に `zarr` が無い点は 0.3.2 と同じ（別途 `pip install zarr`）。played。
 
 ## 出典
 

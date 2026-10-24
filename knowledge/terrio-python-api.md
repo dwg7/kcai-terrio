@@ -1,12 +1,12 @@
 ---
 id: terrio-python-api
 title: Python API（terrio）：ドキュメントの例 30 件を動かした結果
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -15,7 +15,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 related: [terrio-rio-rasterio-compatible-api, terrio-cli-command-reference, terrio-formats-vectors-streaming-and-tiles, terrio-install-platforms-and-release-history]
 freshness: high
 ---
@@ -49,6 +49,10 @@ terrio.transform_points([139.767125], [35.681236], "EPSG:6668", "EPSG:6677")
 - **Arrow の相互運用（played、別の仮想環境に pyarrow 26.0、GeoPandas 1.2、Polars 2.0）**: `layer.to_arrow()` → `pa.table`（177 行、geometry 列に `ARROW:extension:name`）、`GeoDataFrame.from_arrow`（177 行、CRS EPSG:4326）、`polars.DataFrame(t)`（177×169）、`to_arrow(geometry_encoding="geoarrow")` の拡張名は `geoarrow.multipolygon`、`terrio.from_arrow(pa_table)`（177）、`write_vector(pa_table, …gpkg, layer_name=…)` がすべて通った。DuckDB と GDAL の Arrow ストリームは未確認。
 - `polygonize` の連結性の既定は、CLI（4 連結）と Python（引数で指定）で、同じ入力でも結果が違って見える。指定を明示する。
 - 日本語の相対パスや CP932 の Shapefile などの入口の問題は、Python でも同じ（`terrio-source-quirks`）。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** の wheel で、公式ノートブック `quickstart.ipynb` のコードセル 13 個（`%pip` を除く）を順に実行して**すべて成功**（版、遠隔 COG の窓・概観、hillshade / slope、warp、NDVI、国界、GeoPackage への変換、FlatGeobuf・GeoParquet・Shapefile・KML の書き出し、rasterize、点の変換）。played。以前の「15 セル」は数え間違いで、実行されたコードセルは 13 個。
 
 ## 出典
 

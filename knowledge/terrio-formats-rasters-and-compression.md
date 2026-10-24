@@ -9,7 +9,7 @@ environment: Claude Code クラウドセッション（Linux x86_64、Python 3.1
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 verified_on: 2026-10-21
 verified_how: played
 as_of: 2026-10-21
@@ -53,6 +53,10 @@ terrio convert in.tif out.nc --co FORMAT=NC4 --co COMPRESS=DEFLATE        # netC
 - **書き出しは、すべての形式でできるわけではない**: HDF5、OSM、EPT、STACIT は読み取りのみ。タイルのアーカイブは **1〜4 の Byte バンド**だけ（他の型は `translate --ot Byte --scale` で先に変える）。
 - 読み取りは、ほとんどの非 GeoTIFF でメモリに全部読む（`docs/gdal.md`）。
 - 試したのは、GeoTIFF/COG、JPEG 2000、Zarr（HRRR）、PMTiles、GeoPackage（書き出しと追記）、VRT、ASCII など一部。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で、Sentinel-2 B04 を Zarr・JPEG 2000・COG に変換し、GDAL 3.8.4 で読むと、**画素が完全一致**（played、部分）。他の形式・圧縮は確かめ直していない。
 
 ## 出典
 
