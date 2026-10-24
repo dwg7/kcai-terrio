@@ -1,16 +1,16 @@
 ---
 id: terrio-contributing-and-governance
 title: terrio への貢献の作法と、プロジェクトの運営の様子
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -52,6 +52,10 @@ GDAL バックエンドを変えるなら、GDAL を入れて `--features gdal` 
 - 脆弱性の報告窓口（`SECURITY.md`）は見当たらない。**セキュリティに関わる報告は、公開の issue で出してよいか分からない**ので、必要になったら作者に確かめる。
 - 単独の作者に依存する運営（`Cargo.toml` の authors は 1 名）。継続性は未知（`terrio-possibilities-and-risks`）。
 - 貢献のルール（外部への PR）は、このリポジトリでは扱わない（`AGENTS.md`: 発信は hfu が行う）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+`docs/contributing.md` は 0.3.2 から変更なし。貢献者はコミット上 Qiusheng Wu のほかに Daniel Hofbauer（COG の修正・速度。#165、#168）、William Katzenmeyer（#98）。issue #212（ベンチマークの GDAL の多スレッド）や #159（この遊びの報告）が数日で取り込まれ、**報告が反映される運営**が続いている。read-source。
 
 ## 出典
 

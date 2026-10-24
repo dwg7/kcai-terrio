@@ -1,16 +1,16 @@
 ---
 id: terrio-overview-and-getting-started
 title: terrio の概観と入門の手順（トップページ、Getting Started、Notebooks を実際に動かす）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -56,6 +56,10 @@ Notebooks ページは、Colab で開ける 2 本（quickstart、xarray）の説
 - 入門の例を、そのまま打ち込んで全部通る、とは限らない（EPSG:3857 の例）。
 - `nodata` が出力の型で表せない値のままになる点は、後続の処理（`calc`、`dem`）で気づきにくい。出力の `info` で確かめる。
 - トップページの「GDAL とファイルごとに突き合わせて試験」は**主張**で、この遊びでは検証していない（`terrio-conformance-and-testing-against-gdal`）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+`docs/index.md` はバナー画像を足しただけ、`getting-started.md` は変更なし。ただし入門の例のうち、**世界の国界を EPSG:3857 にする手順は、データに南極点（緯度 −90）の頂点があると 0.4.2・0.5.0 でも失敗する**（Natural Earth 版では。opengeos/data の `countries.geojson` には南極が無く通る）。read-docs / played。
 
 ## 出典
 

@@ -22,6 +22,7 @@ STATUS = {
     "2026-10-21-web-mercator-fails-at-south-pole.md": ("ready", "緯度 -90 の点（南極）を EPSG:3857 に変換すると失敗。GDAL は成功。入門の例と PMTiles 既定の書き出しに影響。GDAL 3.8.4 と 3.13.3 で確認済み"),
     "2026-10-21-translate-ot-int16-leaves-out-of-range-nodata.md": ("obsolete", "取り下げ。GDAL 3.13.3 は terrio と同じく範囲外の nodata を残す（3.8.4 だけ丸める）"),
     "2026-10-21-cog-tiling-scheme-ignored-and-dstalpha.md": ("ready", "質問・要望（GDAL 3.8.4 と 3.13.3 で比較済み）。TILING_SCHEME が黙って無視される、--dstalpha がない"),
+    "2026-10-24-rust-docs-dependency-version-does-not-resolve.md": ("ready", "ドキュメント修正の提案。docs/rust.md の version = \"0.3\" + features = [\"geotiff\"] は解決に失敗する（0.4 以降なら通る）。cargo で確認済み。小さく、最初の投稿に向く"),
     "2026-10-21-cli-range-reads-for-flatgeobuf-and-geoparquet.md": ("ready", "質問。CLI の FlatGeobuf / GeoParquet は全量取得（JS 版は範囲読み）。中断時の一時ファイル"),
 }
 LIMIT = 7000  # GitHub の URL 長の実用的な上限の目安（超えたら貼り付けで投稿）

@@ -2,7 +2,7 @@
 id: terrio-xarray-integration
 title: xarray 連携（terrio.xarray）：リモート COG を遅延で開き、窓だけ取って再投影する
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、Chromium 1194）
@@ -60,6 +60,10 @@ txr.register_rio_accessor()                                       # rioxarray �
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** で、公式ノートブック `xarray.ipynb` のコードセル 12 個が、`zarr` パッケージを入れた環境で**すべて成功**（`open_rasterio`、`clip_box`、概観、`reproject`、`clip`、`merge_arrays`、`engine="terrio"`、COG / Zarr への書き出しと読み戻し、`rio` アクセサ互換）。`terrio[xarray]` の依存に `zarr` が無い点は 0.3.2 と同じ（別途 `pip install zarr`）。played。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 の wheel（`zarr` を足した環境）で、公式 `xarray.ipynb` のコードセル 13 個が**すべて成功**。played。main は xarray の subdatasets・GCP・RPC に対応（#206）。
 
 ## 出典
 

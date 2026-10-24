@@ -1,16 +1,16 @@
 ---
 id: pmtiles-remote-reading
 title: PMTiles をリモートで読む（ラスタ・ベクタ、日本語属性、Range を無視する配信）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -52,6 +52,10 @@ terrio convert --oo ZOOM_LEVEL=8 --spat 141.2 42.9 141.5 43.15 --spat-srs EPSG:4
 - 出力 GeoJSON が EPSG:3857 のままになる。経緯度が要るなら `--t-srs EPSG:4326`（このセッションでは未試験）。
 - ベクタ PMTiles は、zoom ごとに地物が異なる（簡略化や間引きがある）。`ZOOM_LEVEL` を指定しないときの挙動は未確認。
 - 抽出した GeoJSON に日本語の長い文字列が入ると、そのあと terrio で読めなくなる（`geojson-japanese-string-panic`）。今回の札幌周辺では、属性の長さが短く、たまたま通った。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.4.2 の CLI で `terrio info https://depot.optgeo.org/ksj_n03_hkd.pmtiles` は 12 要求・1.48 MiB で 3,625 地物。terrio-js 0.5.0 の PMTiles（ラスタ 12 要求・832 KiB、ベクタ 1 要求・64 KiB）も同じ。played。PMTiles は範囲読み込みのまま。
 
 ## 出典
 

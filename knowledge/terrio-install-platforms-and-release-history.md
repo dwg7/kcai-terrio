@@ -1,16 +1,16 @@
 ---
 id: terrio-install-platforms-and-release-history
 title: terrio の入れ方、対応環境、版の履歴（PyPI・npm・crates.io）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -59,6 +59,10 @@ terrio --version                   # 0.3.2
 - Pyodide の wheel は、リモート URL を読めない（WebAssembly に HTTP クライアントがないため。`pyodide.http` で先に取る）。terrio-js の `openUrl` とは別の話。
 - 6 日で 5 版の頻度なので、**版を固定して使い、遊ぶたびに版を記録する**（`AGENTS.md`）。
 - このセッションでは、PyPI の wheel だけを使った。CLI のバイナリ、cargo、npm の CLI 以外の経路は、main のビルドと terrio-js 以外は試していない。
+
+## 0.5.0 での再確認（2026-10-24）
+
+**リリース履歴の続き**（crates.io の公開時刻）: 0.4.0（10-22 01:50 UTC）、0.4.1（10-22 16:56）、0.4.2（10-22 22:37）、**0.5.0（10-24 04:05）**。0.5.0 の PyPI は **wheel 8 個 + sdist**: macOS x86_64 / arm64、manylinux x86_64 / aarch64、musllinux x86_64 / aarch64、**Windows x86_64 / arm64**（0.3.2 には Windows ARM64 が無かった）。配り方: インストーラー（`install.sh` / `install.ps1`、`TERRIO_VERSION` で版を指定）、**AUR（`terrio-bin`、`terrio`）**、**Fedora COPR**、Pyodide（emscripten wasm32 の wheel）。played（PyPI のファイル一覧）/ read-docs。
 
 ## 出典
 

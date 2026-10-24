@@ -2,7 +2,7 @@
 id: geojson-japanese-string-panic
 title: 日本語の長い文字列を含む GeoJSON と CSV で terrio が panic する（0.3.2）
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
@@ -57,6 +57,10 @@ terrio info t.geojson     # panic
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2**（PyPI の wheel）で、日本語の長い文字列（`東京都千代田区`）を含む GeoJSON と CSV を、Shapefile・FlatGeobuf・GeoPackage・PMTiles・GeoParquet・CSV に変換できた。**panic は出ない**（#159 は #161 で修正され、0.4.0 の配布版に入った）。Shapefile の属性は GDAL（`ogrinfo`）で正しい日本語で読めた（`.cpg`=UTF-8）。played。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 でも、日本語 GeoJSON → Shapefile / FlatGeobuf は通る（`scripts/recheck_known_issues.sh`）。played。
 
 ## 出典
 

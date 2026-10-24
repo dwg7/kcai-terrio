@@ -1,16 +1,16 @@
 ---
 id: data-licenses-of-play-datasets
 title: 遊びで使ったデータのライセンス表記（配信元が書いていること）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -61,6 +61,10 @@ kcai-terrio の README は、「CC0 は terrio（MIT）や、遊びで使った�
 - 派生物（切り出した GeoJSON など）を**公開する場合**は、帰属表示と、ODbL のようなシェアアライクの条件に注意する。このリポジトリは、データの派生物を公開していない。
 - ライセンス表示は変わりうる。**確認日は 2026-10-21**。
 - Hugging Face のカードの `mit` は、データではなく、リポジトリの設定かもしれない。**元の出どころを確かめるまで、再利用しない**。
+
+## 0.5.0 での再確認（2026-10-24）
+
+データのライセンス表記は terrio の版に依らない。0.5.0 での再確認は不要で、使ったデータ（USGS 3DEP、Sentinel-2、opengeos/data、Natural Earth、国土数値情報、Source Cooperative ほか）の利用条件は 2026-10-21 のまま。今日（2026-10-24）の再確認では、新しいデータは使っていない。
 
 ## 出典
 

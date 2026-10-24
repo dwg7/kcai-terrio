@@ -1,16 +1,16 @@
 ---
 id: terrio-rust-library-and-features
 title: Rust ライブラリ：入口、Cargo の feature、API の安定性方針（配布版との差に注意）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、Chromium 1194）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -58,6 +58,10 @@ terrio::stream::convert("buildings.gpkg", "buildings.fgb", &ConvertOptions::defa
 - 配布版（0.3.2）と main で、feature の構成が違う。**使う版のタグの `Cargo.toml` で確かめる**（`terrio-release-vs-main-drift`）。
 - データモデルが外部クレートなので、`wbraster` / `wbvector` の版は terrio の再エクスポートに合わせる（直接依存しない）。
 - 単独の作者の `wbraster` 系は別プロジェクト（`terrio-possibilities-and-risks`）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.4.0 から crate が feature で絞れる。`default-features = false, features = ["geotiff"]` は **`version = "0.4"` なら解決する**（cargo で確認、played）。ドキュメント（`docs/rust.md`）の例は **`version = "0.3"` のままで、これは解決に失敗する**（0.3.x に `geotiff` feature が無い）。v0.5.0 でも main でも同じ。crates.io の最新は 0.5.0。feature は `parquet remote avif netcdf-hdf5 osm lzma flatgeobuf jp2 lerc pointcloud tiles zarr sqlite`（既定は全部）。`overview_resampling`（`nearest|average|min|max|mode`）が `RasterWriteOptions` に加わった。
 
 ## 出典
 

@@ -1,16 +1,16 @@
 ---
 id: hfu-dwg7-workflow-substitution-survey
 title: hfu と dwg7 の公開リポジトリの処理のうち、terrio で代替できそうなものと、できなさそうなもの
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: read-source
 as_of: 2026-10-21
 sources:
@@ -62,6 +62,14 @@ hfu と dwg7 の公開リポジトリは、**タイル配信（PMTiles、Martin�
 - 「代替できる」は、**置き換えて同じ成果物が出る**ことまでは確かめていない。置き換えるなら、1 つのスクリプトずつ、GDAL の出力と差分を取る（この遊びの方針の外。別の作業として）。
 - 日本語のファイル名・属性は、現状の 0.3.2 では **panic と文字化けの地雷**がある（`japanese-path-panic-in-zarr-parse-name`、`geojson-japanese-string-panic`、`shapefile-cp932-attributes-not-decoded`）。置き換えの前に避け方を決める。
 - 調べたのは公開リポジトリだけで、一覧も途中で切れている。非公開の処理は含まない。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 で、「できなさそう」だった所が動いた。
+- **幾何の検査・修復**（SQLite 方言の `ST_*` の用途）: `is-valid`、`make-valid`、`clean`、`buffer`、`overlay`、`dissolve` が入り、不正ポリゴン、バッファ、ディゾルブは GEOS と一致した（played。`terrio-vs-gdal-spot-checks`）。読み取り専用の `sql` コマンドもある。
+- 解析: `contour`（等高線）、`zonal-stats`、`sample`、`footprint`、`centroid`、`singlepart`、`vertices`。
+- 代替しにくいまま: **タイル生成（tippecanoe 相当）**、**CP932 の Shapefile**（文字化け）、Zarr の日本語の相対パス（panic）、CLI の FlatGeobuf / GeoParquet（全量取得）。
+- 代替できる見込みの範囲が、前処理（再投影・圧縮・窓・変換）から、**幾何の修復・オーバーレイ**まで広がった。
 
 ## 出典
 

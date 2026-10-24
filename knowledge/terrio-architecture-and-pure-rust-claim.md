@@ -1,16 +1,16 @@
 ---
 id: terrio-architecture-and-pure-rust-claim
 title: terrio の構成と「純 Rust」の中身（ドキュメントと SBOM を突き合わせる）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -44,6 +44,10 @@ related: [terrio-source-quirks, terrio-license-and-third-party-notices, why-terr
 - 「純 Rust」「GDAL なし」は、**使う側にとっての実用上の意味**（システムに入れるものがない、WebAssembly でも動く、静的に配れる）では成り立つ。「依存に C が一切ない」という意味では、そのまま受け取らない。
 - 結果が「単一スレッドと同じバイト列」という主張は、この遊びでは検証していない。
 - 構成の記述は main のもの。0.3.2 のタグでは、機能の分け方（Cargo の feature）などが違う（`terrio-release-vs-main-drift`）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+`docs/architecture.md` は 0.3.2 から変更なし。Rust のソースは v0.5.0 で全体約 12.4 万行（`unsafe` 70 行、`panic!(` 65 行。数え方は `terrio-source-scale-and-origins`）。0.3.2 の記述は有効。read-source。
 
 ## 出典
 

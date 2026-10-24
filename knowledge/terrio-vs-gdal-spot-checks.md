@@ -2,11 +2,11 @@
 id: terrio-vs-gdal-spot-checks
 title: GDAL 3.8.4 との突き合わせ（約 30 項目）：一致したこと、食い違い、訂正したこと
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、GDAL 3.8.4 / PROJ 9.4 を apt で導入、Python 3.13.16）
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -92,6 +92,14 @@ terrio 0.3.2 が書いた PMTiles（国界 179 地物、z0〜5）を GDAL 3.8.4 
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio 0.4.2 で再確認: 南極点（180,−90）→ EPSG:3857 は**失敗のまま**。COG の `TILING_SCHEME=GoogleMapsCompatible` は**黙殺のまま**（12.32 m）。`warp --dstalpha` は**引数なしのまま**。`translate --ot Int16` の nodata は −999999 のまま（GDAL 3.13.3 と同じ）。CP932 は文字化けのまま。日本語 GeoJSON の panic は**直った**。これ以外の行は 0.3.2 の値。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 でも、南極点の EPSG:3857、`warp --dstalpha`、CP932 は差が残る（`scripts/recheck_known_issues.sh`）。画素の突き合わせ（dem・translate・warp・calc・mosaic ほか 20 項目）は 0.5.0 でも一致。**幾何の修復・バッファ・ディゾルブ**は GEOS（GDAL 3.8.4 の Python 結合）と一致（下の節）。
+
+### 幾何の検査・修復（0.5.0、played）
+
+ちょうちょ形の不正ポリゴンを含む 3 ポリゴンで、`terrio make-valid` は GEOS の `MakeValid` と同じ（MULTIPOLYGON 面積 2.0 と 4.0・4.0）。`terrio buffer --distance 0.5` の面積は GEOS と同じ（7.506、8.785、8.785）。`terrio dissolve` は GEOS の Union と同じ（MULTIPOLYGON 面積 10.0）。`terrio is-valid` は不正な地物に `exterior ring has a self-intersection` を付け、不正な入力の `buffer` / `dissolve` は「`make-valid` を先に」と止まる。GDAL の SQLite 方言は apt 版で使えず、GEOS を Python から直接呼んで比べた。
 
 ## 出典
 

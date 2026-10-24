@@ -1,12 +1,12 @@
 ---
 id: upstream-issue-feedback-loop
 title: 上流への報告から修正までの流れ：opengeos/terrio#159 の体験（AI が下書き、hfu が投稿、作者が当日修正）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: baf4768
 interface: cli
 environment: GitHub（opengeos/terrio、dwg7/kcai-terrio）と Claude Code クラウドセッション
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -17,7 +17,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 related: [geojson-japanese-string-panic, japanese-path-panic-in-zarr-parse-name, terrio-release-vs-main-drift, terrio-source-quirks]
 upstream_issue: opengeos/terrio#159
 upstream_fix: baf4768
@@ -51,6 +51,10 @@ kcai の「鍛える循環」を、**上流のオープンソースへの報告*
 - 下書きは hfu が整える前の私の版と、整えた版で、**未検証の主張**（「GDAL は同じ値を問題なく読む」）が入りうる。この環境には GDAL がなく、私は確かめられない。投稿する前に、確かめていない主張は外すか、確かめた旨を書く。
 - この踏み跡の「作者の対応が早い」は、**1 件の体験**。一般化しない。
 - kcai としての示唆（`DECISIONS.md` に記録）: 「AI が見つけて下書き → 人が確認して投稿 → 作者が直す → 配布版を待って確かめ直す」の循環が、小さく実際に回った。
+
+## 0.5.0 での再確認（2026-10-24）
+
+#159 の修正（#161）は **0.4.0 の配布版に入った**（報告から配布まで約 1 日）。下書き 5 件（Zarr の日本語パス、南極点の EPSG:3857、CP932、COG の `TILING_SCHEME` と `--dstalpha`、CLI の全量取得）は、0.5.0 でも再現し、hfu の投稿を待つ。投稿前に GDAL の新旧で確かめて取り下げた下書きが 3 件（ジオイド、calc、`--ot Int16`）。
 
 ## 出典
 

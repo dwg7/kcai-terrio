@@ -1,16 +1,16 @@
 ---
 id: terrio-formats-vectors-streaming-and-tiles
 title: 対応形式（ベクタ・タイル・Arrow）：ストリーム変換、GeoParquet 1.1、タイルの書き出し、南極で落ちる例
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -55,6 +55,10 @@ terrio convert --oo ZOOM_LEVEL=5 c.pmtiles z5.geojson
 - GeoJSONSeq は WGS 84、外環が反時計回りで書く。TopoJSON は `crs` メンバーつきで書く。CSV の CRS は隣の `.prj` から。Shapefile の属性は UTF-8 の `.cpg` 付きで書く（CP932 は読めない: `shapefile-cp932-attributes-not-decoded`）。
 - MBTiles/PMTiles のラスタは、**低いズームも書く**（`gdal_translate -of MBTiles` と違い、`gdaladdo` を足した形）。
 - GDAL との比較（PMTiles のベクタタイルを tippecanoe が書いたものも含む）の記述は、**ドキュメントの主張で、未検証**。
+
+## 0.5.0 での再確認（2026-10-24）
+
+CLI の FlatGeobuf は 0.4.2 でも全量取得（`(whole file)`、played）。terrio-js の FlatGeobuf は**自前のドライバー（64 ビットのオフセット）**になり、空間索引つきは bbox で範囲読み込み（`openUrl`）、索引なしは全体。`open` は 4 GB のメモリ内で全層を復号（867 MB・200 万本の線が約 3 秒、1 GB・230 万の面はメモリ不足）。流し読みは Shapefile の並列復号（#191）、GeoPackage / FlatGeobuf の先読み（#177）。PMTiles / MVT は GDAL と読み合う（0.3.2、played）。read-docs / played。
 
 ## 出典
 

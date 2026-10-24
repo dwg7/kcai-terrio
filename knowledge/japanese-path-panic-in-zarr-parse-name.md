@@ -2,7 +2,7 @@
 id: japanese-path-panic-in-zarr-parse-name
 title: 日本語から始まる相対パスで terrio が panic する（Zarr 名の判定）
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
@@ -60,6 +60,10 @@ terrio info "$PWD/日本地図.tif"   # 通る
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** の wheel でも、**再現する**。`terrio info 日本語/a.zarr` と `terrio info ./日本語/a.zarr`（日本語で始まる相対パス）は panic（`zarr.rs:1310`、`end byte index 5 is not a char boundary; it is inside '本'`）。絶対パス（`/tmp/…/日本語/a.zarr`）は通り、日本語の相対パスへの**書き出し**（`convert`）は通る。main（17ca35a、2026-10-23）のソースにも `t[..5]` が残る（行は 1437）。played / read-source。下書きは有効のまま。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 でも**再現する**（`scripts/recheck_known_issues.sh`: 日本語の相対パスで panic）。v0.5.0 のソースにも `t[..5]` が残る。played / read-source。
 
 ## 出典
 

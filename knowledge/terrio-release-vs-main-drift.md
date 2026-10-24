@@ -2,7 +2,7 @@
 id: terrio-release-vs-main-drift
 title: リリース版（PyPI の 0.3.2）と main のずれ：ドキュメントは先行する
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
@@ -59,6 +59,10 @@ terrio --help | grep -c mcp                               # 機能の有無は�
 - **配布版が 0.3.2 → 0.4.2 に進んだ**（0.4.0・0.4.1・0.4.2 はすべて 2026-10-22 までに公開）。以前「main にだけあった」ものが、配布版に入った: `terrio mcp`（#110）、Cargo の feature 分け（#154）、ESRI コードの扱い（#151）、**GeoJSON / CSV の日本語長文字列の panic の修正（#161）**、ライセンスファイルの同梱（#164、#172）。
 - 一方、main はさらに先行している（0.4.2 から 28 コミット）: 等高線・ゾーン統計・独立した SQL・幾何演算（#228、#230）、`terrio.rio` の CLI（#204）、WebAssembly の 4 GB 超とスレッド（#224、#229）、STACTA（#218）、CDN の格子の範囲読み込み（#202）。
 - 傾向は `terrio-evolution-0-3-2-to-0-4-2` に書いた。
+
+## 0.5.0（2026-10-24）
+
+**0.5.0 が 2026-10-24 04:05 UTC に出た**（0.4.2 から 32 コミット）。main で先行していた幾何演算・等高線・ゾーン統計・SQL・トポロジー（#228〜#233）、GRIB（#232）、STACTA（#218）、STAC の POST（#197）、PDAL の追加フィルタ（#210）、WebAssembly の 4 GB 超とスレッド（#224、#229）、`terrio.rio` の CLI（#204）が**配布版に入った**。`terrio mcp` は 29 ツールになった。配布版と main の差は、また小さくなった（0.5.0 のあとの main は #235「プレイグラウンドが terrio-js 0.5.0 を読む」など）。
 
 ## 出典
 

@@ -1,8 +1,8 @@
 ---
 id: terrio-formats-rasters-and-compression
 title: 対応形式（ラスタ）と圧縮：表をバイナリの terrio formats と突き合わせた
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
@@ -10,7 +10,7 @@ authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
 updated: 2026-10-24
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -57,6 +57,10 @@ terrio convert in.tif out.nc --co FORMAT=NC4 --co COMPRESS=DEFLATE        # netC
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** で、Sentinel-2 B04 を Zarr・JPEG 2000・COG に変換し、GDAL 3.8.4 で読むと、**画素が完全一致**（played、部分）。他の形式・圧縮は確かめ直していない。
+
+## 0.5.0 での再確認（2026-10-24）
+
+`docs/formats.md` の変更: netCDF の最後の次元が `bands` / `band` なら波長軸としてバンドに、など。0.5.0 では **GRIB1/GRIB2 の純 Rust ドライバー（#232）**が加わり（GDAL の GRIB の試験ファイルと実予報で比較）、Zarr は 4 次元以上と遠隔グループの一覧（#198、#199）、`overview_resampling`（`nearest|average|min|max|mode`）が GeoTIFF / COG に入った。Zarr・JPEG 2000・COG の往復は GDAL 3.8.4 と画素一致（0.4.2、played）。
 
 ## 出典
 

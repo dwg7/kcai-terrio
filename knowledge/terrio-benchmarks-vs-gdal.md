@@ -1,16 +1,16 @@
 ---
 id: terrio-benchmarks-vs-gdal
 title: GDAL との速度とメモリの比較（作者の計測）と、読むときの注意
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -55,6 +55,10 @@ freshness: high
 - 「速い」は、**同じ結果**を前提にした比較（出力は GDAL と同一、という主張。`terrio-conformance-and-testing-against-gdal`）。
 - 小さなファイルの数値は **terrio 0.0.1 の時点**で、現行の 0.3.2 の速度とは限らない。**この遊びでは計測していない**（大きなファイルを取らない方針のため）。
 - 日本語のパスで panic する等、**速さ以前の入口**の問題は、ここに現れない（`terrio-source-quirks`）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+`docs/benchmarks.md` は大きく書き直された（+140 行）。**条件**: Intel Xeon w7-3445（40 スレッド）、**GDAL 3.12.2 と terrio 0.4.2 を同じスレッド数**（GDAL は `GDAL_NUM_THREADS` と `gdalwarp -multi -wo NUM_THREADS` を有効に。issue #212 の指摘で、以前は GDAL の多スレッドを切っていたと明記）、5 回の中央値。**小さなファイル**: ラスタ info 2.3 倍速、統計 1.4 倍、COG 化（Deflate）1.7 倍、**warp（UTM 13N）最近傍 12.7 倍・bilinear 9.8 倍**、mosaic 2.0 倍、Shapefile → GeoPackage 1.6 倍、rasterize 2.5 倍。**大きな 14412² の mosaic**: 統計 2.2 倍、window 1.9 倍、warp 2.0 倍、COG 化は 1.0 倍遅い。メモリは terrio の方が小さいことが多い（統計で 145 MB 対 859 MB）。作者の測定で、この遊びでは再測定していない。read-docs。
 
 ## 出典
 

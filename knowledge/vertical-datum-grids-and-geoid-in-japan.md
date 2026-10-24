@@ -2,7 +2,7 @@
 id: vertical-datum-grids-and-geoid-in-japan
 title: 格子とジオイド：日本の高さの変換は「3 次元の CRS」から（GDAL と突き合わせて訂正した）
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、GDAL 3.8.4 / PROJ 9.4 を apt で導入）
@@ -72,6 +72,10 @@ JS では `registerGrid('jp_gsi_gsigeo2011.tif', バイト)` で格子を渡し�
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** で、3 次元 `EPSG:6667 → 6697`（高さ 50）は 13.2386（JPGEO2024 を適用）、2 次元 `EPSG:6668 → 6697`（高さ 86.7）は 86.7（不変）。0.3.2 と同じ。played。なお main には「垂直 CRS 間の変換を PROJ の選び方で」（#203）、「PROJ の鎖」（#222）が入っており、配布版の次の版で挙動が変わりうる。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 でも `EPSG:6667 → 6697`（高さ 50）は 13.2386、同じ。played。main は垂直 CRS の変換を PROJ の選び方に（#203）、PROJ の鎖（#222）。
 
 ## 出典
 

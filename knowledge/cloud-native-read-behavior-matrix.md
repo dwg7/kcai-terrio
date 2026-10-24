@@ -98,6 +98,10 @@ finding:
 
 0.4.2 の wheel で再確認できた行だけ: **COG の窓・概観は範囲読み込み**（B04: 6.19 / 2.56 MiB）。**PMTiles（`depot.optgeo.org/ksj_n03_hkd.pmtiles`）は範囲読み込み**（`info` が 12 要求・1.48 MiB、3,625 地物）。**FlatGeobuf（`flatgeobuf.org/test/data/UScounties.fgb`）は CLI で全量取得のまま**（`(whole file)` 14,100,008 バイト、`--spat` で 3 地物）。ドキュメントの `remote-data.md` も「その他の形式は一時ファイルに取得」のまま。**他の行（GeoParquet、COPC、JP2、Zarr、STAC、JS 版）は 0.4.2 では確かめ直していない**（表は 0.3.2 の値）。main は Zarr の遠隔グループの一覧（#199）、CDN の格子の範囲読み込み（#202）、STAC の POST と Planetary Computer（#197）を足している。
 
+## 0.5.0 での補足（2026-10-24）
+
+0.5.0 でも、terrio-js の 6 試料（COG・PMTiles ラスタ / ベクタ・FlatGeobuf・COPC・GeoParquet 5 GB）の範囲読み込みは 0.3.2 と同じ（played）。CLI の FlatGeobuf は全量取得のまま（0.4.2、played）。0.5.0 には、Zarr の遠隔グループの一覧（#199）、CDN の座標系格子の範囲読み込み（#202）、STAC の POST・Planetary Computer（#197）、STACTA（#218）が加わった。表の他の行は 0.3.2 の値。
+
 ## 出典
 
 - plays/2026-10-21-first-contact.md

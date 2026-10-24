@@ -1,8 +1,8 @@
 ---
 id: terrio-point-clouds
 title: 点群（LAS/LAZ/COPC/EPT/PLY/E57）：範囲読み、フィルター、グリッド化、ドキュメントの例の再現
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
@@ -10,7 +10,7 @@ authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
 updated: 2026-10-24
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -82,6 +82,10 @@ terrio grid tile.laz dsm.tif --tr 1 --stat max                      # DSM。DTM 
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** で、COPC（44,465 点）の `info` と `filter range`（`Classification[2:2],Z[450:460)` → 1313 点、`Z[500:)` → 6720 点）は、PDAL 2.10.2 と一致した値のまま。played（部分）。点群の他の機能は確かめ直していない。main は PDAL のフィルタを多数足した（#210、#205）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+`docs/point-clouds.md` の変更: すべての `filter` が `--a-srs`（CRS の付与）を取る。zip の点群を開ける（`tile.las.zip`）。0.5.0 には **PDAL の他のフィルタ**（`dbscan`、`covariancefeatures`、`lof`、`dem`、`colorization`、`overlay`、`nndistance`、`radialdensity` ほか。#210）と **EPT へのその場の追記**（#205）が加わった。COPC `info` と `filter range`（3 種）は PDAL 2.10.2 と一致（0.3.2・0.4.2、played）。
 
 ## 出典
 

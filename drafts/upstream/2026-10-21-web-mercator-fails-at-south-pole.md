@@ -8,7 +8,9 @@ Hello, and thank you for terrio. While following the getting-started page with a
 
 terrio 0.3.2 (PyPI wheel, Linux x86_64). Same on main at `6779102` (2026-10-21). Compared with GDAL 3.8.4 / PROJ 9.4 (Ubuntu apt) and with GDAL 3.13.3 (conda-forge); both convert the same input without error.
 
-**Rechecked 2026-10-24:** terrio 0.4.2 (PyPI wheel): the same error (`cannot transform (180, -90)`).
+**Rechecked 2026-10-24 (0.5.0):** terrio 0.5.0 (PyPI wheel): the same error.
+
+**Rechecked 2026-10-24 (0.4.2):** terrio 0.4.2 (PyPI wheel): the same error (`cannot transform (180, -90)`).
 
 ## Minimal reproduction
 

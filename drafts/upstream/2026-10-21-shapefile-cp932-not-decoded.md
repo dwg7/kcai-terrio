@@ -8,7 +8,9 @@ Hello, and thank you for terrio. I am trying it with Japanese public data, where
 
 terrio 0.3.2 (`pip install terrio`, Linux x86_64). Source checked at `v0.3.2` (`a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6`); the behavior is the same on main at `6779102` (2026-10-21).
 
-**Rechecked 2026-10-24:** terrio 0.4.2 (PyPI wheel): the same mojibake, with and without `.cpg`.
+**Rechecked 2026-10-24 (0.5.0):** terrio 0.5.0 (PyPI wheel): the same mojibake.
+
+**Rechecked 2026-10-24 (0.4.2):** terrio 0.4.2 (PyPI wheel): the same mojibake, with and without `.cpg`.
 
 ## What happens
 

@@ -1,8 +1,8 @@
 ---
 id: terrio-cli-overview
 title: terrio コマンドラインの概要（GDAL のどのコマンドに当たるか）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
@@ -10,7 +10,7 @@ authors:
 reviewed_by: []
 updated: 2026-10-24
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: read-docs
 sources:
   - terrio docs/cli.md、docs/gdal.md（v0.3.2 と main cf6bd5d）
@@ -62,6 +62,10 @@ terrio <コマンド> --help   # 全オプション
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** のサブコマンドは `info convert formats crs rasterize polygonize translate warp mosaic dem calc proximity sieve grid filter mcp`（`mcp` が加わった）。played（一覧のみ）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 のサブコマンドは 29（上の `terrio-cli-command-reference` を参照）。単一の実行ファイルで、解析・幾何・点群・MCP まで広がった。played（一覧）。
 
 ## 出典
 

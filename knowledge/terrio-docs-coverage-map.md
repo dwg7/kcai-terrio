@@ -1,16 +1,16 @@
 ---
 id: terrio-docs-coverage-map
 title: terrio ドキュメント全 25 ページの対応表：どの踏み跡に消化したか、公開サイトとの一致、記述の食い違い
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、Chromium 1194）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -83,6 +83,10 @@ freshness: high
 - **ドキュメントは main に追随して先に進む**。配布版（PyPI の 0.3.2）で試して動かないとき、まず `terrio-release-vs-main-drift` を見る。
 - 上の 14 件のうち、上流に伝える価値があるものは、hfu が判断して投稿する（`drafts/upstream/`）。**投稿前に、確かめていない主張を外す**。
 - ノートブック（Colab）は、実行していない。ブラウザの `playground` は動かした。
+
+## 0.5.0 での再確認（2026-10-24）
+
+v0.5.0 の `docs/` は 25 ページ（`acknowledgements.md`、`mcp.md` が 0.3.2 以降に加わった。`notebooks.md`、`roadmap.md` を含む）。対応: `acknowledgements.md` → `terrio-ai-disclosure-and-acknowledgements`、`mcp.md` → `terrio-mcp-server`。変更のあったページ（benchmarks・cli・conformance・crs・formats・installation・javascript・rust・point-clouds・remote-data・rasterio・xarray・gdal・testing・why-terrio）は、それぞれの踏み跡に 0.5.0 の節を足した。ドキュメントの食い違い 14 件のうち、`rust.md` の依存の書き方（`version = "0.3"` + `features = ["geotiff"]`）は **0.4 / 0.5 では解決に失敗する**（0.3.x に feature が無いため。`"0.4"` なら解決、played。main の `docs/rust.md` に 0.3 のまま残る）。read-docs / played。
 
 ## 出典
 

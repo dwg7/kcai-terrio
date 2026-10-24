@@ -1,8 +1,8 @@
 ---
 id: advice-for-dwg7
 title: dwg7 に対する助言（作業が進むごとに更新する生きた踏み跡）
-status: stale
-terrio_version: 0.4.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64）。terrio 配布版 0.3.2 と main 6779102。比較に GDAL 3.8.4 / PROJ 9.4
@@ -38,12 +38,12 @@ freshness: high
 | 4 | **Shift_JIS（CP932）の Shapefile は、いまは terrio に任せない**。属性が黙って文字化けする。UTF-8 に変換してから使うか、GDAL で読む | `shapefile-cp932-attributes-not-decoded`（played） |
 | 5 | **日本語の入力に注意**。GeoJSON / CSV の日本語長文字列 panic は **0.4.0 以降で修正済み**（#159 → #161）。0.3.2 を使うなら避ける。**Zarr の日本語の相対パス**の panic は 0.4.2・main とも残る（絶対パスで避ける） | `geojson-japanese-string-panic`、`japanese-path-panic-in-zarr-parse-name`（played） |
 | 6 | **日本の座標変換は使える**。JGD2011 ↔ 平面直角（6669〜6687）は GDAL と小数 9 桁以上で一致。ジオイドは **3 次元の `EPSG:6667` → `6697`** で適用される（2 次元の 6668 では高さ不変。GDAL も同じ） | `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`（played） |
-| 7 | **タイル生成（tippecanoe）、SQL による幾何の検査・修復、配信は置き換えない**。terrio の範囲外（PMTiles の書き出しは可能だが、tippecanoe の代わりではない）。world 全体を EPSG:3857 に変換する工程は、南極の問題に注意 | `terrio-scope-included-and-excluded`、`hfu-dwg7-workflow-substitution-survey` |
+| 7 | **幾何の検査・修復は、0.5.0 から terrio でできる**（`is-valid` / `make-valid` / `buffer` / `dissolve`。GEOS と一致、played）。**タイル生成（tippecanoe）と配信は置き換えない**。terrio の範囲外（PMTiles の書き出しは可能だが、tippecanoe の代わりではない）。world 全体を EPSG:3857 に変換する工程は、南極の問題に注意 | `terrio-scope-included-and-excluded`、`hfu-dwg7-workflow-substitution-survey` |
 | 8 | **版を固定して使う**。配布版（0.3.2）と main は差があり、ドキュメントも main に追随する。pip / npm の版を決め、踏み跡は版つきで読む。新しい版が出たら `stale` の確かめ直し | `terrio-release-vs-main-drift`、`terrio-install-platforms-and-release-history` |
 | 9 | **上流への報告は、再現の最小化・GDAL との突き合わせ・版の明記**をして、未検証の主張を外す。#159 は報告から修正まで早かった。取り下げた下書き（ジオイド）は、投稿前の確認の価値を示す | `upstream-issue-feedback-loop`、`drafts/upstream/README.md` |
-| 10 | **Rust から使うなら、版に注意**。0.3.2 の crate は feature で絞れない（46 MB・302 クレート）。絞れるのは main（`geotiff` + `remote` で 24 MB・188 クレート）。ドキュメントの絞り込みの例は main 向け。API 自体（座標変換、遅延読み、COG 書き出し）は書いたとおりに動いた | `terrio-rust-library-and-features`（played） |
+| 10 | **Rust から使うなら、版に注意**。0.3.2 の crate は feature で絞れない（46 MB・302 クレート）。0.4 以降は絞れる（`geotiff` + `remote` で 24 MB・188 クレート）。ドキュメントの例は `version = "0.3"` のままで**解決に失敗する**ので、`"0.4"` 以降と書く。API 自体（座標変換、遅延読み、COG 書き出し）は書いたとおりに動いた | `terrio-rust-library-and-features`（played） |
 | 11 | **公式ノートブックはそのまま動く**（27 セル中、失敗は `zarr` の欠落 1 件）。xarray の例は `pip install zarr` を足す。学習の入口に勧められる | `plays/2026-10-21-notebooks.md`（played） |
-| 12 | **MCP（`terrio mcp`）は main の機能**で、配布版にない。書き込みは一時的な場所に限る | `terrio-mcp-server`（played、main） |
+| 12 | **MCP（`terrio mcp`）は 0.4.0 から配布版にある**（0.5.0 で 29 ツール、呼び出しも成功）。書き込みは一時的な場所に限る | `terrio-mcp-server`（played、main） |
 
 ## dwg7 が立てるとよい「ケースに則した問い」
 
@@ -80,6 +80,7 @@ kcai の `docs/human-role.md` に従い、この踏み跡の助言は、**dwg7 �
 - 2026-10-23: **terrio 0.4.0〜0.4.2 が 2026-10-22 に出ていた**（PyPI・crates.io で確認）。この遊びの踏み跡は 0.3.2 で確かめたもので、新版での確かめ直しは**未了**（定期実行または次の作業で行う）。助言の表は 0.3.2 の事実で、0.4.x では変わりうる。ソースの規模と起源を分析した（`terrio-source-scale-and-origins`）。
 - 2026-10-24（2）: hfu の見立て「日本語エンコーディング・国際化・各国の座標系パラメーターは貢献の機会」を、進化の方向の踏み跡に記録した。発信は hfu が個人として行う（AI は下書きまで）。
 - 2026-10-24（3）: 7 本を追加で 0.4.2 に確かめ直した（処理系コマンドは GDAL と画素一致、terrio-js 0.4.2 は 0.3.2 と同じ結果、ノートブック全成功、STACIT 同じ、MCP は 15 ツール）。`stale` は 28 本。助言 1・2・3・11 は 0.4.2 でも成り立つ。公開ページを terrio-js 0.4.2 に上げた。
+- 2026-10-24（4）: **0.5.0 が出ていた**（10-24 04:05 UTC）。残りの `stale` をすべて確かめ直した（`stale` は 0 本）。**幾何の検査・修復が terrio でできるようになった**（助言 7）。`scripts/recheck_known_issues.sh` を追加（既知の穴を新版で確かめる）。日本語の相対パス（Zarr）・CP932・南極点・`--dstalpha` は 0.5.0 でも残る。ドキュメントの Rust の例（`version = "0.3"`）が解決しないことを確認した（下書き 1 件追加）。
 
 ## 出典
 

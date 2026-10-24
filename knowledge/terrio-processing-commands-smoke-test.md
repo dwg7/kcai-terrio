@@ -2,7 +2,7 @@
 id: terrio-processing-commands-smoke-test
 title: 処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG）
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
@@ -62,6 +62,10 @@ terrio convert in.tif out.tif -f COG --compress DEFLATE --tile-size 256
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** で、GDAL 3.8.4（apt）と比べた。`dem` の hillshade・slope・aspect・TRI・TPI・roughness、`--multidirectional`、`--compute-edges`（DSM 140×140）、`translate` の `--srcwin`・`--outsize -r bilinear`・`--ot Byte --scale`、`warp`（EPSG:32654 → 6677、10 m。near・bilinear・cubic・average）、`calc`（NDVI、`A*60`）、`proximity`、`sieve`、`mosaic`（`gdal_merge.py`）は、**すべて画素が完全一致**（差 0）。`warp` の地理変換は GDAL と 2e-9 m 以内。played。`polygonize`・`rasterize`・`grid` と、他のコマンドの細かい引数は 0.4.2 では**確かめ直していない**。注意: GDAL 側の出力の一部（`gdal_calc.py`、`gdal_merge.py`）は、この回は生成に失敗し、先の回に作った出力と比べた。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 の wheel で、0.4.2 と同じ比較（`scripts` 外の比較スクリプト）を再実行: `dem` 6 種ほか、`translate`、`warp`、`calc`、`proximity`、`sieve`、`mosaic` の 20 項目が GDAL 3.8.4 と**すべて画素一致**。`rasterize`（2 種）、COG の画素、`mosaic` の VRT も一致。played。
 
 ## 出典
 

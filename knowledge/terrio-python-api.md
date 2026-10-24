@@ -2,7 +2,7 @@
 id: terrio-python-api
 title: Python API（terrio）：ドキュメントの例 30 件を動かした結果
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
@@ -53,6 +53,10 @@ terrio.transform_points([139.767125], [35.681236], "EPSG:6668", "EPSG:6677")
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** の wheel で、公式ノートブック `quickstart.ipynb` のコードセル 13 個（`%pip` を除く）を順に実行して**すべて成功**（版、遠隔 COG の窓・概観、hillshade / slope、warp、NDVI、国界、GeoPackage への変換、FlatGeobuf・GeoParquet・Shapefile・KML の書き出し、rasterize、点の変換）。played。以前の「15 セル」は数え間違いで、実行されたコードセルは 13 個。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 の wheel で、公式 `quickstart.ipynb` のコードセル 13 個が**すべて成功**。played。`terrio.rio` モジュールと `terrio-rio` コマンド（rasterio の rio を terrio で動かす）が入っている。
 
 ## 出典
 

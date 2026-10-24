@@ -1,16 +1,16 @@
 ---
 id: terrio-rio-rasterio-compatible-api
 title: rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 sources:
   - plays/2026-10-21-untested-items.md（3）
@@ -89,6 +89,10 @@ with rasterio.open("out.tif", "w", driver="GTiff", width=300, height=200, count=
 - `rasterio.open(...)` に GDAL 固有の `--config` 相当（`GDAL_DISABLE_READDIR_ON_OPEN` など）を渡しても、効いているかは分からない（`Env` は受け付けるだけかもしれない）。
 - 日本語のパスで panic する（`japanese-path-panic-in-zarr-parse-name`）。`terrio.rio.open('日本地図.tif')` も同じ入口を通るはず（**未確認**）。
 - GeoPandas / pyproj / rio-tiler など、rasterio の周りのライブラリは別。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 の wheel に `terrio.rio`（rasterio 互換のモジュール）と **`terrio-rio` コマンド**（`terrio-rio info B04.tif` が JSON を返す、played）。ドキュメントの `rasterio.md` は +91 行（RPC 変換、`.msk` の読み書き、rio の CLI）。公式ノートブック 2 本は rio アクセサ互換を含めて成功（played）。
 
 ## 出典
 

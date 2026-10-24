@@ -2,7 +2,7 @@
 id: terrio-mcp-server
 title: terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.5.0
 terrio_commit: cf6bd5dbcb6021f99ffde6c7f2c0f4f3f311ed2b
 interface: mcp
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
@@ -59,6 +59,10 @@ JSON-RPC の例（`initialize` → `notifications/initialized` → `tools/list` 
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2**（配布版）で `terrio mcp` を起動し、標準入出力で `initialize` と `tools/list` を送った。サーバー名 `terrio`、版 `0.4.2`、**ツール 15 個**（info convert formats crs rasterize polygonize translate warp mosaic dem calc proximity sieve grid filter）。`mcp` は 0.4.0 から配布版に入った。ツールの呼び出し（書き込みを含む）は今回は確かめ直していない。played（接続と一覧のみ）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+0.5.0 の wheel で `terrio mcp` を起動: サーバー `terrio` 0.5.0、**ツール 29 個**（0.4.2 は 15 個。`centroid singlepart vertices footprint sample contour zonal-stats sql buffer overlay dissolve is-valid make-valid clean` が加わった）。各ツールは `args`（コマンドラインの引数の配列）を取る。`info`（B04.tif）と `is-valid`（GeoJSON → GeoJSON）の**呼び出しが成功**した。played。
 
 ## 出典
 

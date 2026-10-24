@@ -1,16 +1,16 @@
 ---
 id: terrio-roadmap-and-open-items
 title: terrio のロードマップ：完了とされたこと、未完了の 21 項目、設計の決定
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、Chromium 1194）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -55,6 +55,10 @@ freshness: high
 - ロードマップは**意図の宣言**。完了印があっても、配布版にあるとは限らない（`terrio-release-vs-main-drift`）。
 - 日本の格子・日本語の入力に関する項目はない。上流への提案にするなら、hfu が判断して投稿する（`drafts/upstream/`）。
 - 最終更新のコミットは 2026-10-20（`fb53ff6`）。版が上がったら、完了・未完了の移動を確かめる。
+
+## 0.5.0 での再確認（2026-10-24）
+
+ROADMAP の 0.3.2 → 0.5.0 の差分: **完了**になった項目: 幾何の検査・修復・バッファ・オーバーレイ・ディゾルブ・クリーン（#211、#227）、等高線、ゾーン統計、独立した SQL、重心・分割・頂点・外形・サンプリング、PDAL の追加フィルタと EPT の追記、Zarr の遠隔グループと 4 次元以上、STAC の POST・ページ送り・Planetary Computer、STACTA、MCP サーバー、PROJ の鎖と垂直 CRS とエポック、GRIB。**方針の決定**: GDAL を同梱した wheel は作らない（`terrio-gdal` の計画を取り下げ。#221）。**未完**: PDAL の長い尾のフィルタ（`optimalneighborhood`、`neighborclassifier` ほか）など。**日本語エンコーディング・タイル生成は載っていない**。read-docs。
 
 ## 出典
 

@@ -1,16 +1,16 @@
 ---
 id: terrio-ai-disclosure-and-acknowledgements
 title: terrio の AI 開示と謝辞：誰の仕事の上にあるか
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -44,6 +44,10 @@ terrio は、**「Claude Opus 5.5（Anthropic の AI モデル）を主に使い
 - 「AI が主に作った」という開示は、**品質の保証でも否定でもない**。実測では、日本語の入力で同じ型の panic が 3 か所あり（`terrio-source-quirks`）、一方で報告から数十分で直った（`upstream-issue-feedback-loop`）。
 - この開示は**公開サイトと main のもの**。**使っている配布版（0.3.2）の README には含まれない**。
 - このリポジトリ（kcai-terrio）の AI 開示は、踏み跡の `authors` に書いている（AI 支援あり）。
+
+## 0.5.0 での再確認（2026-10-24）
+
+`docs/acknowledgements.md`（103 行）が追加された。README の免責と同じ文面（Claude Opus 5.5、人の指示とレビュー）に加え、**Whitebox（John Lindsay の `wbraster` / `wbvector` / `wbprojection`）の上に始まった**こと、GDAL・PROJ・PDAL を基準にしていること、依存先への謝辞が書かれている。これは `terrio-source-scale-and-origins` で crates.io から読んだ起源と整合する。read-docs。
 
 ## 出典
 

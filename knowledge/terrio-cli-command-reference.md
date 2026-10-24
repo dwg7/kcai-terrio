@@ -1,16 +1,16 @@
 ---
 id: terrio-cli-command-reference
 title: コマンドごとの主なオプションと決まり（cli.md の要約と、確かめた点）
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -54,6 +54,10 @@ related: [terrio-cli-overview, terrio-processing-commands-smoke-test, terrio-for
 - **型の既定**: `calc` は、入力の型で出力を決めるので、割り算や引き算は `astype` と `--type` を付ける。`translate` / `convert` の `--ot` の違い（`convert` にはない）。
 - **GDAL とオプション名が違う所**: `grid` の `--tr`、`--stat`（PDAL 流）、`--dst-transform`（`warp` の独自拡張）など。
 - 出力のリモート書き込みはできない。
+
+## 0.5.0 での再確認（2026-10-24）
+
+v0.5.0 のサブコマンドは 29: `info convert formats crs rasterize polygonize centroid singlepart vertices footprint sample contour zonal-stats sql buffer overlay dissolve is-valid make-valid clean translate warp mosaic dem calc proximity sieve grid filter mcp`。0.3.2 から加わったのは、`mcp`（0.4.0）と、幾何・解析の 14 コマンド（0.5.0）。`warp` に `--dst-transform X0 A B Y0 D E`（`--ts` と併用、回転した出力格子も可）が加わった。`filter` はすべて `--a-srs` を取る。`terrio --help` と `mcp` のツール一覧で確認（played）、引数の詳細は read-docs。
 
 ## 出典
 

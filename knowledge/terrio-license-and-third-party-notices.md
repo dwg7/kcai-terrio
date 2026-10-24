@@ -1,16 +1,16 @@
 ---
 id: terrio-license-and-third-party-notices
 title: terrio のライセンス：MIT、同梱される依存と第三者の告知、0.3.2 の配布物に LICENSE がない件
-status: stale
-terrio_version: 0.3.2
+status: draft
+terrio_version: 0.5.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
-verified_on: 2026-10-21
+updated: 2026-10-24
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -90,6 +90,10 @@ python3 -c "import json;d=json.load(open('…/dist-info/sboms/terrio-py.cycloned
 - `LICENSE-THIRD-PARTY.md`（main）の中身は、集計していない（SBOM の集計だけ）。
 - **このリポジトリ（kcai-terrio）は CC0 で、terrio のコードやデータを複製していない**。ドキュメントは要約して出典を示す（短い引用にとどめる）。ドキュメント単独のライセンス表示は、見つからなかった（リポジトリ全体が MIT の下）。
 - 新しい版が出たら、LICENSE の同梱、SBOM の中身（特にコピーレフト）を確かめ直す。
+
+## 0.5.0 での再確認（2026-10-24）
+
+**0.5.0 で配布物にライセンスが入った**（0.3.2 では wheel・sdist・crate に `LICENSE` が無かった）。確認（played）: wheel の `dist-info/licenses/` に `LICENSE`・`LICENSE-THIRD-PARTY.md`・`NOTICE`、sdist のルートと `crates/*`・`python/` に `LICENSE`（`NOTICE`・`LICENSE-THIRD-PARTY.md` も）、crate に `LICENSE`・`NOTICE`。リポジトリのルートに `LICENSE-THIRD-PARTY.md`（約 1 万行）と `NOTICE`。#164、#167、#172 による。
 
 ## 出典
 
