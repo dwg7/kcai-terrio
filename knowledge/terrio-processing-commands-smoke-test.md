@@ -1,7 +1,7 @@
 ---
 id: terrio-processing-commands-smoke-test
 title: 処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG）
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli

@@ -8,6 +8,8 @@ Hello, and thank you for terrio. terrio-js is impressive: with `openUrl`, it rea
 
 terrio 0.3.2 (PyPI wheel), terrio-js 0.3.2, and main at `6779102` (2026-10-21, built from source).
 
+**Rechecked 2026-10-24:** terrio 0.4.2 (PyPI wheel): the CLI still downloads the whole FlatGeobuf (`UScounties.fgb`, 14,100,008 bytes) for a bbox query; I did not re-run the 5 GB GeoParquet.
+
 ## What I measured
 
 | input | CLI / Python | terrio-js `openUrl` |

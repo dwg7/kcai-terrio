@@ -1,7 +1,7 @@
 ---
 id: terrio-rio-rasterio-compatible-api
 title: rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python

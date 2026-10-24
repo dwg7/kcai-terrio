@@ -1,7 +1,7 @@
 ---
 id: terrio-architecture-and-pure-rust-claim
 title: terrio の構成と「純 Rust」の中身（ドキュメントと SBOM を突き合わせる）
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: rust

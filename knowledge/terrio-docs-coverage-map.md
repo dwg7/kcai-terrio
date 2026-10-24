@@ -1,7 +1,7 @@
 ---
 id: terrio-docs-coverage-map
 title: terrio ドキュメント全 25 ページの対応表：どの踏み跡に消化したか、公開サイトとの一致、記述の食い違い
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli

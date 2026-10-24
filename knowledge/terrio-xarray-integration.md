@@ -1,7 +1,7 @@
 ---
 id: terrio-xarray-integration
 title: xarray 連携（terrio.xarray）：リモート COG を遅延で開き、窓だけ取って再投影する
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python

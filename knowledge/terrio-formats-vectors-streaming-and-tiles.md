@@ -1,7 +1,7 @@
 ---
 id: terrio-formats-vectors-streaming-and-tiles
 title: 対応形式（ベクタ・タイル・Arrow）：ストリーム変換、GeoParquet 1.1、タイルの書き出し、南極で落ちる例
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli

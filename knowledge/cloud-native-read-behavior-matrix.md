@@ -8,7 +8,7 @@ environment: Claude Code クラウドセッション（Linux x86_64、Python 3.1
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
 verified_on: 2026-10-21
 verified_how: played
@@ -93,6 +93,10 @@ finding:
 - **GeoParquet の `info` でも全量を取る**。巨大な Parquet のリモートに `info` を打たない（ディスクとメモリの割り当てに注意）。**中断すると、一時ファイル（`/tmp/terrio-XXXX/`）が残る**（5 GB のファイルで 8 秒後に 221 MB が残った）。
 - **配信側が Range を無視すると、全体を読み続ける**。terrio は 200 を受けても止めない。必ず `timeout` を付ける。
 - 表は 2026-10-21 の 1 回の測定。配信側（キャッシュの有無）でも変わる。版が上がったら、また測る。
+
+## 0.4.2 での再確認（2026-10-24）
+
+0.4.2 の wheel で再確認できた行だけ: **COG の窓・概観は範囲読み込み**（B04: 6.19 / 2.56 MiB）。**PMTiles（`depot.optgeo.org/ksj_n03_hkd.pmtiles`）は範囲読み込み**（`info` が 12 要求・1.48 MiB、3,625 地物）。**FlatGeobuf（`flatgeobuf.org/test/data/UScounties.fgb`）は CLI で全量取得のまま**（`(whole file)` 14,100,008 バイト、`--spat` で 3 地物）。ドキュメントの `remote-data.md` も「その他の形式は一時ファイルに取得」のまま。**他の行（GeoParquet、COPC、JP2、Zarr、STAC、JS 版）は 0.4.2 では確かめ直していない**（表は 0.3.2 の値）。main は Zarr の遠隔グループの一覧（#199）、CDN の格子の範囲読み込み（#202）、STAC の POST と Planetary Computer（#197）を足している。
 
 ## 出典
 

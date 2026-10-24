@@ -1,7 +1,7 @@
 ---
 id: terrio-mcp-server
 title: terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: cf6bd5dbcb6021f99ffde6c7f2c0f4f3f311ed2b
 interface: mcp

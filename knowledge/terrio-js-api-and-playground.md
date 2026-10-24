@@ -1,7 +1,7 @@
 ---
 id: terrio-js-api-and-playground
 title: terrio-js の API と、公式プレイグラウンド：Node とブラウザで動かして確かめた
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: wasm

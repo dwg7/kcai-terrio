@@ -1,7 +1,7 @@
 ---
 id: why-terrio-comparison-with-alternatives
 title: terrio と他の選択肢（GDAL、gdal クレート、GeoRust、GeoArrow、whitebox、OxiGeo）：どれを選ぶか
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust

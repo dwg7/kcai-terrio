@@ -1,7 +1,7 @@
 ---
 id: terrio-stac-and-stacit
 title: STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli

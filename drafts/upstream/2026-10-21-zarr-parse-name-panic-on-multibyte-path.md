@@ -7,6 +7,8 @@ Hello, and thank you for terrio. While trying it with Japanese file names I foun
 ## Version
 
 - terrio 0.3.2 (`pip install terrio`, Linux x86_64, Python 3.13)
+
+**Rechecked 2026-10-24:** terrio 0.4.2 (PyPI wheel): `terrio info 日本語/a.zarr` and `./日本語/a.zarr` still panic at `zarr.rs:1310` (line 1437 on main 17ca35a); absolute paths work.
 - Source checked at tag `v0.3.2` (`a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6`). Re-checked on main at `6779102281ad2835cbc23fba3138e01a138bc6f9` (2026-10-21, after #161): still panics.
 
 ## What happens

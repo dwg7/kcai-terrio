@@ -2,15 +2,15 @@
 id: cog-remote-window-overview-and-warp
 title: リモート COG の窓読み・overview・縮小の使い分け
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-18
 sources:
@@ -55,6 +55,10 @@ terrio warp $U out.tif --t-srs EPSG:6677 --te -10000 -40000 0 -30000 --te-srs EP
 - 窓読みの転送量はタイル数で決まる。窓を小さくしても減らないことがある。タイル境界に合わせると減る（未確認）。
 - この COG は 2026-10-18 の撮影。Sentinel-2 のアイテムは新しいものが出続けるので、同じ URL を後で使うなら STAC で探し直す。
 - `convert --help` には「overview N (0 is the largest)」とあり、実測と合う。一方 `docs/cli.md` と `docs/remote-data.md` は番号の意味を書いていない。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で、同じ B04 の COG: `convert --srcwin 5000 5000 512 512` は **6.19 MiB**（3 要求）、`--overview 2` は **2.56 MiB**（3 要求）。0.3.2（約 6.4 / 2.6 MiB）と同等。played。0.4.0 の「COG の概観の再サンプリング・アルファ重み・nodata 平均の修正」（#165）と速度向上（#168）は、この計測の対象外。
 
 ## 出典
 

@@ -14,9 +14,9 @@ REPO = "opengeos/terrio"
 D = Path(__file__).resolve().parent.parent / "drafts" / "upstream"
 # ファイル名 -> (状態, 補足)。状態: posted / obsolete / ready
 STATUS = {
-    "2026-10-21-geojson-panic-on-multibyte-strings.md": ("posted", "hfu が #159 として投稿。作者が #161（baf4768）で修正。配布版は未リリース"),
+    "2026-10-21-geojson-panic-on-multibyte-strings.md": ("posted", "hfu が #159 として投稿。作者が #161（baf4768）で修正。0.4.0 の配布版に入った（0.4.2 で確認）"),
     "2026-10-21-comment-on-159-csv-same-code.md": ("obsolete", "CSV も #161 で直ったので不要"),
-    "2026-10-21-zarr-parse-name-panic-on-multibyte-path.md": ("ready", "日本語の相対パスで panic。最新 main（6779102）でも再現。**#159 と同じ型で、最優先**"),
+    "2026-10-21-zarr-parse-name-panic-on-multibyte-path.md": ("ready", "日本語の相対パスで panic。最新 main（6779102）と 0.4.2 でも再現。**#159 と同じ型で、最優先**"),
     "2026-10-21-shapefile-cp932-not-decoded.md": ("ready", "CP932 の Shapefile が黙って文字化け。最新 main でも同じ。GDAL 3.8.4 と 3.13.3 は正しく読む（確認済み）"),
     "2026-10-21-jgd2011-geoid-heights-unchanged.md": ("obsolete", "取り下げ。2 次元の EPSG:6668 を使った誤り。3 次元の 6667 なら適用される（GDAL とも一致）"),
     "2026-10-21-web-mercator-fails-at-south-pole.md": ("ready", "緯度 -90 の点（南極）を EPSG:3857 に変換すると失敗。GDAL は成功。入門の例と PMTiles 既定の書き出しに影響。GDAL 3.8.4 と 3.13.3 で確認済み"),

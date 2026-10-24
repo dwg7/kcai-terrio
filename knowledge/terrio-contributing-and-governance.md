@@ -1,7 +1,7 @@
 ---
 id: terrio-contributing-and-governance
 title: terrio への貢献の作法と、プロジェクトの運営の様子
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust

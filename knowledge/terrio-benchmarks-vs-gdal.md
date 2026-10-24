@@ -1,7 +1,7 @@
 ---
 id: terrio-benchmarks-vs-gdal
 title: GDAL との速度とメモリの比較（作者の計測）と、読むときの注意
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli

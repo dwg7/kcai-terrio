@@ -2,15 +2,15 @@
 id: geojson-japanese-string-panic
 title: 日本語の長い文字列を含む GeoJSON と CSV で terrio が panic する（0.3.2）
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 sources:
   - plays/2026-10-21-first-contact.md（3.5、4）
@@ -53,6 +53,10 @@ terrio info t.geojson     # panic
 - 回避策: 当面は、日本語の長い文字列を含む GeoJSON を terrio で読まない。GeoPackage、FlatGeobuf、GeoParquet、PMTiles など別の形式を使う（**他の形式で同じ種類の問題が起きないかは未確認**）。
 - 同じ型のバグ（バイト位置での文字列の切り出し）は、`zarr.rs`（パス名）と `csv.rs`（CSV）でも確認した（`japanese-path-panic-in-zarr-parse-name`、`terrio-source-quirks`）。
 - 新しい版で直ったら、この踏み跡は `stale` から再確認する。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2**（PyPI の wheel）で、日本語の長い文字列（`東京都千代田区`）を含む GeoJSON と CSV を、Shapefile・FlatGeobuf・GeoPackage・PMTiles・GeoParquet・CSV に変換できた。**panic は出ない**（#159 は #161 で修正され、0.4.0 の配布版に入った）。Shapefile の属性は GDAL（`ogrinfo`）で正しい日本語で読めた（`.cpg`=UTF-8）。played。
 
 ## 出典
 

@@ -1,8 +1,8 @@
 ---
 id: advice-for-dwg7
 title: dwg7 に対する助言（作業が進むごとに更新する生きた踏み跡）
-status: draft
-terrio_version: 0.3.2
+status: stale
+terrio_version: 0.4.2
 terrio_commit: 6779102
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64）。terrio 配布版 0.3.2 と main 6779102。比較に GDAL 3.8.4 / PROJ 9.4
@@ -17,8 +17,8 @@ sources:
 authors:
   - AI（Claude）が書いた助言。hfu / dwg7 の指示のもと。AI 支援あり。助言は、証拠となる踏み跡への参照つきで、判断は dwg7 が行う
 reviewed_by: []
-updated: 2026-10-21
-related: [terrio-source-scale-and-origins, terrio-rust-library-and-features, terrio-xarray-integration, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
+updated: 2026-10-24
+related: [terrio-evolution-0-3-2-to-0-4-2, terrio-source-scale-and-origins, terrio-rust-library-and-features, terrio-xarray-integration, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
 freshness: high
 ---
 
@@ -36,7 +36,7 @@ freshness: high
 | 2 | **COG / PMTiles の範囲読みは CLI でも有効**。大きな COG の窓切り出し・概観は丸ごとダウンロード不要。ただし downsample 系（translate / warp）は原寸を読む。`--overview N` で概観を使う | `cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`（played） |
 | 3 | **GDAL を捨てない**。画素・座標は約 30 項目で GDAL 3.8.4 と一致したが、差もある（南極点の EPSG:3857 変換の失敗、COG `TILING_SCHEME` の黙殺、`--dstalpha` なし、CP932）。COPC・`filter range`・STACIT は PDAL 2.10.2 / GDAL 3.13.3 と一致した。GDAL の版で挙動が変わる例もある（`-ot Int16` の nodata）ので、比べるなら新しい GDAL でも。新しい工程に入れるときは、小さな入力で GDAL と並べる | `terrio-vs-gdal-spot-checks`（played、GDAL 3.8.4 は terrio の基準より古い） |
 | 4 | **Shift_JIS（CP932）の Shapefile は、いまは terrio に任せない**。属性が黙って文字化けする。UTF-8 に変換してから使うか、GDAL で読む | `shapefile-cp932-attributes-not-decoded`（played） |
-| 5 | **日本語の入力に注意**。0.3.2 の GeoJSON / CSV の日本語長文字列 panic は main で修正済み（#159 → #161、未リリース）。**Zarr の日本語の相対パス**の panic は main にも残る。配布版を使うなら、これを避ける | `geojson-japanese-string-panic`、`japanese-path-panic-in-zarr-parse-name`（played） |
+| 5 | **日本語の入力に注意**。GeoJSON / CSV の日本語長文字列 panic は **0.4.0 以降で修正済み**（#159 → #161）。0.3.2 を使うなら避ける。**Zarr の日本語の相対パス**の panic は 0.4.2・main とも残る（絶対パスで避ける） | `geojson-japanese-string-panic`、`japanese-path-panic-in-zarr-parse-name`（played） |
 | 6 | **日本の座標変換は使える**。JGD2011 ↔ 平面直角（6669〜6687）は GDAL と小数 9 桁以上で一致。ジオイドは **3 次元の `EPSG:6667` → `6697`** で適用される（2 次元の 6668 では高さ不変。GDAL も同じ） | `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`（played） |
 | 7 | **タイル生成（tippecanoe）、SQL による幾何の検査・修復、配信は置き換えない**。terrio の範囲外（PMTiles の書き出しは可能だが、tippecanoe の代わりではない）。world 全体を EPSG:3857 に変換する工程は、南極の問題に注意 | `terrio-scope-included-and-excluded`、`hfu-dwg7-workflow-substitution-survey` |
 | 8 | **版を固定して使う**。配布版（0.3.2）と main は差があり、ドキュメントも main に追随する。pip / npm の版を決め、踏み跡は版つきで読む。新しい版が出たら `stale` の確かめ直し | `terrio-release-vs-main-drift`、`terrio-install-platforms-and-release-history` |
@@ -76,6 +76,7 @@ kcai の `docs/human-role.md` に従い、この踏み跡の助言は、**dwg7 �
 - 2026-10-21 深夜（2）: Zarr・JP2・COG が GDAL と画素一致、日本語属性は main の書き出しを GDAL が正しく読むことを確認（助言 3 と 5 の裏づけ）。
 - 2026-10-21 深夜（3）: PMTiles を GDAL が読めることを確認（幾何は有効）。タイル生成の代替の可否（助言 7）は、PMTiles の書き出しが使える水準という補強。tippecanoe 相当の機能（属性の間引き、ズーム別の単純化の制御）は未確認のまま。
 - 2026-10-22: GDAL 3.13.3 / PDAL 2.10.2（conda-forge）で突き合わせ。COPC・`filter range`・STACIT は一致（助言 3 を補強）。`-ot Int16` の下書きは、新しい GDAL が terrio と同じなので取り下げ（GDAL の版依存）。scripts を kcai の新版に差し替え、`SOURCES.md` を追加した。
+- 2026-10-24: **0.4.2 で確かめ直した**（`plays/2026-10-24-0-4-2-recheck.md`）。**#159 の修正が配布版（0.4.0）に入った**ので、助言 5 は「日本語の GeoJSON / CSV は 0.4.x で通る」に変わる（Zarr の日本語の**相対パス**の panic は 0.4.2・main とも残る）。CP932・南極点・`TILING_SCHEME`・`--dstalpha`・FlatGeobuf の全量取得も残る。`terrio mcp` と feature 分けは配布版に入った（助言 10 は 0.4.x では「絞れる」）。方向の読みは `terrio-evolution-0-3-2-to-0-4-2`。確かめ直せていない 34 本は `stale`。
 - 2026-10-23: **terrio 0.4.0〜0.4.2 が 2026-10-22 に出ていた**（PyPI・crates.io で確認）。この遊びの踏み跡は 0.3.2 で確かめたもので、新版での確かめ直しは**未了**（定期実行または次の作業で行う）。助言の表は 0.3.2 の事実で、0.4.x では変わりうる。ソースの規模と起源を分析した（`terrio-source-scale-and-origins`）。
 
 ## 出典

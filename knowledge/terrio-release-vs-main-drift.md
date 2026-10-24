@@ -8,7 +8,7 @@ environment: Claude Code クラウドセッション（Linux x86_64、Python 3.1
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
 verified_on: 2026-10-21
 verified_how: played
@@ -53,6 +53,12 @@ terrio --help | grep -c mcp                               # 機能の有無は�
 - `pip install` した版で、ドキュメントの例が動くとは限らない。動かないときは、タグのドキュメントと照らす。
 - 最新のソースから `cargo install` / `maturin` で入れる手もあるが、このセッションでは未試験（Rust の環境の有無も未確認）。
 - 「最新に追随する」方針は、PyPI の最新版に追随することを指す（`DECISIONS.md`）。main に追随するかは別の判断。
+
+## 0.4.x で変わったこと（2026-10-24）
+
+- **配布版が 0.3.2 → 0.4.2 に進んだ**（0.4.0・0.4.1・0.4.2 はすべて 2026-10-22 までに公開）。以前「main にだけあった」ものが、配布版に入った: `terrio mcp`（#110）、Cargo の feature 分け（#154）、ESRI コードの扱い（#151）、**GeoJSON / CSV の日本語長文字列の panic の修正（#161）**、ライセンスファイルの同梱（#164、#172）。
+- 一方、main はさらに先行している（0.4.2 から 28 コミット）: 等高線・ゾーン統計・独立した SQL・幾何演算（#228、#230）、`terrio.rio` の CLI（#204）、WebAssembly の 4 GB 超とスレッド（#224、#229）、STACTA（#218）、CDN の格子の範囲読み込み（#202）。
+- 傾向は `terrio-evolution-0-3-2-to-0-4-2` に書いた。
 
 ## 出典
 

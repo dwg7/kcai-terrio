@@ -1,7 +1,7 @@
 ---
 id: terrio-conformance-and-testing-against-gdal
 title: GDAL との突き合わせ試験と適合性レポート：何を、いつ、どの版で比べたか
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust

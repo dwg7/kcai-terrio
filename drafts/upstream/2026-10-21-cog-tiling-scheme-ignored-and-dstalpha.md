@@ -8,6 +8,8 @@ Hello, and thank you for terrio. I am replacing a GDAL pipeline that makes web-m
 
 terrio 0.3.2 (PyPI wheel, Linux x86_64) and main at `6779102` (2026-10-21, built from source). Both behave the same.
 
+**Rechecked 2026-10-24:** terrio 0.4.2 (PyPI wheel): `TILING_SCHEME` is still ignored (12.32 m) and `warp` still has no `--dstalpha`.
+
 ## 1. `TILING_SCHEME` is ignored without a message
 
 ```sh

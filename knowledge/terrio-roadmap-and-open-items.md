@@ -1,7 +1,7 @@
 ---
 id: terrio-roadmap-and-open-items
 title: terrio のロードマップ：完了とされたこと、未完了の 21 項目、設計の決定
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli

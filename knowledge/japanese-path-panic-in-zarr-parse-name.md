@@ -2,11 +2,11 @@
 id: japanese-path-panic-in-zarr-parse-name
 title: 日本語から始まる相対パスで terrio が panic する（Zarr 名の判定）
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 sources:
   - plays/2026-10-21-first-contact.md
@@ -15,7 +15,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 related: [upstream-issue-feedback-loop, geojson-japanese-string-panic, terrio-source-quirks]
 hazard: multibyte-path-slicing-panic
 finding:
@@ -56,6 +56,10 @@ terrio info "$PWD/日本地図.tif"   # 通る
 - **回避策**: 絶対パスで渡す（`"$PWD/日本地図.tif"`）、ファイル名を ASCII にする、先頭に ASCII を足して 5 バイト目を文字の境界にする（`ab地図.tif` は通る）。
 - Python では `except Exception` が効かない。`BaseException` まで捕まえるか、パスを事前に ASCII 化する。
 - 下書き（`drafts/upstream/`）は hfu が確認して投稿する。新しい版で直ったら、この踏み跡を再確認して `stale` を外す。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** の wheel でも、**再現する**。`terrio info 日本語/a.zarr` と `terrio info ./日本語/a.zarr`（日本語で始まる相対パス）は panic（`zarr.rs:1310`、`end byte index 5 is not a char boundary; it is inside '本'`）。絶対パス（`/tmp/…/日本語/a.zarr`）は通り、日本語の相対パスへの**書き出し**（`convert`）は通る。main（17ca35a、2026-10-23）のソースにも `t[..5]` が残る（行は 1437）。played / read-source。下書きは有効のまま。
 
 ## 出典
 

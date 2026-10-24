@@ -2,15 +2,15 @@
 id: jgd2011-plane-rectangular-transform
 title: JGD2011 と平面直角座標系（EPSG:6669〜6687）の変換と、測地系のずれ
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -50,6 +50,10 @@ terrio warp URL out.tif --t-srs EPSG:6677 --te -10000 -40000 0 -30000 --te-srs E
 - 4301（旧日本測地系）→6668 の変換が、何の方法（パラメータ変換か）かは未確認。
 - 座標の順序と、測量の X/Y の流儀の違いに注意する。
 - 6669〜6687 のうち、実際に変換したのは 6677（第IX系）だけ。他の系は名前の確認のみ。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で `EPSG:6668 → EPSG:6677`（139.767125, 35.681236）が `-5992.919570392903 -35363.23774493004`。0.3.2 と同じ値（GDAL とも小数 9 桁以上で一致、先の確認）。played。
 
 ## 出典
 

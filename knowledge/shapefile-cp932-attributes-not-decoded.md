@@ -2,15 +2,15 @@
 id: shapefile-cp932-attributes-not-decoded
 title: CP932（Shift_JIS）の Shapefile 属性が、黙って文字化けする
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 sources:
   - plays/2026-10-21-japan-edge-cases-and-survey.md（2）
@@ -50,6 +50,10 @@ terrio convert sj.shp out.geojson        # name が文字化け
 - 回避策: terrio に渡す前に、別の道具（Python の `dbf` 読み取りなど）で UTF-8 に直す。または GDAL の `ogr2ogr` を使う。
 - UTF-8 の Shapefile（`.cpg` が UTF-8）は問題なく、日本語も通る（`convert` の往復で確認済みの範囲）。
 - フィールド名（DBF のヘッダー）も同じ関数でデコードされるので、日本語のフィールド名は影響を受けるはず（**未確認**）。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** でも同じ。ogr2ogr で `ENCODING=CP932` の Shapefile を作ると、terrio は `札幌市` を `\x8eD\x96y\x8es`（Latin-1 としての読み）にする。`.cpg` を `CP932` にしても変わらない。played。下書きは有効のまま。
 
 ## 出典
 

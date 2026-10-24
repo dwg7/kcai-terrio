@@ -2,11 +2,11 @@
 id: vertical-datum-grids-and-geoid-in-japan
 title: 格子とジオイド：日本の高さの変換は「3 次元の CRS」から（GDAL と突き合わせて訂正した）
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、GDAL 3.8.4 / PROJ 9.4 を apt で導入）
-verified_on: 2026-10-21
+verified_on: 2026-10-24
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -17,7 +17,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 related: [jgd2011-plane-rectangular-transform, terrio-crs-forms-projections-grids-and-epochs, terrio-vs-gdal-spot-checks, terrio-conformance-and-testing-against-gdal, hfu-dwg7-workflow-substitution-survey]
 hazard: 2d-crs-drops-height-semantics
 freshness: high
@@ -68,6 +68,10 @@ JS では `registerGrid('jp_gsi_gsigeo2011.tif', バイト)` で格子を渡し�
 - **どのジオイドモデルが使われるか**は、版による: terrio（新しい EPSG）は JPGEO2024、GDAL 3.8.4 は GSIGEO2011。成果物に使うなら、モデルを明示する（`registerGrid` や `TERRIO_GRID_DIR` に使う格子だけを置く）。
 - 測量成果には使わない（GDAL との比較は、GDAL 3.8.4 の少数の点だけ）。
 - **この踏み跡の以前の版は、誤った結論を書いていた**（「日本のジオイドは適用されない」）。下書き（`drafts/upstream/2026-10-21-jgd2011-geoid-heights-unchanged.md`）は、投稿前に GDAL で確かめて、**取り下げた**。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio **0.4.2** で、3 次元 `EPSG:6667 → 6697`（高さ 50）は 13.2386（JPGEO2024 を適用）、2 次元 `EPSG:6668 → 6697`（高さ 86.7）は 86.7（不変）。0.3.2 と同じ。played。なお main には「垂直 CRS 間の変換を PROJ の選び方で」（#203）、「PROJ の鎖」（#222）が入っており、配布版の次の版で挙動が変わりうる。
 
 ## 出典
 

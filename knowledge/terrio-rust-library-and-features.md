@@ -1,7 +1,7 @@
 ---
 id: terrio-rust-library-and-features
 title: Rust ライブラリ：入口、Cargo の feature、API の安定性方針（配布版との差に注意）
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust

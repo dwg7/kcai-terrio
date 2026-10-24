@@ -1,7 +1,7 @@
 ---
 id: terrio-overview-and-getting-started
 title: terrio の概観と入門の手順（トップページ、Getting Started、Notebooks を実際に動かす）
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli

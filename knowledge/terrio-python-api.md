@@ -1,7 +1,7 @@
 ---
 id: terrio-python-api
 title: Python API（terrio）：ドキュメントの例 30 件を動かした結果
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python

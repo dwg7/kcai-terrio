@@ -1,7 +1,7 @@
 ---
 id: upstream-issue-feedback-loop
 title: 上流への報告から修正までの流れ：opengeos/terrio#159 の体験（AI が下書き、hfu が投稿、作者が当日修正）
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: baf4768
 interface: cli

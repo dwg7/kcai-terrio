@@ -1,7 +1,7 @@
 ---
 id: terrio-scope-included-and-excluded
 title: terrio が含む機能と含まない機能
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）

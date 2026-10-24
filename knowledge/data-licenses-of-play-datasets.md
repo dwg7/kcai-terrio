@@ -1,7 +1,7 @@
 ---
 id: data-licenses-of-play-datasets
 title: 遊びで使ったデータのライセンス表記（配信元が書いていること）
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli

@@ -15,7 +15,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-21
+updated: 2026-10-24
 related: [terrio-conformance-and-testing-against-gdal, vertical-datum-grids-and-geoid-in-japan, terrio-formats-vectors-streaming-and-tiles, shapefile-cp932-attributes-not-decoded, terrio-processing-commands-smoke-test, terrio-source-quirks]
 freshness: high
 finding:
@@ -88,6 +88,10 @@ terrio 0.3.2 が書いた PMTiles（国界 179 地物、z0〜5）を GDAL 3.8.4 
 - 突き合わせたのは**小さなデータ**。作者の 4 万件の比較（`terrio-conformance-and-testing-against-gdal`）の代わりにはならない。
 - 上流に伝えるなら、**確かめた GDAL の版を明記する**。食い違い 1〜5 は、下書きにした（投稿は hfu が確認して行う）。
 - 結果は、速度ではなく**値の一致**。
+
+## 0.4.2 での再確認（2026-10-24）
+
+terrio 0.4.2 で再確認: 南極点（180,−90）→ EPSG:3857 は**失敗のまま**。COG の `TILING_SCHEME=GoogleMapsCompatible` は**黙殺のまま**（12.32 m）。`warp --dstalpha` は**引数なしのまま**。`translate --ot Int16` の nodata は −999999 のまま（GDAL 3.13.3 と同じ）。CP932 は文字化けのまま。日本語 GeoJSON の panic は**直った**。これ以外の行は 0.3.2 の値。
 
 ## 出典
 

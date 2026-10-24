@@ -1,7 +1,7 @@
 ---
 id: terrio-install-platforms-and-release-history
 title: terrio の入れ方、対応環境、版の履歴（PyPI・npm・crates.io）
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: cli

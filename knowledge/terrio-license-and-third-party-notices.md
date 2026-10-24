@@ -1,7 +1,7 @@
 ---
 id: terrio-license-and-third-party-notices
 title: terrio のライセンス：MIT、同梱される依存と第三者の告知、0.3.2 の配布物に LICENSE がない件
-status: draft
+status: stale
 terrio_version: 0.3.2
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
