@@ -2,15 +2,15 @@
 id: terrio-mcp-server
 title: terrio の MCP サーバー（terrio mcp）：配布版にはなく、main にある
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: cf6bd5dbcb6021f99ffde6c7f2c0f4f3f311ed2b
 interface: mcp
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 sources:
   - plays/2026-10-21-untested-items.md（5、6）
@@ -63,6 +63,10 @@ terrio **0.4.2**（配布版）で `terrio mcp` を起動し、標準入出力�
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 の wheel で `terrio mcp` を起動: サーバー `terrio` 0.5.0、**ツール 29 個**（0.4.2 は 15 個。`centroid singlepart vertices footprint sample contour zonal-stats sql buffer overlay dissolve is-valid make-valid clean` が加わった）。各ツールは `args`（コマンドラインの引数の配列）を取る。`info`（B04.tif）と `is-valid`（GeoJSON → GeoJSON）の**呼び出しが成功**した。played。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 の wheel で `terrio mcp`: サーバー `terrio` 0.7.0、**ツール 99 個**（0.5.0 は 29 個、0.4.2 は 15 個）。MCP に `preview`（画像を返す）が加わった（CHANGELOG）。played（一覧のみ）。
 
 ## 出典
 

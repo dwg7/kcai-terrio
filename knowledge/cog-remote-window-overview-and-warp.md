@@ -1,7 +1,7 @@
 ---
 id: cog-remote-window-overview-and-warp
 title: リモート COG の窓読み・overview・縮小の使い分け
-status: draft
+status: stale
 terrio_version: 0.4.2
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）

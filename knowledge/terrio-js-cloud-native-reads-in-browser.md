@@ -2,15 +2,15 @@
 id: terrio-js-cloud-native-reads-in-browser
 title: ブラウザ（WebAssembly）で terrio を使う：openUrl の範囲読み込みと、このリポジトリのページ
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: wasm
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -73,6 +73,10 @@ const r = await d.read({ bbox: [139.760, 35.676, 139.770, 35.686] }); r.toGeoJSO
 ## 0.5.0 での再確認（2026-10-24）
 
 terrio-js **0.5.0** に固定した公開ページで、6 つの試料を再実行: COG 3 要求・6.2 MiB、PMTiles 12 要求（ラスタ）・1 要求（ベクタ）、FlatGeobuf 4 要求・768 KiB、COPC 2 要求・118 KiB、GeoParquet 7 要求・16.4 MiB。0.3.2・0.4.2 と同じ。played。
+
+## 0.7.0 での再確認（2026-11-04）
+
+terrio-js **0.7.0** に固定した公開ページで、6 試料を再実行: 0.3.2 と同じ結果（COG 3 要求・6.2 MiB、PMTiles 12 要求・832 KiB と 1 要求・64 KiB、FlatGeobuf 4 要求・768 KiB、COPC 2 要求・118 KiB、GeoParquet 7 要求・16.4 MiB）。コンソールのエラーなし。played。
 
 ## 出典
 

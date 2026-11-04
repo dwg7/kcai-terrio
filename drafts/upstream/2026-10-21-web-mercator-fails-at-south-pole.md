@@ -1,3 +1,5 @@
+> **取り下げ（OBSOLETE）**: この下書きは**投稿しない**。0.7.0 で直った（(180,−90) → EPSG:3857 が GDAL と同じ値で通る。2026-11-04 に確認）。
+
 # Draft issue for opengeos/terrio (not posted; hfu will review and post)
 
 **Title:** Reprojecting to EPSG:3857 fails for features that touch latitude -90 (e.g. Antarctica in Natural Earth); GDAL succeeds

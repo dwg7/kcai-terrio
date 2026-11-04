@@ -2,11 +2,11 @@
 id: vertical-datum-grids-and-geoid-in-japan
 title: 格子とジオイド：日本の高さの変換は「3 次元の CRS」から（GDAL と突き合わせて訂正した）
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、GDAL 3.8.4 / PROJ 9.4 を apt で導入）
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -17,7 +17,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 related: [jgd2011-plane-rectangular-transform, terrio-crs-forms-projections-grids-and-epochs, terrio-vs-gdal-spot-checks, terrio-conformance-and-testing-against-gdal, hfu-dwg7-workflow-substitution-survey]
 hazard: 2d-crs-drops-height-semantics
 freshness: high
@@ -76,6 +76,10 @@ terrio **0.4.2** で、3 次元 `EPSG:6667 → 6697`（高さ 50）は 13.2386�
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 でも `EPSG:6667 → 6697`（高さ 50）は 13.2386、同じ。played。main は垂直 CRS の変換を PROJ の選び方に（#203）、PROJ の鎖（#222）。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 でも `EPSG:6667 → 6697`（高さ 50）は 13.2386（`TERRIO_NETWORK=ON` のとき。付けないと警告が出て高さは変わらない、と定期実行の記録にある）。played / 記録。
 
 ## 出典
 

@@ -2,15 +2,15 @@
 id: terrio-scope-included-and-excluded
 title: terrio が含む機能と含まない機能
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: read-docs
 sources:
   - terrio docs/why-terrio.md、docs/gdal.md、docs/formats.md、docs/remote-data.md（v0.3.2 と main cf6bd5d）
@@ -65,6 +65,10 @@ terrio は「GDAL の全部の置き換え」ではなく、**よく使う形式
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 の範囲の変化: **含む**ようになった — 幾何の検査・修復・バッファ・オーバーレイ・ディゾルブ・クリーン、等高線、ゾーン統計、読み取り専用の SQL、GRIB1/2、STACTA、Planetary Computer の署名、PDAL の追加フィルタ、`terrio-rio`、MCP。**含まない**まま — タイル生成（tippecanoe 相当）、HDF4 / NITF / DXF などの長い尾の形式、GDAL 同梱の wheel（方針として作らない）。日本語エンコーディング（CP932）は**未対応**。read-docs / played。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 の範囲: **含む**ようになった — 可視化（`terrio preview`、`terrio view`、MCP の `preview`、`render`）、視域（`viewshed`）、SQL の `GROUP BY` と空間関数、CAD（DXF）の一部、GTI カタログ、`Workbook`（表計算）、ベクタのデータセット操作、約 100 のコマンド。**含まない**まま — タイル生成（tippecanoe 相当。未確認）。直った — 南極点の EPSG:3857、CP932（`.cpg` あり）。残る — Zarr の日本語の相対パス、`--dstalpha`、COG の `TILING_SCHEME`。read-docs / played。
 
 ## 出典
 

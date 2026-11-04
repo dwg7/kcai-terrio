@@ -2,15 +2,15 @@
 id: terrio-architecture-and-pure-rust-claim
 title: terrio の構成と「純 Rust」の中身（ドキュメントと SBOM を突き合わせる）
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -48,6 +48,10 @@ related: [terrio-source-quirks, terrio-license-and-third-party-notices, why-terr
 ## 0.5.0 での再確認（2026-10-24）
 
 `docs/architecture.md` は 0.3.2 から変更なし。Rust のソースは v0.5.0 で全体約 12.4 万行（`unsafe` 70 行、`panic!(` 65 行。数え方は `terrio-source-scale-and-origins`）。0.3.2 の記述は有効。read-source。
+
+## 0.7.0 での再確認（2026-11-04）
+
+**0.6.0 で「C 依存なし」が既定になった**（CHANGELOG）: CLI・Python・Rust・JavaScript の既定のビルドに C 依存がなく、CI は C コンパイラなしでビルドする。Zstandard は `ruzstd`（復号は遅く、書き込みは最速レベル相当）で、`libzstd` は任意の feature。HTTPS は `rustls-graviola`（x86-64 と AArch64）。**必要な CPU の機能がないと HTTPS の要求が panic する**。CRS は独立した crate `terrio-crs` に分かれた（0.2 系）。read-docs。
 
 ## 出典
 

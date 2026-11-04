@@ -1,3 +1,5 @@
+> **取り下げ（OBSOLETE）**: この下書きは**投稿しない**。0.7.0 で `docs/rust.md` が `"0.7"` に直った（定期実行の記録）。
+
 # Draft issue for opengeos/terrio (not posted; hfu will review and post)
 
 **Title:** docs/rust.md: `terrio = { version = "0.3", default-features = false, features = ["geotiff"] }` does not resolve (the `geotiff` feature starts in 0.4)

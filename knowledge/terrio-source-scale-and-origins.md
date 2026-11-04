@@ -2,11 +2,11 @@
 id: terrio-source-scale-and-origins
 title: terrio のソースコードの規模と起源（誰が、いつ、何の上に作ったか）
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.7.0
 terrio_commit: 17ca35a
 interface: rust
 environment: Claude Code クラウドセッション。opengeos/terrio の浅い複製（履歴 181 コミット）の v0.4.2 タグを数えた。crates.io の公開情報と、cargo のレジストリにある依存のソース
-verified_on: 2026-10-23
+verified_on: 2026-11-04
 verified_how: read-source
 sources:
   - https://github.com/opengeos/terrio （v0.4.2、main 17ca35a。git log、Cargo.toml、Cargo.lock、README.md の Disclaimer、docs/acknowledgements.md）
@@ -16,7 +16,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が数えて記述。AI 支援あり。行数は wc による単純な行数で、コメントと空行を含む
 reviewed_by: []
-updated: 2026-10-23
+updated: 2026-11-04
 related: [terrio-ai-disclosure-and-acknowledgements, terrio-architecture-and-pure-rust-claim, terrio-source-quirks, terrio-possibilities-and-risks, terrio-release-vs-main-drift, terrio-contributing-and-governance]
 freshness: high
 ---
@@ -88,6 +88,10 @@ freshness: high
 - `Claude Opus 5.5` は README の記載であって、各コミットの AI 関与の割合は**確かめていない**。「ほぼ全部が AI 製」は初日の規模などからの推定。
 - GDAL の規模は概数で、数えていない。
 - 0.4.x は 2026-10-22 に出ており、この遊びの他の踏み跡（0.3.2 で確かめた）は、新版で確かめ直すまで `stale` 扱いとして読むこと。
+
+## 0.7.0 での再確認（2026-11-04）
+
+v0.7.0（2026-11-03）までの 0.5.0 からの 11 日間で、**231 コミット、1,315 ファイル、+33.9 万行 / −1.5 万行**（`git diff --shortstat v0.5.0 v0.7.0`）。**貢献者が増えた**: 0.5.0 以降のコミットは Qiusheng Wu 178 件のほか、William Katzenmeyer 10、Roozbeh Valavi 6、Ben Dyson 5、Mavrick Fitzgerald 5、Michael Sumner 5、Guillermo Morales Sanchez 3、Alejandra Duque Ropero 2、José Gregorio Rincón Albarracín 2、Nixon Magese ほか（全履歴で約 20 人）。「作者 1 人 + AI」から「AI を使う小さなコミュニティ」に広がり始めている。起源（Whitebox の上に始まった、Claude Opus 5.5 を主に使う）は変わらない。read-source。
 
 ## 出典
 

@@ -2,11 +2,11 @@
 id: terrio-vs-gdal-spot-checks
 title: GDAL 3.8.4 との突き合わせ（約 30 項目）：一致したこと、食い違い、訂正したこと
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、GDAL 3.8.4 / PROJ 9.4 を apt で導入、Python 3.13.16）
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -15,7 +15,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 related: [terrio-conformance-and-testing-against-gdal, vertical-datum-grids-and-geoid-in-japan, terrio-formats-vectors-streaming-and-tiles, shapefile-cp932-attributes-not-decoded, terrio-processing-commands-smoke-test, terrio-source-quirks]
 freshness: high
 finding:
@@ -100,6 +100,10 @@ terrio 0.4.2 で再確認: 南極点（180,−90）→ EPSG:3857 は**失敗の�
 ### 幾何の検査・修復（0.5.0、played）
 
 ちょうちょ形の不正ポリゴンを含む 3 ポリゴンで、`terrio make-valid` は GEOS の `MakeValid` と同じ（MULTIPOLYGON 面積 2.0 と 4.0・4.0）。`terrio buffer --distance 0.5` の面積は GEOS と同じ（7.506、8.785、8.785）。`terrio dissolve` は GEOS の Union と同じ（MULTIPOLYGON 面積 10.0）。`terrio is-valid` は不正な地物に `exterior ring has a self-intersection` を付け、不正な入力の `buffer` / `dissolve` は「`make-valid` を先に」と止まる。GDAL の SQLite 方言は apt 版で使えず、GEOS を Python から直接呼んで比べた。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 で再実行: 画素の突き合わせ（`dem`・`translate`・`warp`・`calc`・`mosaic` ほか 20 項目）は GDAL 3.8.4 と**すべて一致**。**南極点（180,−90）→ EPSG:3857 は直った**（`20037508.342789244, -242528680.94374272`、GDAL と同じ値）。**CP932（`.cpg` あり）は直った**。`warp --dstalpha`（引数なし）、COG の `TILING_SCHEME`（12.32 m のまま黙殺）は**残る**。played。
 
 ## 出典
 

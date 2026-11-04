@@ -2,15 +2,15 @@
 id: shapefile-cp932-attributes-not-decoded
 title: CP932（Shift_JIS）の Shapefile 属性が、黙って文字化けする
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 sources:
   - plays/2026-10-21-japan-edge-cases-and-survey.md（2）
@@ -58,6 +58,10 @@ terrio **0.4.2** でも同じ。ogr2ogr で `ENCODING=CP932` の Shapefile を�
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 でも文字化けのまま（`scripts/recheck_known_issues.sh`）。played。
+
+## 0.7.0 での再確認（2026-11-04）
+
+**0.7.0 で直った**。`.cpg` が `CP932` の Shapefile（ogr2ogr で `ENCODING=CP932` で作成）の `札幌市` を正しく読む（played）。**`.cpg` が無い CP932 の Shapefile は文字化けのまま**（`\x8eD\x96y\x8es`）。GDAL も `.cpg` か `SHAPE_ENCODING` が無ければ同じなので、これは期待どおり。修正のコミットは、`v0.5.0..v0.7.0` の履歴で `CP932` の語が現れる #406（Guillermo Morales Sanchez、「Harden the read paths and match GDAL in the rasterio-compatible API」）。**この遊びの下書きは投稿していない**ので、別の人が見つけて直した。下書きは取り下げ（obsolete）にした。
 
 ## 出典
 

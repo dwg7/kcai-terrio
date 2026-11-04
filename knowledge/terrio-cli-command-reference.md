@@ -2,15 +2,15 @@
 id: terrio-cli-command-reference
 title: コマンドごとの主なオプションと決まり（cli.md の要約と、確かめた点）
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -58,6 +58,10 @@ related: [terrio-cli-overview, terrio-processing-commands-smoke-test, terrio-for
 ## 0.5.0 での再確認（2026-10-24）
 
 v0.5.0 のサブコマンドは 29: `info convert formats crs rasterize polygonize centroid singlepart vertices footprint sample contour zonal-stats sql buffer overlay dissolve is-valid make-valid clean translate warp mosaic dem calc proximity sieve grid filter mcp`。0.3.2 から加わったのは、`mcp`（0.4.0）と、幾何・解析の 14 コマンド（0.5.0）。`warp` に `--dst-transform X0 A B Y0 D E`（`--ts` と併用、回転した出力格子も可）が加わった。`filter` はすべて `--a-srs` を取る。`terrio --help` と `mcp` のツール一覧で確認（played）、引数の詳細は read-docs。
+
+## 0.7.0 での再確認（2026-11-04）
+
+v0.7.0 のサブコマンドは約 100 個に増え、MCP のツールは 99 個。新しいもの: `preview`（PNG を書く、端末に描く）、`view`（ローカルの地図を配信）、`viewshed`、`catalog`（GTI）、ベクタのデータセット操作（`concat`・`partition`・`set-field-type`・`make-point`・`create`・`rename-layer`・`edit`・`update`）、`sql` の `GROUP BY` と空間関数（`ST_Area`・`ST_Buffer`・`ST_Transform` ほか）。0.5.0 の 29 から先の細部は未確認（`terrio --help` と CHANGELOG の読み）。
 
 ## 出典
 

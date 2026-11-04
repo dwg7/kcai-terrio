@@ -2,15 +2,15 @@
 id: cloud-native-read-behavior-matrix
 title: クラウドネイティブな形式の読み込み方：どこまで範囲読み込みか（一覧）
 status: draft
-terrio_version: 0.3.2
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -101,6 +101,10 @@ finding:
 ## 0.5.0 での補足（2026-10-24）
 
 0.5.0 でも、terrio-js の 6 試料（COG・PMTiles ラスタ / ベクタ・FlatGeobuf・COPC・GeoParquet 5 GB）の範囲読み込みは 0.3.2 と同じ（played）。CLI の FlatGeobuf は全量取得のまま（0.4.2、played）。0.5.0 には、Zarr の遠隔グループの一覧（#199）、CDN の座標系格子の範囲読み込み（#202）、STAC の POST・Planetary Computer（#197）、STACTA（#218）が加わった。表の他の行は 0.3.2 の値。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 で再確認: COG の窓は範囲読み込み（3 要求・6.14 MiB）。terrio-js の 6 試料は 0.3.2 と同じ（COG 3 要求、PMTiles 12・1 要求、FlatGeobuf 4 要求 768 KiB、COPC 2 要求、GeoParquet 7 要求 16.4 MiB）。**CLI の FlatGeobuf は、bbox 指定でも約 14 MB を取得したまま**（今は `bytes=16384-` の範囲要求で本体の全部を取る）。played。他の行は確かめ直していない。
 
 ## 出典
 

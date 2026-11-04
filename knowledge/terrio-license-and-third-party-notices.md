@@ -2,15 +2,15 @@
 id: terrio-license-and-third-party-notices
 title: terrio のライセンス：MIT、同梱される依存と第三者の告知、0.3.2 の配布物に LICENSE がない件
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -94,6 +94,10 @@ python3 -c "import json;d=json.load(open('…/dist-info/sboms/terrio-py.cycloned
 ## 0.5.0 での再確認（2026-10-24）
 
 **0.5.0 で配布物にライセンスが入った**（0.3.2 では wheel・sdist・crate に `LICENSE` が無かった）。確認（played）: wheel の `dist-info/licenses/` に `LICENSE`・`LICENSE-THIRD-PARTY.md`・`NOTICE`、sdist のルートと `crates/*`・`python/` に `LICENSE`（`NOTICE`・`LICENSE-THIRD-PARTY.md` も）、crate に `LICENSE`・`NOTICE`。リポジトリのルートに `LICENSE-THIRD-PARTY.md`（約 1 万行）と `NOTICE`。#164、#167、#172 による。
+
+## 0.7.0 での再確認（2026-11-04）
+
+**0.6.0 でライセンスの表記が変わった**（CHANGELOG の「Licensing」）: パッケージのメタデータは **MIT AND MPL-2.0**（点群の固有値ソルバー `pointcloud/filters/selfadjoint.rs` が MPL-2.0）。幾何ルーチンは **JTS の移植または独立実装**（#402）。リポジトリは **REUSE 仕様**に従い、他のプロジェクトから取り入れたファイルに SPDX ヘッダーを付け、`NOTICE` に上流の全プロジェクトと著作権者を並べる（#415、#435）。`LICENSE` が著作権者を名指しに戻った（#416）。**「以前の版は古い表記を同梱するので、更新を勧める」**と明記されている。0.5.0 で入った配布物のライセンス同梱は 0.7.0 でも続く（未再確認）。read-docs。
 
 ## 出典
 

@@ -2,7 +2,7 @@
 id: advice-for-dwg7
 title: dwg7 に対する助言（作業が進むごとに更新する生きた踏み跡）
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: 6779102
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64）。terrio 配布版 0.3.2 と main 6779102。比較に GDAL 3.8.4 / PROJ 9.4
@@ -17,7 +17,7 @@ sources:
 authors:
   - AI（Claude）が書いた助言。hfu / dwg7 の指示のもと。AI 支援あり。助言は、証拠となる踏み跡への参照つきで、判断は dwg7 が行う
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 related: [terrio-evolution-0-3-2-to-0-4-2, terrio-source-scale-and-origins, terrio-rust-library-and-features, terrio-xarray-integration, hfu-dwg7-workflow-substitution-survey, terrio-possibilities-and-risks, terrio-vs-gdal-spot-checks, cloud-native-read-behavior-matrix, terrio-release-vs-main-drift, upstream-issue-feedback-loop]
 freshness: high
 ---
@@ -35,7 +35,7 @@ freshness: high
 | 1 | **ブラウザ（terrio-js）で範囲読みを使う**のが、いちばん効く。COG / PMTiles / COPC / FlatGeobuf / GeoParquet を `openUrl` で部分取得できる（GeoParquet 5 GB → 16.4 MiB）。CLI / Python の FlatGeobuf・GeoParquet は**全量取得**なので、同じ感覚で使わない | `terrio-js-cloud-native-reads-in-browser`、`cloud-native-read-behavior-matrix`（played） |
 | 2 | **COG / PMTiles の範囲読みは CLI でも有効**。大きな COG の窓切り出し・概観は丸ごとダウンロード不要。ただし downsample 系（translate / warp）は原寸を読む。`--overview N` で概観を使う | `cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`（played） |
 | 3 | **GDAL を捨てない**。画素・座標は約 30 項目で GDAL 3.8.4 と一致したが、差もある（南極点の EPSG:3857 変換の失敗、COG `TILING_SCHEME` の黙殺、`--dstalpha` なし、CP932）。COPC・`filter range`・STACIT は PDAL 2.10.2 / GDAL 3.13.3 と一致した。GDAL の版で挙動が変わる例もある（`-ot Int16` の nodata）ので、比べるなら新しい GDAL でも。新しい工程に入れるときは、小さな入力で GDAL と並べる | `terrio-vs-gdal-spot-checks`（played、GDAL 3.8.4 は terrio の基準より古い） |
-| 4 | **Shift_JIS（CP932）の Shapefile は、いまは terrio に任せない**。属性が黙って文字化けする。UTF-8 に変換してから使うか、GDAL で読む | `shapefile-cp932-attributes-not-decoded`（played） |
+| 4 | **Shift_JIS（CP932）の Shapefile は、0.7.0 から `.cpg`（`CP932`）があれば読める**。`.cpg` が無いものは文字化けする（GDAL も同じ）ので、`.cpg` を付けるか UTF-8 に変換する | `shapefile-cp932-attributes-not-decoded`（played） |
 | 5 | **日本語の入力に注意**。GeoJSON / CSV の日本語長文字列 panic は **0.4.0 以降で修正済み**（#159 → #161）。0.3.2 を使うなら避ける。**Zarr の日本語の相対パス**の panic は 0.4.2・main とも残る（絶対パスで避ける） | `geojson-japanese-string-panic`、`japanese-path-panic-in-zarr-parse-name`（played） |
 | 6 | **日本の座標変換は使える**。JGD2011 ↔ 平面直角（6669〜6687）は GDAL と小数 9 桁以上で一致。ジオイドは **3 次元の `EPSG:6667` → `6697`** で適用される（2 次元の 6668 では高さ不変。GDAL も同じ） | `jgd2011-plane-rectangular-transform`、`vertical-datum-grids-and-geoid-in-japan`（played） |
 | 7 | **幾何の検査・修復は、0.5.0 から terrio でできる**（`is-valid` / `make-valid` / `buffer` / `dissolve`。GEOS と一致、played）。**タイル生成（tippecanoe）と配信は置き換えない**。terrio の範囲外（PMTiles の書き出しは可能だが、tippecanoe の代わりではない）。world 全体を EPSG:3857 に変換する工程は、南極の問題に注意 | `terrio-scope-included-and-excluded`、`hfu-dwg7-workflow-substitution-survey` |
@@ -81,6 +81,7 @@ kcai の `docs/human-role.md` に従い、この踏み跡の助言は、**dwg7 �
 - 2026-10-24（2）: hfu の見立て「日本語エンコーディング・国際化・各国の座標系パラメーターは貢献の機会」を、進化の方向の踏み跡に記録した。発信は hfu が個人として行う（AI は下書きまで）。
 - 2026-10-24（3）: 7 本を追加で 0.4.2 に確かめ直した（処理系コマンドは GDAL と画素一致、terrio-js 0.4.2 は 0.3.2 と同じ結果、ノートブック全成功、STACIT 同じ、MCP は 15 ツール）。`stale` は 28 本。助言 1・2・3・11 は 0.4.2 でも成り立つ。公開ページを terrio-js 0.4.2 に上げた。
 - 2026-10-24（4）: **0.5.0 が出ていた**（10-24 04:05 UTC）。残りの `stale` をすべて確かめ直した（`stale` は 0 本）。**幾何の検査・修復が terrio でできるようになった**（助言 7）。`scripts/recheck_known_issues.sh` を追加（既知の穴を新版で確かめる）。日本語の相対パス（Zarr）・CP932・南極点・`--dstalpha` は 0.5.0 でも残る。ドキュメントの Rust の例（`version = "0.3"`）が解決しないことを確認した（下書き 1 件追加）。
+- 2026-11-04: **0.7.0 が出ていた**（0.6.0＝10-31、0.6.1、0.7.0＝11-03。0.5.0 から 231 コミット）。定期実行は毎日動いたが、**push が拒否されて（リポジトリがソースにない）記録がリポジトリに届いていなかった**ので、私が 0.7.0 で再確認した。**直った**: 南極点の EPSG:3857、CP932（`.cpg` あり）、docs/rust.md の版（下書き 3 件を取り下げ）。**残る**: Zarr の日本語の相対パス、`--dstalpha`、COG の `TILING_SCHEME`、CLI の FlatGeobuf の全量取得。画素の一致（GDAL 3.8.4）、ノートブック、terrio-js、MCP（99 ツール）は 0.7.0 でも問題なし。確かめ直せていない 21 本は `stale`。**助言 4**（CP932）は「`.cpg` を付ければ 0.7.0 で読める。付かないものは UTF-8 に変換」に変わる。ライセンスは MIT AND MPL-2.0 に変わった（古い版の表記は古い）。**貢献者が約 20 人に**増え、この遊びの下書きより先に、別の人が直した。
 
 ## 出典
 

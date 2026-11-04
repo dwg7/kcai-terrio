@@ -2,11 +2,11 @@
 id: terrio-python-api
 title: Python API（terrio）：ドキュメントの例 30 件を動かした結果
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -15,7 +15,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 related: [terrio-rio-rasterio-compatible-api, terrio-cli-command-reference, terrio-formats-vectors-streaming-and-tiles, terrio-install-platforms-and-release-history]
 freshness: high
 ---
@@ -57,6 +57,10 @@ terrio **0.4.2** の wheel で、公式ノートブック `quickstart.ipynb` の
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 の wheel で、公式 `quickstart.ipynb` のコードセル 13 個が**すべて成功**。played。`terrio.rio` モジュールと `terrio-rio` コマンド（rasterio の rio を terrio で動かす）が入っている。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 の wheel で、公式 `quickstart.ipynb` のコードセル 13 個が**すべて成功**。played。
 
 ## 出典
 

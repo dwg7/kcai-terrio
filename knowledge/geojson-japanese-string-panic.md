@@ -2,15 +2,15 @@
 id: geojson-japanese-string-panic
 title: 日本語の長い文字列を含む GeoJSON と CSV で terrio が panic する（0.3.2）
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 sources:
   - plays/2026-10-21-first-contact.md（3.5、4）
@@ -61,6 +61,10 @@ terrio **0.4.2**（PyPI の wheel）で、日本語の長い文字列（`東京�
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 でも、日本語 GeoJSON → Shapefile / FlatGeobuf は通る（`scripts/recheck_known_issues.sh`）。played。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 でも日本語 GeoJSON → Shapefile / FlatGeobuf は通る（`scripts/recheck_known_issues.sh`）。played。
 
 ## 出典
 

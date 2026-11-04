@@ -2,11 +2,11 @@
 id: terrio-evolution-0-3-2-to-0-4-2
 title: terrio の進化の方向（0.3.2 から 0.4.2、そして main）
 status: draft
-terrio_version: 0.4.2
+terrio_version: 0.7.0
 terrio_commit: 17ca35a
 interface: cli
 environment: Claude Code クラウドセッション。opengeos/terrio の git log（v0.3.2..v0.4.2 の 58 コミット、v0.4.2..main の 28 コミット）、ROADMAP.md の差分、0.4.2 の wheel で再確認した挙動
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: read-source
 sources:
   - https://github.com/opengeos/terrio （git log v0.3.2..v0.4.2、v0.4.2..17ca35a、ROADMAP.md の v0.3.2 との差分）
@@ -15,7 +15,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が git log と差分から読み取って記述。AI 支援あり。方向の読みは推測を含む
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 related: [terrio-source-scale-and-origins, terrio-release-vs-main-drift, terrio-roadmap-and-open-items, terrio-possibilities-and-risks, hfu-dwg7-workflow-substitution-survey, advice-for-dwg7]
 freshness: high
 ---
@@ -68,6 +68,17 @@ freshness: high
 - 傾向は **git log と ROADMAP の差分から読んだ**もので、作者の意図は確かめていない。
 - 再確認したのは**表の項目だけ**。他の踏み跡（34 本）は 0.3.2 のままで `stale`。
 - main（17ca35a）の挙動は、ソースを読んだもので、すべては動かしていない。
+
+## 0.7.0 での再確認（2026-11-04）
+
+## 続報: 0.6.0〜0.7.0（2026-10-31〜11-03）
+
+0.5.0 からの 11 日で 231 コミット（+33.9 万行）。方向は引き続き「GDAL + PROJ + PDAL + rasterio + 一部の PostGIS / DuckDB / 可視化を一つに」だが、**質が変わった点**がある。
+1. **貢献者が約 20 人に**。CP932 のように、**この遊びが下書きにしたまま投稿していない穴も、別の人が見つけて直した**。「貢献の機会」は、思ったより早く、他の人に埋められていく。
+2. **「C 依存なし」の徹底**（0.6.0）。既定のビルドに C がない。CRS は独立した crate `terrio-crs`。
+3. **範囲の広がり**: 可視化（`preview` / `view`）、視域、SQL の空間関数、GTI カタログ、CAD、表計算。コマンドは約 100、MCP のツールは 99。
+4. **ライセンスの整理**（MIT AND MPL-2.0、REUSE、JTS の移植）。
+5. 日本語の相対パス（Zarr）は残る。ROADMAP に出る気配はない。
 
 ## 出典
 

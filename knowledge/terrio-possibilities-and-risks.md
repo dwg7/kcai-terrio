@@ -2,15 +2,15 @@
 id: terrio-possibilities-and-risks
 title: terrio が開く可能性と、使うときのリスク
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -76,6 +76,10 @@ terrio の価値は「**GDAL を入れられない場所で、GDAL 相当のこ�
 ## 0.5.0 での再確認（2026-10-24）
 
 **可能性のうち実現したもの**: 幾何の検査・修復・オーバーレイ（GEOS と一致、played）、`terrio mcp` の 29 ツール、Windows ARM64 の wheel、配布物のライセンス。**リスクのうち残るもの**: 日本語の相対パス（Zarr の panic）、CP932 の文字化け、南極点の EPSG:3857、CLI の FlatGeobuf / GeoParquet の全量取得（すべて 0.5.0 で再現、played）。**新しいリスク**: 変化の速さ（9 日で 0.3.2 → 0.5.0、全体 +6.6 万行）、AI 製で歴史が短いこと（`terrio-source-scale-and-origins`）。最新の 0.5.0 を使い、版を固定し、`scripts/recheck_known_issues.sh` で既知の穴を確かめるとよい。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0: **実現した可能性** — 幾何の修復（0.5.0）、可視化、SQL の空間関数、MCP 99 ツール、C 依存なしの既定。**残るリスク** — Zarr の日本語の相対パス（panic）、CLI の FlatGeobuf の全量取得。**直ったリスク** — 南極点の EPSG:3857、CP932。**新しいリスク** — 変化の速さ（11 日で +33.9 万行）、**ライセンスの変化**（MIT AND MPL-2.0。古い版の表記は古い）、HTTPS が一部の CPU で panic しうる。
 
 ## 出典
 

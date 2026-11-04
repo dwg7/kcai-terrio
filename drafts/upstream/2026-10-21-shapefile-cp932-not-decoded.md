@@ -1,3 +1,5 @@
+> **取り下げ（OBSOLETE）**: この下書きは**投稿しない**。0.7.0 で、`.cpg` が `CP932` の Shapefile の属性を正しく読むようになった（#406。2026-11-04 に確認）。`.cpg` が無い場合の文字化けは GDAL も同じ。
+
 # Draft issue for opengeos/terrio (not posted; hfu will review and post)
 
 **Title:** Shapefile attributes in CP932 (Shift_JIS) are read as Latin-1, silently — `.cpg` and `SHAPE_ENCODING` are not used for non-UTF-8 code pages

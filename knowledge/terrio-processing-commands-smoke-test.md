@@ -2,15 +2,15 @@
 id: terrio-processing-commands-smoke-test
 title: 処理系コマンドの動作確認（calc、dem、grid、filter、sieve、proximity、polygonize、rasterize、mosaic、COG）
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 sources:
   - plays/2026-10-21-untested-items.md（2）
@@ -66,6 +66,10 @@ terrio **0.4.2** で、GDAL 3.8.4（apt）と比べた。`dem` の hillshade・s
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 の wheel で、0.4.2 と同じ比較（`scripts` 外の比較スクリプト）を再実行: `dem` 6 種ほか、`translate`、`warp`、`calc`、`proximity`、`sieve`、`mosaic` の 20 項目が GDAL 3.8.4 と**すべて画素一致**。`rasterize`（2 種）、COG の画素、`mosaic` の VRT も一致。played。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 の wheel で、`dem` 6 種ほか 20 項目が GDAL 3.8.4 と**すべて画素一致**。played。
 
 ## 出典
 

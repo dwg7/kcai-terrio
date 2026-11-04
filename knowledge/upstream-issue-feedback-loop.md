@@ -2,11 +2,11 @@
 id: upstream-issue-feedback-loop
 title: 上流への報告から修正までの流れ：opengeos/terrio#159 の体験（AI が下書き、hfu が投稿、作者が当日修正）
 status: draft
-terrio_version: 0.5.0
+terrio_version: 0.7.0
 terrio_commit: baf4768
 interface: cli
 environment: GitHub（opengeos/terrio、dwg7/kcai-terrio）と Claude Code クラウドセッション
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -17,7 +17,7 @@ sources:
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 related: [geojson-japanese-string-panic, japanese-path-panic-in-zarr-parse-name, terrio-release-vs-main-drift, terrio-source-quirks]
 upstream_issue: opengeos/terrio#159
 upstream_fix: baf4768
@@ -55,6 +55,10 @@ kcai の「鍛える循環」を、**上流のオープンソースへの報告*
 ## 0.5.0 での再確認（2026-10-24）
 
 #159 の修正（#161）は **0.4.0 の配布版に入った**（報告から配布まで約 1 日）。下書き 5 件（Zarr の日本語パス、南極点の EPSG:3857、CP932、COG の `TILING_SCHEME` と `--dstalpha`、CLI の全量取得）は、0.5.0 でも再現し、hfu の投稿を待つ。投稿前に GDAL の新旧で確かめて取り下げた下書きが 3 件（ジオイド、calc、`--ot Int16`）。
+
+## 0.7.0 での再確認（2026-11-04）
+
+#159 の修正は 0.4.0 に入った。**この遊びの下書きで、投稿していないのに直ったものが 3 件ある**（南極点の EPSG:3857 → 0.7.0、docs/rust.md の依存の書き方 → 0.7.0、CP932 → 0.7.0。別の人が見つけて直した、または作者が自分で直した）。残る下書きは 3 件（Zarr の日本語パス、COG の `TILING_SCHEME` と `--dstalpha`、CLI の FlatGeobuf）。報告の遅れは、他の人の修正に追い越される、ということも示している。
 
 ## 出典
 
