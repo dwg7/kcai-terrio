@@ -1,16 +1,16 @@
 ---
 id: cog-remote-window-overview-and-warp
 title: リモート COG の窓読み・overview・縮小の使い分け
-status: stale
-terrio_version: 0.4.2
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-18
 sources:
@@ -59,6 +59,10 @@ terrio warp $U out.tif --t-srs EPSG:6677 --te -10000 -40000 0 -30000 --te-srs EP
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** で、同じ B04 の COG: `convert --srcwin 5000 5000 512 512` は **6.19 MiB**（3 要求）、`--overview 2` は **2.56 MiB**（3 要求）。0.3.2（約 6.4 / 2.6 MiB）と同等。played。0.4.0 の「COG の概観の再サンプリング・アルファ重み・nodata 平均の修正」（#165）と速度向上（#168）は、この計測の対象外。
+
+## 0.7.0 での再確認（2026-11-04）
+
+**大きな変化: `translate --outsize` / `--tr` が概観から読むようになった**（#429）。0.7.0 で同じ B04 の COG に `terrio translate $U small.tif --outsize 512 512` を実行すると **4 要求・0.69 MiB**（0.3.2 では約 208 MiB で「避ける」としていた）。出力は 512×512、画素サイズ 214.45 m。`--overview` は `gdal_translate -ovr` と同じ選び方になった。`convert --overview 2` は 3 要求・2.52 MiB で 1373×1373（0.3.2 と同等）。窓（`--srcwin`）は 3 要求・6.14 MiB。played。したがって「縮小はこの操作で避ける」という注意は 0.7.0 では不要。
 
 ## 出典
 

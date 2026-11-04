@@ -1,16 +1,16 @@
 ---
 id: terrio-stac-and-stacit
 title: STAC と STACIT：検索結果のモザイク、max_items で転送量を減らす
-status: stale
-terrio_version: 0.4.2
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -53,6 +53,10 @@ terrio info 'STAC:"https://…/items/S2B_…":red'          # 1 つのアイテ�
 ## 0.4.2 での再確認（2026-10-24）
 
 terrio **0.4.2** で、東京の検索結果の `STACIT:"…":asset=red` の窓（512²）は、全アイテムで 11 要求・**17.5 MiB**、`max_items=1` で 4 要求・**6.25 MiB**。0.3.2 と同じ。画素は GDAL 3.8.4 の STACIT ドライバーと**完全一致**（`max_items=1` も一致）。played。main には POST 検索・ページ送り・Planetary Computer の署名（#197）と STACTA（#218）が加わった（未確認）。
+
+## 0.7.0 での再確認（2026-11-04）
+
+`docs/remote-data.md` の変更: STAC の links は**同じオリジンにだけ**従い（`TERRIO_STAC_FOLLOW_CROSS_ORIGIN=YES` で許可）、`GET` の検索を `POST` に引き継がない（`TERRIO_STAC_ALLOW_POST=YES` で許可）、Azure のトークンは設定の端点にだけ送る、など**安全側の制限**が入った。STACIT の窓の転送量は 0.4.2 まで同じ（17.5 / 6.25 MiB）で、0.7.0 では未再実行。read-docs。
 
 ## 出典
 

@@ -1,16 +1,16 @@
 ---
 id: terrio-js-api-and-playground
 title: terrio-js の API と、公式プレイグラウンド：Node とブラウザで動かして確かめた
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: wasm
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、Chromium 1194）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -60,6 +60,10 @@ terrio-js **0.4.2** は npm の最新で、公開ページ（`docs/index.html`�
 ## 0.5.0 での再確認（2026-10-24）
 
 `docs/javascript.md` の変更: 形式の表に netCDF・HDF5・Zarr / GeoZarr（`openZarr`）が加わり、FlatGeobuf は自前ドライバー（64 ビット）に。プレイグラウンドのダウンロードは約 4 MB → 約 6 MB。0.5.0 では WebAssembly の小型化（`terrio-js/core`）、スレッド（`terrio-js/threads`、`terrio-js/load`）、**4 GB 超の `terrio-js/memory64`**。npm の最新は 0.5.0。公開ページ（0.5.0 に固定）の座標変換、日本語の文字列、6 試料の範囲読み込みは動作（played）。プレイグラウンドそのものは確かめ直していない。
+
+## 0.7.0 での再確認（2026-11-04）
+
+terrio-js **0.7.0**（npm の最新）に固定した公開ページで、座標変換・日本語の文字列・6 試料が 0.3.2 と同じ結果（played）。`docs/javascript.md` は 506 行の変更。WebAssembly に、科学形式（NetCDF・HDF5）を選んで一つのモジュールにビルドする方法、4 GB 超（`memory64`）、スレッド、`render` / `preview` が加わった（CHANGELOG）。プレイグラウンドそのものは未確認。
 
 ## 出典
 

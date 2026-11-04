@@ -1,16 +1,16 @@
 ---
 id: terrio-crs-forms-projections-grids-and-epochs
 title: 座標系：受け付ける書式、計算できる投影、格子の探し方、高さとエポック
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -73,6 +73,10 @@ TERRIO_GRID_DIR=~/grids terrio crs EPSG:27700 --to EPSG:4258 434422 233624      
 ## 0.5.0 での再確認（2026-10-24）
 
 `docs/crs.md`（+132 行）の変更点: **ESRI 権限のコード**（`ESRI:54009`、`esri:102003`）、WKT 1/2（2015・2019）と WKT2 `BOUNDCRS`、**PROJ の 117 の投影法のうち 86 を PROJ と 1 mm 以内で計算し、31 は拒否**（`airy`、`igh`、`nsper` など）、**回転極**（`ob_tran`、CF `rotated_latitude_longitude`）、WKT の EPSG 識別の規則（データム名、ESRI 別名、順位）、CRS 間の変換が「PROJ の鎖」（NAD27 → ITRF92 など複数の中間データム）に対応し、格子付きの CRS 間検査で 97.5 % の組が 1 cm 以内（以前は 98 %）。main に垂直 CRS（#203）、エポック間の点の運動（#207）、CDN 格子の範囲読み込み（#202）。日本の値（6668 → 6677、6667 → 6697）は 0.5.0 でも同じ（played）。read-docs。
+
+## 0.7.0 での再確認（2026-11-04）
+
+CRS の実装は独立した crate `terrio-crs`（0.2 系）に分かれた（0.6.0）。既定のビルドに C 依存なし。PROJJSON、地心座標系、IAU の CRS、2 点の斜軸メルカトル（`omerc`）が加わった。日本の変換（6668 → 6677、6667 → 6697）は 0.7.0 でも同じ値（played）。`docs/crs.md` は 599 行の変更で、細部は未読。read-docs（見出しと CHANGELOG のみ）。
 
 ## 出典
 

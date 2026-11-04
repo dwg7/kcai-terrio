@@ -1,16 +1,16 @@
 ---
 id: terrio-release-vs-main-drift
 title: リリース版（PyPI の 0.3.2）と main のずれ：ドキュメントは先行する
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-21
+verified_on: 2026-11-04
 verified_how: played
 sources:
   - "PyPI: terrio（版 0.1.1, 0.2.0, 0.3.1, 0.3.2）"
@@ -63,6 +63,10 @@ terrio --help | grep -c mcp                               # 機能の有無は�
 ## 0.5.0（2026-10-24）
 
 **0.5.0 が 2026-10-24 04:05 UTC に出た**（0.4.2 から 32 コミット）。main で先行していた幾何演算・等高線・ゾーン統計・SQL・トポロジー（#228〜#233）、GRIB（#232）、STACTA（#218）、STAC の POST（#197）、PDAL の追加フィルタ（#210）、WebAssembly の 4 GB 超とスレッド（#224、#229）、`terrio.rio` の CLI（#204）が**配布版に入った**。`terrio mcp` は 29 ツールになった。配布版と main の差は、また小さくなった（0.5.0 のあとの main は #235「プレイグラウンドが terrio-js 0.5.0 を読む」など）。
+
+## 0.7.0 での再確認（2026-11-04）
+
+**0.7.0**（2026-11-03）。0.5.0 から 0.6.0（10-31）、0.6.1（11-01）、0.7.0 を経て 231 コミット。main は 0.7.0 のリリースコミット `f24cd15`。配布版と main の差は小さい（リリースが 1〜3 日おき）。サイトは terrio.dev に移転。read-docs。
 
 ## 出典
 

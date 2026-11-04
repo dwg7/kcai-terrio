@@ -103,7 +103,7 @@ terrio 0.4.2 で再確認: 南極点（180,−90）→ EPSG:3857 は**失敗の�
 
 ## 0.7.0 での再確認（2026-11-04）
 
-0.7.0 で再実行: 画素の突き合わせ（`dem`・`translate`・`warp`・`calc`・`mosaic` ほか 20 項目）は GDAL 3.8.4 と**すべて一致**。**南極点（180,−90）→ EPSG:3857 は直った**（`20037508.342789244, -242528680.94374272`、GDAL と同じ値）。**CP932（`.cpg` あり）は直った**。`warp --dstalpha`（引数なし）、COG の `TILING_SCHEME`（12.32 m のまま黙殺）は**残る**。played。
+**幾何（0.7.0、played）**: 実装が JTS の移植・クリーンルームに置き換わった後も、`make-valid`（面積 2.0・4.0・4.0）、`buffer --distance 0.5`（7.506・8.785・8.785）、`dissolve`（MULTIPOLYGON 面積 10.0）は GEOS と**一致**した。出所の経緯は `terrio-geometry-provenance-and-clean-room`。
 
 ## 出典
 

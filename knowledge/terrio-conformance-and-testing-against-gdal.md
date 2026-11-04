@@ -1,16 +1,16 @@
 ---
 id: terrio-conformance-and-testing-against-gdal
 title: GDAL との突き合わせ試験と適合性レポート：何を、いつ、どの版で比べたか
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: read-docs
 as_of: 2026-10-14
 sources:
@@ -65,6 +65,10 @@ terrio は「GDAL を基準に、実データで突き合わせる」と明言�
 ## 0.5.0 での再確認（2026-10-24）
 
 `docs/conformance.md`（2026-10-14 の 0.1.1 の結果に、2026-10-21 の 0.3.2 での座標変換の検査を足した版）: 座標変換 19,017 件（一致 19,002・許容内 13・差 2）、格子・ジオイド・エポック 19,253 件（一致 19,223・許容内 28・差 2）、**全体 40,068 件のうち 39,999 件が一致・65 件が許容内・4 件が差あり**。差ありの例: EPSG:6054 → 4287（267 m）、EPSG:29183 → 20823（208 m）。さらに 0.5.0 には、トポロジー（`compare_topology_with_gdal.py`）、GRIB、STACTA（99/99）、PROJ の鎖（`crs_chains.rs`）の検査が加わった。作者の検査で、この遊びでは再実行していない。read-docs。
+
+## 0.7.0 での再確認（2026-11-04）
+
+`docs/conformance.md` の変更は 7 行（0.5.0 → 0.7.0）。0.5.0 の数値（40,068 件中 39,999 件一致）の根拠は大きくは変わっていない。新しい検査・比較の文書: `gdal-parity-recommendations.md`（GDAL との差の優先順位。#238）、`crs-benchmark-validation.md`、`crs-footprint.md`。read-docs（見出しのみ）。
 
 ## 出典
 

@@ -1,16 +1,16 @@
 ---
 id: terrio-ai-disclosure-and-acknowledgements
 title: terrio の AI 開示と謝辞：誰の仕事の上にあるか
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -48,6 +48,10 @@ terrio は、**「Claude Opus 5.5（Anthropic の AI モデル）を主に使い
 ## 0.5.0 での再確認（2026-10-24）
 
 `docs/acknowledgements.md`（103 行）が追加された。README の免責と同じ文面（Claude Opus 5.5、人の指示とレビュー）に加え、**Whitebox（John Lindsay の `wbraster` / `wbvector` / `wbprojection`）の上に始まった**こと、GDAL・PROJ・PDAL を基準にしていること、依存先への謝辞が書かれている。これは `terrio-source-scale-and-origins` で crates.io から読んだ起源と整合する。read-docs。
+
+## 0.7.0 での再確認（2026-11-04）
+
+`docs/acknowledgements.md` は 0.7.0 で 151 行に増えた。免責（Claude Opus 5.5、人の指示とレビュー）と Whitebox への謝辞は続く。`docs/citation.md`（Zenodo の DOI。引用の推奨は Wu & Fitzgerald (2026)）が加わった。**幾何の出所の記録**（`jts-provenance.md`、`geos-retirement-audit.md`、クリーンルームの手順）が、AI が主に書くプロジェクトの出典管理として注目に値する（`terrio-geometry-provenance-and-clean-room`）。read-docs。
 
 ## 出典
 

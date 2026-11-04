@@ -33,7 +33,7 @@ freshness: high
 | # | 助言 | 根拠（確かめた度合い） |
 |---|---|---|
 | 1 | **ブラウザ（terrio-js）で範囲読みを使う**のが、いちばん効く。COG / PMTiles / COPC / FlatGeobuf / GeoParquet を `openUrl` で部分取得できる（GeoParquet 5 GB → 16.4 MiB）。CLI / Python の FlatGeobuf・GeoParquet は**全量取得**なので、同じ感覚で使わない | `terrio-js-cloud-native-reads-in-browser`、`cloud-native-read-behavior-matrix`（played） |
-| 2 | **COG / PMTiles の範囲読みは CLI でも有効**。大きな COG の窓切り出し・概観は丸ごとダウンロード不要。ただし downsample 系（translate / warp）は原寸を読む。`--overview N` で概観を使う | `cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`（played） |
+| 2 | **COG / PMTiles の範囲読みは CLI でも有効**。大きな COG の窓切り出し・概観は丸ごとダウンロード不要。**0.7.0 からは `translate --outsize` も概観から読む**（0.3.2 は原寸を読んで 208 MiB）。`warp` の縮小は原寸を読むかどうか未再確認 | `cog-remote-window-overview-and-warp`、`pmtiles-remote-reading`（played） |
 | 3 | **GDAL を捨てない**。画素・座標は約 30 項目で GDAL 3.8.4 と一致したが、差もある（南極点の EPSG:3857 変換の失敗、COG `TILING_SCHEME` の黙殺、`--dstalpha` なし、CP932）。COPC・`filter range`・STACIT は PDAL 2.10.2 / GDAL 3.13.3 と一致した。GDAL の版で挙動が変わる例もある（`-ot Int16` の nodata）ので、比べるなら新しい GDAL でも。新しい工程に入れるときは、小さな入力で GDAL と並べる | `terrio-vs-gdal-spot-checks`（played、GDAL 3.8.4 は terrio の基準より古い） |
 | 4 | **Shift_JIS（CP932）の Shapefile は、0.7.0 から `.cpg`（`CP932`）があれば読める**。`.cpg` が無いものは文字化けする（GDAL も同じ）ので、`.cpg` を付けるか UTF-8 に変換する | `shapefile-cp932-attributes-not-decoded`（played） |
 | 5 | **日本語の入力に注意**。GeoJSON / CSV の日本語長文字列 panic は **0.4.0 以降で修正済み**（#159 → #161）。0.3.2 を使うなら避ける。**Zarr の日本語の相対パス**の panic は 0.4.2・main とも残る（絶対パスで避ける） | `geojson-japanese-string-panic`、`japanese-path-panic-in-zarr-parse-name`（played） |
@@ -82,6 +82,7 @@ kcai の `docs/human-role.md` に従い、この踏み跡の助言は、**dwg7 �
 - 2026-10-24（3）: 7 本を追加で 0.4.2 に確かめ直した（処理系コマンドは GDAL と画素一致、terrio-js 0.4.2 は 0.3.2 と同じ結果、ノートブック全成功、STACIT 同じ、MCP は 15 ツール）。`stale` は 28 本。助言 1・2・3・11 は 0.4.2 でも成り立つ。公開ページを terrio-js 0.4.2 に上げた。
 - 2026-10-24（4）: **0.5.0 が出ていた**（10-24 04:05 UTC）。残りの `stale` をすべて確かめ直した（`stale` は 0 本）。**幾何の検査・修復が terrio でできるようになった**（助言 7）。`scripts/recheck_known_issues.sh` を追加（既知の穴を新版で確かめる）。日本語の相対パス（Zarr）・CP932・南極点・`--dstalpha` は 0.5.0 でも残る。ドキュメントの Rust の例（`version = "0.3"`）が解決しないことを確認した（下書き 1 件追加）。
 - 2026-11-04: **0.7.0 が出ていた**（0.6.0＝10-31、0.6.1、0.7.0＝11-03。0.5.0 から 231 コミット）。定期実行は毎日動いたが、**push が拒否されて（リポジトリがソースにない）記録がリポジトリに届いていなかった**ので、私が 0.7.0 で再確認した。**直った**: 南極点の EPSG:3857、CP932（`.cpg` あり）、docs/rust.md の版（下書き 3 件を取り下げ）。**残る**: Zarr の日本語の相対パス、`--dstalpha`、COG の `TILING_SCHEME`、CLI の FlatGeobuf の全量取得。画素の一致（GDAL 3.8.4）、ノートブック、terrio-js、MCP（99 ツール）は 0.7.0 でも問題なし。確かめ直せていない 21 本は `stale`。**助言 4**（CP932）は「`.cpg` を付ければ 0.7.0 で読める。付かないものは UTF-8 に変換」に変わる。ライセンスは MIT AND MPL-2.0 に変わった（古い版の表記は古い）。**貢献者が約 20 人に**増え、この遊びの下書きより先に、別の人が直した。
+- 2026-11-04（2）: 残りの `stale` 21 本を 0.7.0 で確かめ直した（`stale` は 0 本）。**大きな変化**: ①`translate --outsize`（縮小）が概観から読むようになり、リモート COG で 208 MiB → 0.69 MiB（助言 2 の「縮小は避ける」は不要に）。②幾何ルーチンの出所を GEOS 由来から JTS の移植・クリーンルームに置き換えた（挙動は GEOS と一致のまま。`terrio-geometry-provenance-and-clean-room`）。③サイトが **terrio.dev** に移転（旧 URL は転送）。④STAC / Azure の読みに安全側の制限（同一オリジンのみ）。動かさず読んだだけ（見出しと CHANGELOG）の踏み跡が多いので、各踏み跡に明記してある。
 
 ## 出典
 

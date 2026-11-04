@@ -1,16 +1,16 @@
 ---
 id: why-terrio-comparison-with-alternatives
 title: terrio と他の選択肢（GDAL、gdal クレート、GeoRust、GeoArrow、whitebox、OxiGeo）：どれを選ぶか
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -54,6 +54,10 @@ related: [terrio-scope-included-and-excluded, terrio-architecture-and-pure-rust-
 ## 0.5.0 での再確認（2026-10-24）
 
 `docs/why-terrio.md` の変更は 5 行: 「GRIB は terrio にない」という記述が消えた（0.5.0 で GRIB1/2 を読める）。残る「向かない場合」は、File Geodatabase、MrSID、HDF4、データベースなど。read-docs。
+
+## 0.7.0 での再確認（2026-11-04）
+
+`docs/why-terrio.md` は 0.5.0 以降の細部を確かめ直していない。`docs/gdal-parity-recommendations.md`（GDAL との差の優先順位）が、terrio 自身の「まだ足りない点」の見取り図になる。read-docs（見出しのみ）。
 
 ## 出典
 

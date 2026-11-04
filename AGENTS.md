@@ -14,7 +14,7 @@
 terrio は Qiusheng Wu さん（opengeos）による、GDAL を使わない Pure Rust の地理空間データ入出力ライブラリ（MIT）。CLI（`terrio`）、Python（`pip install terrio`）、JavaScript/WebAssembly（npm `terrio-js`）、Rust、MCP サーバー（`terrio mcp`）から使えます。2026-10-14 に始まったばかりで変化が速く、知識がすぐ古くなります。
 
 - リポジトリ: https://github.com/opengeos/terrio
-- ドキュメント: https://terrio.opengeos.org （`opengeos`。s のない opengeo.org は別ドメイン）
+- ドキュメント: https://terrio.dev （以前は terrio.opengeos.org。今は terrio.dev に転送される。s のない opengeo.org は別ドメイン）
 
 ## 遊び方の方針
 

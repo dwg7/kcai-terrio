@@ -1,16 +1,16 @@
 ---
 id: terrio-rio-rasterio-compatible-api
 title: rasterio 互換 API（terrio.rio）：実際の利用コードの呼び出しが通るか
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: python
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 sources:
   - plays/2026-10-21-untested-items.md（3）
@@ -93,6 +93,10 @@ with rasterio.open("out.tif", "w", driver="GTiff", width=300, height=200, count=
 ## 0.5.0 での再確認（2026-10-24）
 
 0.5.0 の wheel に `terrio.rio`（rasterio 互換のモジュール）と **`terrio-rio` コマンド**（`terrio-rio info B04.tif` が JSON を返す、played）。ドキュメントの `rasterio.md` は +91 行（RPC 変換、`.msk` の読み書き、rio の CLI）。公式ノートブック 2 本は rio アクセサ互換を含めて成功（played）。
+
+## 0.7.0 での再確認（2026-11-04）
+
+`docs/rasterio.md` は 47 行の変更。`terrio.rio` が rasterio の GDAL 版の `COG` ドライバーの概観を**画素まで同じ**に書く（`overview_resampling`、既定 `cubic`）、`.msk` マスクの読み込み、`rio.warp` の `reproject`（回転・GCP・RPC）と `WarpedVRT`。公式ノートブックは 0.7.0 でも全成功（played）。read-docs / played。
 
 ## 出典
 

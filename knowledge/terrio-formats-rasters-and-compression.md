@@ -1,16 +1,16 @@
 ---
 id: terrio-formats-rasters-and-compression
 title: 対応形式（ラスタ）と圧縮：表をバイナリの terrio formats と突き合わせた
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 interface: cli
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: played
 as_of: 2026-10-21
 sources:
@@ -61,6 +61,10 @@ terrio **0.4.2** で、Sentinel-2 B04 を Zarr・JPEG 2000・COG に変換し、
 ## 0.5.0 での再確認（2026-10-24）
 
 `docs/formats.md` の変更: netCDF の最後の次元が `bands` / `band` なら波長軸としてバンドに、など。0.5.0 では **GRIB1/GRIB2 の純 Rust ドライバー（#232）**が加わり（GDAL の GRIB の試験ファイルと実予報で比較）、Zarr は 4 次元以上と遠隔グループの一覧（#198、#199）、`overview_resampling`（`nearest|average|min|max|mode`）が GeoTIFF / COG に入った。Zarr・JPEG 2000・COG の往復は GDAL 3.8.4 と画素一致（0.4.2、played）。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 の CHANGELOG から: 純 Rust の GRIB1/2（0.5.0）、CityJSON / CityGML（フラットな XYZ 地物）、CADRG の `A.TOC` の作成、XLSX（`.xlsx` / `.xlsm`、GDAL の駆動と同じ層）、ESRIJSON / ESRIPBF（ArcGIS のフィーチャサービス）、WFS 1.0〜2.0、OGC API Features の読み、HEC-RAS の HDF5、多次元配列（`multidim`）、GeoTIFF の `.msk` マスクの保存（0.6.0）、DXF（CAD）の一部。画素の突き合わせ（Zarr・JP2・COG）は 0.4.2 のまま。read-docs / CHANGELOG。
 
 ## 出典
 

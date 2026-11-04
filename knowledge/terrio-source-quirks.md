@@ -1,16 +1,16 @@
 ---
 id: terrio-source-quirks
 title: terrio のソースコードの癖（規模、作り、同じ型の弱点）
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: rust
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: read-source
 sources:
   - opengeos/terrio のタグ v0.3.2（a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6）と main（cf6bd5d）
@@ -67,6 +67,10 @@ terrio は、約 10 万行の Rust（4 つのクレート）が、**GDAL を基�
 ## 0.5.0 での再確認（2026-10-24）
 
 v0.5.0 で再確認: Zarr の名前解析 `t[..5]`（日本語パスで panic）は `zarr.rs:1437` に**残る**。`unsafe` は 70 行、`panic!(` は 65 行、Rust は全体約 12.4 万行。CLI は 8 MiB のスタックで実行し、起動に失敗したら呼び出しスレッドで実行する（#141、#145）。read-source。
+
+## 0.7.0 での再確認（2026-11-04）
+
+v0.7.0: Zarr の `t[..5]` の切り出しは `zarr.rs:1988` に残る（日本語パスで panic。played）。「HTTPS は CPU の機能が足りないと panic する」（`rustls-graviola`。architecture.md）。リソース超過は `ResourceLimitError`（Python では `MemoryError`）として一貫して返るようになった（CHANGELOG）。read-source / played。
 
 ## 出典
 

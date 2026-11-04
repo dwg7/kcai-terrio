@@ -1,16 +1,16 @@
 ---
 id: hfu-dwg7-workflow-substitution-survey
 title: hfu と dwg7 の公開リポジトリの処理のうち、terrio で代替できそうなものと、できなさそうなもの
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: a08e7d8b4b5a29304cbf6cf050b9ccc87ea516e6
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、PyPI の wheel）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
+updated: 2026-11-04
 interface: cli
-verified_on: 2026-10-24
+verified_on: 2026-11-04
 verified_how: read-source
 as_of: 2026-10-21
 sources:
@@ -70,6 +70,10 @@ hfu と dwg7 の公開リポジトリは、**タイル配信（PMTiles、Martin�
 - 解析: `contour`（等高線）、`zonal-stats`、`sample`、`footprint`、`centroid`、`singlepart`、`vertices`。
 - 代替しにくいまま: **タイル生成（tippecanoe 相当）**、**CP932 の Shapefile**（文字化け）、Zarr の日本語の相対パス（panic）、CLI の FlatGeobuf / GeoParquet（全量取得）。
 - 代替できる見込みの範囲が、前処理（再投影・圧縮・窓・変換）から、**幾何の修復・オーバーレイ**まで広がった。
+
+## 0.7.0 での再確認（2026-11-04）
+
+0.7.0 でも、幾何の修復・バッファ・ディゾルブは GEOS と一致（played）。**CP932 の Shapefile は `.cpg` があれば読める**ようになり、**縮小（`translate --outsize`）が概観から読める**ようになった。代替の見込みが広がった。残る壁: タイル生成（tippecanoe 相当）、Zarr の日本語の相対パス、CLI の FlatGeobuf の全量取得。新しい道具: `preview`（PNG・端末）、`view`（ローカルの地図）、SQL の空間関数、WFS / OGC API Features / ESRI feature service の読み取り（read-docs）。
 
 ## 出典
 

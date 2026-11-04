@@ -1,16 +1,16 @@
 ---
 id: terrio-rust-library-and-features
 title: Rust ライブラリ：入口、Cargo の feature、API の安定性方針（配布版との差に注意）
-status: stale
-terrio_version: 0.5.0
+status: draft
+terrio_version: 0.7.0
 terrio_commit: 6779102281ad2835cbc23fba3138e01a138bc6f9
 interface: rust
 environment: Claude Code クラウドセッション（Linux x86_64、Python 3.13.16、Node 22、Chromium 1194）
 authors:
   - hfu の指示のもと、AI（Claude）が実施・記述。AI 支援あり
 reviewed_by: []
-updated: 2026-10-24
-verified_on: 2026-10-24
+updated: 2026-11-04
+verified_on: 2026-11-04
 verified_how: read-docs
 as_of: 2026-10-21
 sources:
@@ -62,6 +62,10 @@ terrio::stream::convert("buildings.gpkg", "buildings.fgb", &ConvertOptions::defa
 ## 0.5.0 での再確認（2026-10-24）
 
 0.4.0 から crate が feature で絞れる。`default-features = false, features = ["geotiff"]` は **`version = "0.4"` なら解決する**（cargo で確認、played）。ドキュメント（`docs/rust.md`）の例は **`version = "0.3"` のままで、これは解決に失敗する**（0.3.x に `geotiff` feature が無い）。v0.5.0 でも main でも同じ。crates.io の最新は 0.5.0。feature は `parquet remote avif netcdf-hdf5 osm lzma flatgeobuf jp2 lerc pointcloud tiles zarr sqlite`（既定は全部）。`overview_resampling`（`nearest|average|min|max|mode`）が `RasterWriteOptions` に加わった。
+
+## 0.7.0 での再確認（2026-11-04）
+
+`docs/rust.md` は 541 行の変更で、**依存の版の書き方は `"0.7"` に直った**（定期実行の記録）。`terrio-crs` が別の crate（0.2 系）になり、`libzstd` は既定でなくなった（C 依存なし）。`TransformOptions.promote_to_3d`、`VectorOpenOptions.feature_server_paging`、`VectorWriteOptions` の `cityjson_version` などの新フィールドは、構造体リテラルで `..Default::default()` が要る。read-docs / CHANGELOG。
 
 ## 出典
 
