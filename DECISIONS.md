@@ -174,3 +174,10 @@
 - 残りの `stale` 21 本を 0.7.0 で確かめ直した。動かせたもの: 概観からの縮小、幾何の GEOS 一致。**動かさず、見出しと CHANGELOG を読んだだけ**のものが多い（各踏み跡に明記）。細部の再読は、必要になったときに行う。
 - 新しい踏み跡: `terrio-geometry-provenance-and-clean-room`（幾何の出所の整理）。
 - ドキュメントのサイトが **terrio.dev** に移ったため、`AGENTS.md` と `SOURCES.md` を直した。
+
+## 2026-11-05: kcaim 化の検討（hfu の依頼）
+
+- dwg7/kcaim の `CONCEPT.md`（2026-11-04、a9bfc83）を読み、kcai-terrio の木を 1 つの kcaim ファイルにするのがよいかを検討した（`kcaim/ASSESSMENT.md`）。
+- **結論（提案。判断は hfu）**: 木（`knowledge/`）を正本に残し、`kcaim/terrio.md` を**蒸留した携帯版として並置**する（案 C）。木の全結合は約 33 万字で携帯に向かず（案 B）、木をやめる案 D は今はしない。
+- **試作**: `kcaim/terrio.md`（290 行・48 見出し・受け入れテスト 14 本。結果はすべて `untested`）と、最小の検査 `scripts/check_kcaim.py`（CI にも追加。警告つき）。内容は AI の蒸留で、人の確認は未了。
+- 次: 盲検の実行（別のエージェントに、テストの節と結果を除いたコピーを渡す）で効きを見る。同期の手順を決める。
