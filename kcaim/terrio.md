@@ -18,7 +18,7 @@
 
 # /system-record/instance
 - name: kcaim-terrio
-- concept-version: dwg7/kcaim の CONCEPT.md、2026-11-04(コミット a9bfc83)
+- concept-version: dwg7/kcaim の CONCEPT.md、2026-11-07(コミット 8f85cd6)。形式は 2026-11-04(a9bfc83)から変わらず、呼び名だけが **miso**(旧称 kcaim / KCAIM)に改められた。この試作は a9bfc83 の本文で作ったので、名前は旧称のまま
 - 種別: **探索・理解型**(terrio を理解し比較する)に、**運用型**の層(dwg7 の地理空間の前処理を terrio で置き換えられるかの判断支援)を載せる。
 - 作成: hfu の指示のもと、AI(Claude)が書いた。**人による内容確認は未了**。`dwg7/kcai-terrio` の踏み跡 46 本(`knowledge/`)から蒸留した試作(2026-11-05)。
 - 範囲: terrio 0.3.2〜0.7.0(2026-10-20〜11-03)の挙動。確かめた版は各オブジェクトに書く。
