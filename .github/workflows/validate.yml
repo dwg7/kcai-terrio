@@ -10,5 +10,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: 踏み跡の形式検査
         run: python3 scripts/validate_knowledge.py knowledge
-      - name: kcaim ファイルの検査（警告つき）
-        run: python3 scripts/check_kcaim.py kcaim/terrio.md
+      - name: miso ファイルの検査（警告つき）
+        run: python3 scripts/check_miso.py miso/terrio.md

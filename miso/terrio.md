@@ -19,8 +19,9 @@
 # /system-record/instance
 - name: kcaim-terrio
 - concept-version: dwg7/kcaim の CONCEPT.md、2026-11-07(コミット 8f85cd6)。形式は 2026-11-04(a9bfc83)から変わらず、呼び名だけが **miso**(旧称 kcaim / KCAIM)に改められた。この試作は a9bfc83 の本文で作ったので、名前は旧称のまま
+- 呼び名: miso(旧称 kcaim)。ファイルは `miso/terrio.md`。
 - 種別: **探索・理解型**(terrio を理解し比較する)に、**運用型**の層(dwg7 の地理空間の前処理を terrio で置き換えられるかの判断支援)を載せる。
-- 作成: hfu の指示のもと、AI(Claude)が書いた。**人による内容確認は未了**。`dwg7/kcai-terrio` の踏み跡 46 本(`knowledge/`)から蒸留した試作(2026-11-05)。
+- 作成: hfu の指示のもと、AI(Claude)が書いた。**人による内容確認は未了**。`dwg7/kcai-terrio` の踏み跡 46 本(`knowledge/`)から移植(2026-11-07)。
 - 範囲: terrio 0.3.2〜0.7.0(2026-10-20〜11-03)の挙動。確かめた版は各オブジェクトに書く。
 - 範囲外: ①terrio の最新版(0.7.0 より新しい版)。②GDAL・PROJ・PDAL そのものの使い方。③terrio の内部設計の評価、法的な判断(ライセンスの適否)。④日本以外のデータの網羅的な確認。⑤terrio への投稿・働きかけ(人が個人として行う)。
 - 観察者の位置: 書き手は terrio の**外部観察者**。作者でも上流の貢献者でもない。動かした範囲(`played`)と、ドキュメント・ソースを読んだだけの範囲(`read-docs` / `read-source`)を区別する。大きなデータ・認証が要る環境・Windows/macOS は確かめていない(Linux x86_64 のみ)。
@@ -41,10 +42,10 @@
 
 # /system-record/relation-to-kcai
 - status: derived
-- `dwg7/kcai-terrio` は kcai の形式(1 ファイル 1 主題の踏み跡、`knowledge/`、47 本)で、日々更新される**作業の木**である。このファイルは、そこから**蒸留した携帯用の版**で、境界つきのエージェントが 1 ファイルで使えるようにする。
-- kcai の「踏み跡」は共有の単位(確かめた経路)で、このファイルの `/sources/…` と `/assets/…` に当たる。このファイルの `/traces/…` は**運用の踏み跡**(作業で起きたこと)で、kcai-terrio の `plays/` と `DECISIONS.md` に当たる(`dwg7/kcaim` の CONCEPT §7.1)。
-- 個々の踏み跡の id は、このファイル内で `kcai:<id>`(例: `kcai:cloud-native-read-behavior-matrix`)と書いて指す。`knowledge/<id>.md` を開くと、元の詳しい記述と確かめた手順がある。
-- 木とこのファイルが食い違うときは、**木が新しい**(`/inventory/sync-status`)。
+- `dwg7/kcai-terrio` は kcai の形式(1 ファイル 1 主題の踏み跡、`knowledge/`、46 本)で始まり、2026-11-07 に、その内容をこのファイルに**移植して正本を移した**(hfu の案)。`knowledge/` は**凍結**(terrio 0.7.0、2026-11-04 の確認が最後)。新しい知識、更新、受け入れテストは、このファイルに書く。凍結した木は消さない(詳しい手順・数値の表・版ごとの確認の履歴の根拠)。
+- kcai の「踏み跡」は共有の単位で、このファイルの `/sources/…` と `/assets/…` に当たる。このファイルの `/traces/…` は**運用の踏み跡**で、`plays/` と `DECISIONS.md` に当たる(CONCEPT §7.1)。
+- 個々の踏み跡の id は、このファイル内で `kcai:<id>`(例: `kcai:cloud-native-read-behavior-matrix`)と書いて指す。`knowledge/<id>.md` に元の詳しい記述がある。**木とこのファイルが食い違うときは、このファイルが新しい**(木は凍結)。
+- kcai-terrio は kcai のインスタンス(共有地の踏み跡のリポジトリ)でもあるので、名前は `kcai-terrio` のまま(`dwg7/miso` の命名の規則: `kcai-*` は変えない)。
 
 # /authorities/precedence
 - status: normative(このインスタンス内の取り決め)
@@ -269,21 +270,184 @@
 - requires: /system-record/instance
 - result: untested
 
+# /assets/formats-and-io
+- status: verified(`terrio formats` と 0.3.2 のドキュメントの表の一致。0.5.0 以降の追加は `stated`。volatile)
+- 名前は GDAL の短い名前に合わせる(`-f GTiff`、`-f "ESRI Shapefile"`)。
+- ラスタ: GeoTIFF/COG(LZW・Deflate・PackBits・ZSTD・WebP・JPEG・LERC・JPEG XL・LZMA)、JPEG 2000、Zarr v2/v3(GeoZarr)、netCDF、HDF5、ERDAS Imagine、GeoPackage、PMTiles/MBTiles、VRT、STACIT、ENVI/Esri/SAGA/Idrisi などの格子、PNG/JPEG(ワールドファイル)、DTED。0.5.0 から **GRIB1/2**(純 Rust。GDAL の試験ファイルと実予報で比較したと作者)。
+- ベクタ: GeoPackage、GeoParquet(**1.1 で書く**、確認)、FlatGeobuf、Shapefile、GeoJSON/GeoJSONSeq、CSV、KML/KMZ、GML、GPX、TopoJSON、MapInfo、OSM(読み取りのみ)、MVT。**GeoPackage・FlatGeobuf・GeoParquet・Shapefile・GeoJSON・GeoJSONSeq・CSV の間の変換は、ストリームでメモリが有限**。0.6.0〜0.7.0 の追加(`stated`): CityJSON / CityGML(フラットな XYZ 地物)、XLSX、ESRIJSON / ESRIPBF(ArcGIS のフィーチャサービス)、WFS 1.0〜2.0、OGC API Features の読み、HEC-RAS の HDF5、DXF(CAD)の一部、多次元配列(`multidim`)。
+- 点群: LAS 1.0〜1.4(点形式 0〜10、波形つき)、LAZ、COPC、EPT、PLY、E57。
+- 入力の場所: ローカル、HTTP(S)、`s3://` `gs://` `az://`、zip の中身(`a.zip!dir/x.shp`)、GDAL 流の vsicurl 形式。**出力はローカルのみ**。
+- 含まない(宣言): 独自 SDK が要る形式(MrSID、ECW、FileGDB ラスタ)、データベース(PostGIS など)、GDAL の C API の完全一致。長い尾の形式(HDF4、NITF など)は、任意の `gdal` feature(PyPI の wheel には入らない。**GDAL を同梱した wheel は作らない**と ROADMAP が決めた、0.5.0)。
+- 詳細: `kcai:terrio-formats-rasters-and-compression`、`kcai:terrio-formats-vectors-streaming-and-tiles`、`kcai:terrio-scope-included-and-excluded`
+
+# /assets/cli-commands
+- status: verified(0.7.0 の `terrio --help`。volatile)
+- 核の 15(0.3.2〜): `info`(gdalinfo / ogrinfo -so。`--json` `--stats` `--hist`)、`convert`(形式変換と再投影。`--srcwin` `--overview`(ラスタ)、`--where` `--spat` `--sql`(ベクタ))、`translate`、`warp`、`mosaic`、`rasterize`、`polygonize`、`dem`、`calc`、`proximity`、`sieve`、`crs`(座標系の説明と変換。`--to`)、`formats`、`grid` / `filter`(PDAL 相当の点群)。
+- 0.4.0 から: `mcp`(AI エージェント向け)。0.5.0 から: `centroid` `singlepart` `vertices` `footprint` `sample` `contour` `zonal-stats` `sql` `buffer` `overlay` `dissolve` `is-valid` `make-valid` `clean`。0.6.0〜0.7.0 の追加(`stated`/一部確認): `preview`(PNG・端末に描く)、`view`(ローカルの地図を配信)、`ui`(ブラウザの入力画面)、`viewshed`、`catalog`(GTI)、ベクタのデータセット操作(`concat` `partition` `set-field-type` `make-point` `create` `rename-layer` `edit` `update`)、`--json-usage`。**サブコマンドは約 100**。
+- 決まり: 座標は常に「経度 緯度」(x=東、y=北)。`--overview N` は 0 始まりで、0 が最大の概観。`warp` に `--dst-transform`(回転した出力格子)。`filter` はすべて `--a-srs`(CRS の付与)。
+- 落とし穴(0.7.0 でも): `warp --dstalpha` が無い。COG の `TILING_SCHEME` を黙って無視する。`calc` の型は NumPy の規則(`A/5` は Byte で整数に丸まる。GDAL の `gdal_calc.py` も同じ既定)。
+- 詳細: `kcai:terrio-cli-overview`、`kcai:terrio-cli-command-reference`
+
+# /assets/crs
+- status: verified(日本の値は played。投影法の数・適合性の数字は `stated`。volatile)
+- 受け付ける形: EPSG コード(数字だけ、URN、URL)、`OGC:CRS84`、`WGS84`、WKT1/WKT2(2015・2019、`BOUNDCRS`)、PROJ 文字列、PROJJSON(0.6.0〜)、ファイルのパス、複合 CRS(`EPSG:4326+5773`)、**ESRI コード**(`ESRI:54009`。0.4.0 から。0.3.2 は拒否)。
+- 投影法: PROJ の 117 のうち **86 を PROJ と 1 mm 以内で計算し、31 は別のものを計算せずに拒否**(`airy`・`igh`・`nsper` など。0.5.0 時点の記述)。回転極(`ob_tran`、CF `rotated_latitude_longitude`)、静止衛星、2 点の斜軸メルカトル(0.6.0〜)。
+- 格子と変換: NADCON5・NTv2・ジオイドなどの格子は**見つかれば適用**し、`TERRIO_NETWORK=ON` で PROJ の CDN から取る(0.4.0 以降、CDN の格子は範囲読み込み)。CRS 間の変換は **PROJ の鎖**(複数の中間データム)に対応(0.4.0〜0.5.0)。垂直 CRS、エポック間の点の運動(0.5.0)。
+- 適合性(作者の検査、`stated`): GDAL / PROJ との座標変換・格子・ジオイド・エポックで **40,068 件中 39,999 件が一致、65 件が許容内、4 件に差**(例: EPSG:6054 → 4287 で 267 m)。比較の大半は 0.1.1 で、座標変換の部分は 0.3.2 で実行されたもの。
+- 日本: `/assets/japan-local`。
+- 詳細: `kcai:terrio-crs-forms-projections-grids-and-epochs`、`kcai:terrio-conformance-and-testing-against-gdal`
+
+# /assets/stac-and-stacit
+- status: verified(0.4.2 まで。volatile)
+- STAC の Item・ItemCollection・Collection・Catalog は、**地物の範囲を持つベクタ層**として開ける。検索結果のアセットは `STACIT:"検索の URL":asset=red` で**モザイクのラスタ**として開き、窓読みは必要なタイルだけを取る。
+- 重なる**全シーンから読む**。`asset=red,max_items=1`(カンマ区切り)で絞れる。東京の 3 シーン・窓 512² で **17.5 MiB → 6.25 MiB**(結果は同じ)。GDAL の STACIT と画素一致。
+- 0.5.0 以降(`stated`): STAC の POST 検索・ページ送り、Planetary Computer の署名、STACTA(タイルつきアセット。GDAL と同じと作者)。**安全側の制限**: links は同一オリジンのみ(`TERRIO_STAC_FOLLOW_CROSS_ORIGIN=YES` で許可)、`GET` の検索を `POST` に引き継がない、Azure のトークンは設定の端点にだけ送る。
+- 詳細: `kcai:terrio-stac-and-stacit`
+
+# /assets/point-clouds
+- status: verified(0.3.2 まで played。それ以降 `stated`。volatile)
+- LAS・LAZ・COPC・EPT・PLY・E57 を読み書き(純 Rust。LASzip は `laz` crate)。**COPC は必要な範囲と粗さだけを範囲読み込み**(ドキュメントの Autzen の例を再現: 18,901 点・8 要求)。
+- PDAL のフィルタ 20 種(0.3.2)→ さらに追加(dbscan・lof・dem・colorization・hexbin ほか。0.5.0〜0.7.0)。`grid` で DEM 化。`filter range` は PDAL 2.10.2 と点数・統計が一致。
+- 0.7.0 のドキュメント: 点群の再投影は**高さ `z` も変換**する(複合 CRS・3D 地理 CRS・ジオイド)。
+- 詳細: `kcai:terrio-point-clouds`
+
+# /assets/install-and-distribution
+- status: verified(PyPI のファイル一覧、LICENSE の同梱は played。volatile)
+- 配布: PyPI(`pip install terrio`。Python 3.10 以上、abi3)、crates.io(`cargo add terrio`、`cargo install terrio-cli`、`terrio-crs`)、npm(`terrio-js`)。システムの依存(GDAL・PROJ・GEOS・SQLite)は要らない。**0.5.0 の PyPI は wheel 8 個 + sdist**(macOS x86_64/arm64、manylinux x86_64/aarch64、musllinux x86_64/aarch64、**Windows x86_64/arm64**。0.3.2 には Windows ARM64 が無かった)。0.6.0 から **Docker イメージ** `ghcr.io/opengeos/terrio`(amd64・arm64)。インストーラー(`install.sh`/`install.ps1`、`TERRIO_VERSION`)、AUR(`terrio-bin`)、Fedora COPR、Pyodide(wasm32 の wheel)。
+- 変化の速さ: 2026-10-14 の開始から 3 週間で 0.1.1 → 0.7.0。**配布版とドキュメント・main の差**は、0.3.2 では大きかった(mcp・feature 分け・ESRI コード)が、0.4.0 以降はリリースが 1〜3 日おきで小さい。
+- 詳細: `kcai:terrio-install-platforms-and-release-history`、`kcai:terrio-release-vs-main-drift`
+
+# /assets/architecture
+- status: stated(ソースとドキュメントの読み。volatile)
+- 構成: `crates/terrio`(本体: `dataset.rs`、`formats.rs`、`drivers/`、`geotiff.rs`/`cog.rs`(遅延読み)、`tiles/`、`vfs.rs`、`http.rs`/`s3.rs`、`ops/`、`pointcloud/`、`stream/`)、`terrio-cli`、`terrio-crs`(0.6.0〜、独立)、`python/`(PyO3)、`js/`(wasm-bindgen)。
+- **「純 Rust」**: 0.3.2 は完全には純ではなかった(wheel の SBOM に C を含む crate)。**0.6.0 から、CLI・Python・Rust・JavaScript の既定のビルドに C 依存がない**(CI は C コンパイラなしでビルド)。Zstandard は `ruzstd`(復号は遅く、書き込みは最速レベル相当。`libzstd` は任意)。HTTPS は `rustls-graviola`(x86-64・AArch64。**必要な CPU の機能がないと HTTPS の要求が panic する**)。
+- 設計の決定: コア API は同期で、データセットをメモリに読む。GeoTIFF は例外で遅延の窓読み(実測と合う)。
+- 詳細: `kcai:terrio-architecture-and-pure-rust-claim`
+
+# /assets/rust-and-features
+- status: verified(依存の解決は played。volatile)
+- 入口: `terrio::open`、`open_raster`、`open_vector`、`open_raster_lazy`(ヘッダーで開き `read_window` で窓のタイルだけ復号)、`memory`、`stream`、`arrow`、`ops`、`crs`、`pointcloud`。データモデルは `wbraster::Raster` / `wbvector::Layer` の再エクスポートで、どちらかの破壊的更新を取り込むと terrio の破壊的リリースになる。
+- **0.4.0 から feature で絞れる**(`default-features = false, features = ["geotiff", "remote"]` で実行ファイル 24 MB・依存 188 crate。0.3.2 の既定は 46 MB・302 crate)。feature: `parquet remote avif netcdf-hdf5 osm lzma flatgeobuf jp2 lerc pointcloud tiles zarr sqlite`(既定は全部)、`gdal`(既定オフ)。**0.3.x の crate には `geotiff` feature が無い**ので `version = "0.3"` では解決しない(ドキュメントの例は 0.7.0 で `"0.7"` に直った)。
+- 構造体のオプションは `Default`(`..Default::default()`)。新フィールドで構造体リテラルが壊れる版がある(0.6.0・0.6.1 の CHANGELOG)。MSRV は 1.90。
+- 詳細: `kcai:terrio-rust-library-and-features`
+
+# /assets/conformance-and-benchmarks
+- status: stated(作者の測定・検査。この宇宙では再測定していない。volatile)
+- 作者の主張: 小さなファイルで 1.2〜16 倍、1 GB 級で 1.0〜13.6 倍、terrio が速い(0.3.2)。0.5.0 の再測定(40 スレッドの Xeon、GDAL 3.12.2 と terrio 0.4.2 を**同じスレッド数**で): warp(UTM 13N)最近傍 12.7 倍・bilinear 9.8 倍、ラスタ info 2.3 倍、COG 化 1.7 倍、mosaic 2.0 倍、rasterize 2.5 倍。大きな 14412² の mosaic は、統計 2.2 倍、warp 2.0 倍、COG 化は 1.0 倍遅い。メモリは terrio が少ないことが多い(JPEG 2000 → GeoTIFF と OSM → GeoPackage は多い)。ページ自身が「スナップショットとして読むこと」と断る。issue #212 の指摘で、以前は GDAL の多スレッドを切っていたと明記。
+- この宇宙で動かして確かめたのは**画素の一致**(`/assets/processing-and-geometry`)で、速さではない。
+- 詳細: `kcai:terrio-benchmarks-vs-gdal`、`kcai:terrio-conformance-and-testing-against-gdal`
+
+# /assets/license-and-provenance
+- status: verified(配布物の LICENSE は played。法的判断はしない。volatile)
+- 本体は **MIT**(Copyright (c) 2026 Qiusheng Wu)。0.6.0 から**パッケージのメタデータは MIT AND MPL-2.0**(点群の固有値ソルバーが MPL-2.0)。リポジトリは REUSE 仕様に従い、取り入れたファイルに SPDX ヘッダー、`NOTICE` に上流と著作権者。**古い版の表記は古い**(更新を勧めると CHANGELOG)。
+- 配布物: 0.3.2 の wheel・sdist・crate には LICENSE が無かった(npm には有った)。**0.5.0 以降は wheel の `dist-info/licenses/`、sdist、crate に `LICENSE`・`NOTICE`(・`LICENSE-THIRD-PARTY.md`)が入る**。依存に単独の GPL/LGPL/AGPL は無い(0.3.2 の SBOM 282 個)。
+- 幾何の出所: GEOS 由来を退け、JTS 1.20.0(EDL-1.0)の移植と、クリーンルームの独立実装に置き換えた。「技術的な目録で、法的な確認ではない」と作者が明記(`kcai:terrio-geometry-provenance-and-clean-room`)。
+- AI の開示: README・`acknowledgements.md` が「主に Claude Opus 5.5 で、人の指示とレビューのもと」と明記。謝辞は Whitebox、GDAL・PROJ・PDAL ほか。引用は `citation.md`(Zenodo の DOI、Wu & Fitzgerald 2026)。
+- 詳細: `kcai:terrio-license-and-third-party-notices`、`kcai:terrio-ai-disclosure-and-acknowledgements`
+
+# /assets/known-quirks
+- status: verified(日本語パスは played、他は read-source。volatile)
+- **文字列をバイト位置で切る型の欠陥**: 0.3.2 で 3 か所を踏んだ(GeoJSON の日付の判定、CSV、Zarr の名前解析)。前 2 つは 0.4.0 で直り、**Zarr の `t[..5]` は 0.7.0 でも残る**(日本語で始まる相対パス)。
+- `unsafe` は約 70 行(JPEG 2000 の FFI、SQLite のロック・mmap、SSE 命令など)、`panic!(` は約 65。`.unwrap()` は多い(試験コードを含む)。CLI は 8 MiB のスタックで実行し、起動に失敗したら呼び出しスレッドで実行する。リソース超過は `ResourceLimitError`(Python では `MemoryError`)で返る(0.6.0)。
+- ドキュメントの食い違い(0.3.2 で 14 件)の多くは、その後の版で直った。
+- 詳細: `kcai:terrio-source-quirks`、`kcai:japanese-path-panic-in-zarr-parse-name`
+
+# /assets/comparison-with-alternatives
+- status: stated(作者の整理 + この宇宙の確認)
+- terrio は「GDAL の結果を基準に、よく使う形式の入出力・変換・再投影を、純 Rust で」行うもので、**GDAL の全部の置き換えではない**。選び分け: ライブラリを入れられない、WebAssembly で動かしたい、`gdal_translate` / `ogr2ogr` を置き換えたい → terrio。多くの形式、最速の処理、格子つきの測地変換、File Geodatabase・MrSID・HDF4・データベース → GDAL。
+- 価値: GDAL を入れられない場所(クラウドのセッション、ブラウザ、サーバーレス、CI)で、`pip install` だけで GDAL 相当ができる。
+- 詳細: `kcai:why-terrio-comparison-with-alternatives`、`kcai:terrio-possibilities-and-risks`
+
+# /assets/governance-and-evolution
+- status: verified(git の読み)/ derived(方向の読み)。volatile
+- 運営: 単独の作者(Qiusheng Wu)が短い間隔で多数のコミットを出す形から、0.5.0 以降は**貢献者が約 20 人**に増えた。報告への対応は速い(#159 → #161 は翌日)。貢献の指針: GDAL との比較(実ファイルで)、純 Rust のまま(C が要る依存は不可、WebAssembly でもビルド可)、公開項目はすべて文書化、GDAL の名前に合わせる。「GDAL と違う読み方をするファイルを付けたバグ報告が特に役に立つ」。
+- 方向(derived): ①GDAL / PROJ / PDAL / rasterio「と同じ答え」を機能ごとに積む、②読み込み・変換から解析・可視化・SQL へ広げる、③クラウドネイティブの読みを形式ごとに「その場」へ、④メモリを抑えた流し読み・書きと WebAssembly(小型化・スレッド・4 GB 超)、⑤窓口と配布を増やす(MCP、rio、xarray、Docker、AUR/COPR)、⑥C 依存なしと出所の整理。**ROADMAP に日本語エンコーディング・タイル生成・日本ローカルは載っていない**(0.5.0 時点で grep)。
+- 規模: v0.4.2 で Rust 約 10.3 万行(本体)、v0.7.0 の全体で約 12.4 万行超。0.5.0 → 0.7.0 の 11 日で 231 コミット・約 +34 万行(ドキュメントやデータを含む)。
+- 起源: 2026-10-14 開始。Whitebox の `wbraster`/`wbvector`/`wbprojection` の上に始まった。
+- 詳細: `kcai:terrio-contributing-and-governance`、`kcai:terrio-evolution-0-3-2-to-0-4-2`、`kcai:terrio-roadmap-and-open-items`、`kcai:terrio-source-scale-and-origins`
+
+# /assets/play-dataset-licenses
+- status: stated(配信元の表示を読んだだけ。利用条件の解釈ではない)
+- 表示: Sentinel-2 L2A の STAC `license` は `proprietary`(ESA の Legal Notice)。Overture は出典ごとに異なる(CDLA Permissive 2.0、ODbL、CC BY 4.0 など)。Source Cooperative の日本の建物(5 GB)は ODbL v1.0。Protomaps の terrarium は多数の出典を列挙。**国土数値情報 N03(depot.optgeo.org)の利用条件は未確認**。NZ の建物(Hugging Face)はカードに `license: mit` のみで元の出どころは未記載。NOAA HRRR の Zarr、Autzen の COPC、UScounties.fgb、PROJ の格子は未確認。
+- **データ本体はリポジトリに入れていない**。このリポジトリの CC0 は、terrio(MIT)や遊びで使ったデータには適用されない。
+- 詳細: `kcai:data-licenses-of-play-datasets`
+
+# /decision-support/possibilities-and-risks
+- status: derived
+- 可能性: GDAL を入れられない場所での GDAL 相当(クラウドのセッション、ブラウザ、サーバーレス、CI)。ブラウザでの範囲読み込み。MCP で AI エージェントに道具として渡せる。幾何の検査・修復と解析が 1 つの道具に(0.5.0〜)。
+- リスク: 日本語の入力(Zarr の相対パスの panic)。**黙って誤る**挙動(`.cpg` の無い CP932、COG の `TILING_SCHEME` の黙殺)。変化の速さ(版ごとに挙動が動く)。AI 製で歴史が短い(実データでの経験が少ない)。ライセンス表記の変化(古い版は古い)。HTTPS が一部の CPU で panic しうる。CLI の FlatGeobuf・GeoParquet が全量取得。
+- 直ったリスク(0.7.0): 南極点の EPSG:3857、CP932(`.cpg` あり)。
+- 詳細: `kcai:terrio-possibilities-and-risks`
+
+# /traces/version-rechecks
+- status: verified(経過)
+- 2026-10-21 0.3.2 で初回の確認(25 ページのドキュメント、実データ、GDAL 3.8.4 との突き合わせ)。10-24 に 0.4.2、0.5.0(`stale` を解消)。11-04 に 0.7.0(南極点・CP932・docs の例が直っていたことを確認。縮小が概観から読める)。各回の記録は `plays/`(`/inventory/plays-index`)。
+
+# /traces/gdal-comparison-environments
+- status: verified
+- GDAL 3.8.4 / PROJ 9.4(apt)は terrio の基準(3.12)より古く、挙動が違う項目があった(`--ot Int16`)。2026-10-22 に conda-forge で GDAL 3.13.3 / PDAL 2.10.2 を入れて再確認した(COPC・`filter range`・STACIT は一致)。apt の GDAL には SQLite 方言の `ST_*` と Parquet ドライバーが無く、幾何の比較は Python から GEOS を直接呼んだ。
+
+# /traces/kcaim-assessment
+- status: verified
+- 2026-11-05 に kcai の木を 1 つの kcaim ファイルにするかを検討し(案 A〜D)、蒸留した試作を作った。2026-11-07 に hfu が**木を miso/terrio.md に移し、それを正本とする**案を示した。経緯と判断は `miso/ASSESSMENT.md`。
+
+# /lessons/master-and-archive
+- status: derived(根拠: `/traces/kcaim-assessment`)
+- 木(kcai 形式の踏み跡 46 本)は、2026-11-07 時点の terrio 0.7.0 の確認で**凍結した記録**として残し、新しい知識はこのファイルに書く。凍結した木は、詳しい手順・再現の根拠として `kcai:<id>` から辿れる(GitHub の `knowledge/`)。
+
+# /acceptance-tests/windows-arm64-and-install
+- query: terrio を Windows ARM64 で `pip install` できるか。Docker では
+- expected: 0.5.0 以降の PyPI に Windows ARM64 の wheel がある(0.3.2 にはなかった)。0.6.0 から `ghcr.io/opengeos/terrio` の Docker イメージ。確かめたのは PyPI のファイル一覧で、実機では動かしていない
+- requires: /assets/install-and-distribution
+- result: untested
+
+# /acceptance-tests/formats-list
+- query: terrio は FileGDB・GRIB・DXF・WFS を読めるか
+- expected: FileGDB ラスタは不可(宣言)。GRIB1/2 は 0.5.0 から可。DXF(CAD)は一部、WFS は 0.6.0 から(`stated`。動かしていない)
+- requires: /assets/formats-and-io
+- result: untested
+
+# /acceptance-tests/mcp-tools
+- query: AI エージェントに terrio を道具として渡せるか。ツールの数は
+- expected: `terrio mcp`(0.4.0 から配布版)。0.7.0 で 99 ツール、各ツールは `args`(引数の配列)を取る。書き込みは一時的な場所に限る
+- requires: /assets/interfaces
+- result: untested
+
+# /acceptance-tests/pure-rust-claim
+- query: terrio は本当に C 依存がないか
+- expected: 0.3.2 は完全には純ではなかった。0.6.0 から既定のビルドは C 依存なし(`libzstd` は任意)。HTTPS は一部の CPU で panic しうる
+- requires: /assets/architecture
+- result: untested
+
+# /acceptance-tests/dataset-license
+- query: 遊びに使った公開データを再利用してよいか
+- expected: 範囲外(示唆あり)。配信元の表示は `/assets/play-dataset-licenses` にあるが、利用条件の解釈はしない。国土数値情報の条件は未確認
+- requires: /assets/play-dataset-licenses
+- result: untested
+
 # /inventory/verification-coverage
 - status: volatile
-- 版: 0.7.0(2026-11-04)。踏み跡 46 本(`knowledge/`)のうち、`stale` は 0 本。ただし**動かして確かめ直したのは一部**で、ほかは見出しと CHANGELOG を読んだだけ(`/open-questions/unverified-0-7-0-areas`)。
+- 版: 0.7.0(2026-11-04)。移植元の踏み跡 46 本のうち、`stale` は 0 本。ただし**動かして確かめ直したのは一部**で、ほかは見出しと CHANGELOG を読んだだけ(`/open-questions/unverified-0-7-0-areas`)。
 
 # /inventory/upstream-drafts
 - status: volatile
 - 有効な下書き 3 件(Zarr の日本語パス、COG の `TILING_SCHEME` と `--dstalpha`、CLI の FlatGeobuf の全量取得)。取り下げ 6 件(ジオイド、`--ot Int16`、南極点、docs/rust.md、CP932、CSV の追記)。投稿済み 1 件(#159)。投稿は hfu。
 
+# /inventory/plays-index
+- status: volatile
+- 作業の記録(`plays/`): 2026-10-21 の first-contact、japan-edge-cases-and-survey、untested-items、upstream-feedback-loop、license-and-basics、gdal-comparison、notebooks、rust-and-notebooks。10-22 の gdal-313-pdal-comparison。10-24 の 0-4-2-recheck、0-5-0-recheck。11-04 の 0-7-0-recheck。上流への下書きは `drafts/upstream/`(一覧は `README.md`)。
+
 # /inventory/sync-status
 - status: volatile
-- この試作は、`dwg7/kcai-terrio` の 2026-11-05 時点の木(`knowledge/`)から手で蒸留した。木が更新されたら、このファイルの版つきの事実を見直す必要がある(自動の生成は未実装。`kcaim/ASSESSMENT.md`)。
+- このファイルが**正本**。`knowledge/` は凍結した記録(0.7.0、2026-11-04)。**移植は 2026-11-07 に行った**。ただし、蒸留による要約なので、木の数値の表や再現の手順は、必要なら `kcai:<id>` を読む。移植した範囲は、`/assets/…` の各オブジェクトの「詳細」が指す。
 
 # /inventory/next-actions
 - status: volatile
-- ①盲検の実行(別のエージェントに、テストの節と結果を除いたコピーを渡して質問し、`result` を記入)。②人による `reviewed`。③木からの再生成の手順を決める。
+- ①盲検の実行(別のエージェントに、受け入れテストの節と結果を除いたコピーを渡して質問し、`result` を記入)。②人による確認。③新版(0.7.0 より後)が出たら `/procedures/recheck-on-new-version`。④動かしていない領域(`/open-questions/unverified-0-7-0-areas`)を動かして、`/assets/…` に反映する。⑤大きさの管理(下の `/inventory/size`)。
+
+# /inventory/size
+- status: volatile
+- 2026-11-07 時点で約 450 行・約 5 万字(蒸留した木の要点)。**肥大化の目安**: 約 900 行を超えたら、一部の `/assets/…` を `kcai:` の木や別ファイルに戻す、または読み方の地図を置く(CONCEPT §8、§12-6)。
 
 # /system-record/agent-contract-reminder
 - status: normative

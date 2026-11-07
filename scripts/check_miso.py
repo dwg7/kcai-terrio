@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""kcaim ファイルの最小の検査（dwg7/kcaim CONCEPT §5.3）。標準ライブラリのみ。
+"""miso（旧称 kcaim）ファイルの最小の検査（dwg7/miso CONCEPT §5.3）。標準ライブラリのみ。
 
-使い方: python3 scripts/check_kcaim.py kcaim/terrio.md
+使い方: python3 scripts/check_miso.py miso/terrio.md
 エラー（終了コード 1）: UTF-8 でない、空、第 1 レベル見出しが `# /...` でない、重複。
 警告: 内部パス参照が解決しない、`result:` の語が宣言外、status の語が語彙外。
 """
@@ -52,4 +52,4 @@ def main(path):
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else "kcaim/terrio.md"))
+    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else "miso/terrio.md"))

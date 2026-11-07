@@ -187,3 +187,11 @@
 - `dwg7/kcaim` の main（8f85cd6）が、呼び名を **miso**（旧称 kcaim / KCAIM）に改める途中（段階 2〜5。`BRAND.md`、`MIGRATION.md`）。形式（CONCEPT）は変わらず、名前だけが変わる。`kcai-*` の名前は変えない方針。
 - この木の `kcaim/terrio.md` の `concept-version` を更新し、旧称のままであることを書いた。ファイル名・ディレクトリ名は、hfu の決定まで変えない（`QUESTIONS.md` D3）。
 - 新版の確認: terrio は 0.7.0 のまま（PyPI・crates.io、2026-11-07）。定期実行は毎日動いて、新版なしで終わっている（11-06 の実行は 35 秒）。
+
+## 2026-11-07: 正本を miso/terrio.md に移す（hfu の案）
+
+- `dwg7/miso`（旧 `dwg7/kcaim`、2026-11-07 に改名）の CONCEPT・BRAND・MIGRATION を読み、hfu の案どおり、kcai の木（`knowledge/` 46 本）を **`miso/terrio.md` に移植し、これを正本**とした。`knowledge/` は凍結（terrio 0.7.0、2026-11-04 の確認が最後）。消さない。`plays/` と `drafts/upstream/` は続ける。
+- `dwg7/miso` の方針（遡らず、新陳代謝で塗り替える）に従い、木は名前・中身を変えない。新しいもの（`miso/terrio.md`、`scripts/check_miso.py`）は miso の名前。`kcai-terrio` の名前は `kcai-*` なので変えない。
+- `kcaim/` は `miso/` に改め、`check_kcaim.py` は `check_miso.py` に改めた（11-05 に作ったばかりで、公開した参照は無い）。`AGENTS.md`、README、公開ページ、CI を直した。
+- 前の提案（案 C）からの変更理由: hfu が移植と正本化を望み、`dwg7/miso` の方針が「古いものは凍結、新しいものを miso に」であり、木の同期という最大の欠点が、木の凍結で消えるため。残る危うさは `miso/ASSESSMENT.md` §8。
+- 定期実行の指示も、正本の移動に合わせて更新した。

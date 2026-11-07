@@ -1,12 +1,13 @@
 # kcai-terrio
 
-[terrio](https://github.com/opengeos/terrio)（GDAL を使わない Pure Rust の地理空間データ入出力ライブラリ）で、**クラウドネイティブなデータをクラウドネイティブに触って遊びきり**、その遊びから得た知識を [kcai](https://github.com/dwg7/kcai)（Knowledge Co-created with AI（AI と共創した知識））の方式で Markdown の踏み跡として残すリポジトリです。kcai の最初期のインスタンスの一つで、「変化の速い分野で、版と確認日を記録する仕組みが役に立つか」を試す場でもあります。
+[terrio](https://github.com/opengeos/terrio)（GDAL を使わない Pure Rust の地理空間データ入出力ライブラリ）で、**クラウドネイティブなデータをクラウドネイティブに触って遊びきり**、その遊びから得た知識を、**1 つの Markdown ファイル [`miso/terrio.md`](miso/terrio.md)**（[miso](https://github.com/dwg7/miso)、旧称 kcaim の方式）に残すリポジトリです。最初は [kcai](https://github.com/dwg7/kcai)（Knowledge Co-created with AI（AI と共創した知識））の方式の踏み跡で始め（kcai の最初期のインスタンスの一つ）、2026-11-07 に miso の 1 ファイルに移して**正本**にしました。「変化の速い分野で、版と確認日を記録する仕組みが役に立つか」を試す場でもあります。
 
 管理責任者: hfu（外部への発信、承認、マージの権限）。準拠する kcai: `dwg7/kcai` コミット 66d3840（2026-10-21）。
 
 ## 中身
 
-- [`knowledge/`](knowledge/README.md): 踏み跡（題名、状態、確かめた版の一覧つき）
+- [`miso/terrio.md`](miso/terrio.md): **正本**。terrio の挙動・限界・日本ローカルを、範囲・範囲外・受け入れテストつきで 1 ファイルにしたもの（冒頭の `agent-contract` で、そのまま AI に渡せる）。[`miso/ASSESSMENT.md`](miso/ASSESSMENT.md) は移行の検討
+- [`knowledge/`](knowledge/README.md): 凍結した踏み跡 46 本（kcai の方式、terrio 0.7.0 まで。詳しい手順・数値の表の根拠）
 - [`plays/`](plays/): 遊びの記録（日時、terrio の版、環境、コマンド、結果、発見）
 - [`drafts/upstream/`](drafts/upstream/): terrio への issue の下書き（投稿は hfu が確認して行う）
 - [`docs/index.html`](docs/index.html): ブラウザ（WebAssembly）で遊ぶページ（terrio-js を CDN から版を固定して読む。GitHub Pages で公開予定）
