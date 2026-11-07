@@ -195,3 +195,8 @@
 - `kcaim/` は `miso/` に改め、`check_kcaim.py` は `check_miso.py` に改めた（11-05 に作ったばかりで、公開した参照は無い）。`AGENTS.md`、README、公開ページ、CI を直した。
 - 前の提案（案 C）からの変更理由: hfu が移植と正本化を望み、`dwg7/miso` の方針が「古いものは凍結、新しいものを miso に」であり、木の同期という最大の欠点が、木の凍結で消えるため。残る危うさは `miso/ASSESSMENT.md` §8。
 - 定期実行の指示も、正本の移動に合わせて更新した。
+
+## 2026-11-07（続き）: terrio のキャッチアップ
+
+- 新しい版は出ていない（0.7.0）。0.7.0 で動かしていなかった領域を動かして確かめ（GRIB・遠隔 Zarr・OGC API Features・WFS・STAC POST・等高線・SQL・`terrio.dev/web`）、`miso/terrio.md` に反映した。main は 0.7.0 から 55 コミット先で、次の版が出たら確かめる（`plays/2026-11-07-catch-up.md`）。
+- 受け入れテストを 21 本にした。

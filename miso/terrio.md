@@ -84,7 +84,7 @@
 - 何か: GDAL を使わない純 Rust の地理空間入出力ライブラリ。CLI(`terrio`、サブコマンド約 100)、Python(`pip install terrio`)、JavaScript/WebAssembly(`terrio-js`)、Rust crate、MCP サーバー(`terrio mcp`、ツール 99 個)。
 - 起源: 2026-10-14 に Qiusheng Wu が開始。README が「主に Claude Opus 5.5 で作られ、人の指示とレビューのもと」と明記。Whitebox(John Lindsay)の `wbraster` / `wbvector` / `wbprojection` の上に始まった。0.5.0 以降は貢献者が約 20 人に増えた。(`kcai:terrio-source-scale-and-origins`)
 - 規模(v0.4.2): 本体 Rust 約 10.3 万行。0.5.0〜0.7.0 の 11 日で 231 コミット、約 +34 万行。
-- 変化の速さ: **volatile**。答えは版つきで。
+- 変化の速さ: **volatile**。答えは版つきで。0.7.0 の後も main が進んでいる(`/assets/governance-and-evolution`)。
 - 既定のビルドは C 依存なし(0.6.0〜)。CRS は独立した crate `terrio-crs`。
 - ライセンス: 0.6.0 から MIT AND MPL-2.0(点群の固有値ソルバーが MPL-2.0)。幾何は JTS の移植か独立実装(`kcai:terrio-geometry-provenance-and-clean-room`)。古い版は古い表記(`kcai:terrio-license-and-third-party-notices`)。
 
@@ -96,7 +96,10 @@
   - **PMTiles**: CLI と JS で範囲読み込み(国土数値情報 3,625 地物の `info` が約 1.5 MiB)。
   - **COPC / JP2 / Zarr(一部)**: 範囲読み込み(0.3.2 で確認)。
 - **インターフェースで違う(verified)**: FlatGeobuf と GeoParquet は、**terrio-js の `openUrl` が bbox で範囲読み込み**(FlatGeobuf 768 KiB、5 GB の GeoParquet が 16.4 MiB・7 要求、0.7.0 で確認)。**CLI と Python は全量取得**(FlatGeobuf は 0.7.0 でも約 14 MB を受け取る。GeoParquet の 5 GB は 0.3.2 で 221 MB まで書いて停止)。中断すると `/tmp/terrio-*` に一時ファイルが残る(0.3.2)。
-- STAC: `STACIT:` で検索結果をモザイクとして開く。東京の窓 512² で、全アイテム 17.5 MiB、`max_items=1` で 6.25 MiB(0.4.2)。GDAL の STACIT と画素一致。
+- STAC: `STACIT:` で検索結果をモザイクとして開く。東京の窓 512² で、全アイテム 17.5 MiB、`max_items=1` で 6.25 MiB(0.4.2)。GDAL の STACIT と画素一致。**`method=POST`(Earth Search)も動く**(`max_items=1` で 3 要求・6.14 MiB、0.7.0)。
+- **GRIB(0.7.0、NOAA GFS の公開 S3)**: 範囲読み込みで開く。`info` は 696 バンドを **713 要求・6.9 MiB**(メッセージごとに 16 KiB のヘッダー)。1 バンドの窓 64² の取り出しは、さらに約 0.8 MiB(計 714 要求・7.75 MiB)。
+- **遠隔 Zarr(0.7.0、NOAA HRRR、`AWS_NO_SIGN_REQUEST=YES` の S3)**: `ZARR:"/vsis3/hrrrzarr/…"` で `info` が通る(1799×1059、座標系は `unknown`)。
+- **OGC API Features / WFS(0.7.0)**: `OAPIF:https://demo.pygeoapi.io/master/collections/lakes` の `info` と、ページ送り(`--oo PAGE_SIZE=3`)つきの GeoPackage への変換が通る。`WFS:`(demo.mapserver.org、1.1.0)の `info` が層を列挙する。
 - 詳細: `kcai:cloud-native-read-behavior-matrix`、`kcai:cog-remote-window-overview-and-warp`、`kcai:pmtiles-remote-reading`、`kcai:terrio-js-cloud-native-reads-in-browser`、`kcai:terrio-stac-and-stacit`
 
 # /assets/japan-local
@@ -111,6 +114,7 @@
 # /assets/processing-and-geometry
 - status: verified(GDAL 3.8.4 との比較。volatile)
 - ラスタ処理: `dem`(hillshade・slope・aspect・TRI・TPI・roughness、multidirectional、compute-edges)、`translate`(srcwin・outsize・ot/scale)、`warp`(near・bilinear・cubic・average)、`calc`、`proximity`、`sieve`、`mosaic`、`rasterize`、COG 書き出しは、**GDAL 3.8.4 と画素が完全一致**(20 項目。0.3.2〜0.7.0 で繰り返し確認)。
+- 等高線・SQL(0.7.0、played): `terrio contour --interval 10`(標高モデル 140×140)は **106 本で、`gdal_contour -i 10` と同数**。`terrio sql` は `GROUP BY` と集計(`COUNT`・`SUM`)、`ST_Area` が動く(3 ポリゴンの試料で期待どおり)。`terrio preview` は端末でなければ `-o FILE` が要る。
 - 幾何(0.5.0 から): `is-valid`・`make-valid`・`clean`・`buffer`・`overlay`・`dissolve` ほか。ちょうちょ形の不正ポリゴンで、修復・バッファ・ディゾルブが **GEOS と一致**(0.5.0 と 0.7.0)。実装は JTS の移植・クリーンルームに置き換わった(`kcai:terrio-geometry-provenance-and-clean-room`)。
 - 形式の往復: Zarr・JPEG 2000・COG を terrio が書き、GDAL が画素一致で読む(0.4.2)。PMTiles(MVT)を GDAL が読める(0.3.2)。COPC と `filter range` は PDAL 2.10.2 と点数・統計が一致(0.3.2)。
 - **まだ残る差**(0.7.0): `warp --dstalpha` が無い。COG の `TILING_SCHEME=GoogleMapsCompatible` を黙って無視する(画素サイズ 12.32 m のまま)。
@@ -120,6 +124,7 @@
 - status: verified(一部 stated)
 - Python: 公式ノートブック 2 本(quickstart・xarray)のコードセル 13 個ずつが全成功(0.7.0)。xarray のノートブックは `terrio[xarray]` に **`zarr` が入らない**ので別途 `pip install zarr`。`terrio.rio`(rasterio 互換)と `terrio-rio` コマンドがある。
 - JavaScript/WebAssembly: terrio-js 0.7.0 の公開ページで、座標変換・日本語の文字列・6 つの範囲読み込みの試料が動く(実ブラウザ)。
+- **ブラウザの CLI**: `https://terrio.dev/web/` は、terrio のコマンドラインを WebAssembly でタブの中で動かす(0.7.0 と表示。ファイルは手元に残り、URL は範囲読み込み)。ページの読み込みとコマンド一覧の表示を実ブラウザで確認(コマンドの実行は未確認)。
 - MCP: `terrio mcp` は 99 ツール(0.7.0)。各ツールは `args`(コマンドラインの配列)を取る。書き込みは一時的な場所に限ること。
 - Rust: 0.4.0 から feature で絞れる。ドキュメントの依存の版が古かった(`"0.3"`)のは 0.7.0 で直った。
 - 詳細: `kcai:terrio-python-api`、`kcai:terrio-xarray-integration`、`kcai:terrio-mcp-server`、`kcai:terrio-js-api-and-playground`、`kcai:terrio-rust-library-and-features`、`kcai:terrio-rio-rasterio-compatible-api`
@@ -191,7 +196,7 @@
 
 # /open-questions/unverified-0-7-0-areas
 - status: open
-- 0.7.0 で動かして確かめていない領域: 遠隔 Zarr、STAC の POST と Planetary Computer、STACTA、GRIB、新しい点群フィルタ、WFS / OGC API Features、プレイグラウンド、ベンチマークの数値、Windows / macOS。
+- 0.7.0 で動かして確かめていない領域(2026-11-07 のキャッチアップ後): STACTA、`terrio.dev/web` でのコマンドの実行、`preview` の画像の中身、`viewshed`、`zonal-stats` の値(試料が重ならなかった)、新しい点群フィルタ(dbscan・lof ほか)の値、ベンチマークの数値、プレイグラウンド、Windows / macOS。**main(0.7.0 より 55 コミット先)の変更は、リリースされるまで確かめない**。
 
 # /open-questions/reviewed-by
 - status: open
@@ -360,6 +365,7 @@
 
 # /assets/governance-and-evolution
 - status: verified(git の読み)/ derived(方向の読み)。volatile
+- main の動き(0.7.0 の後、2026-11-08 までに 55 コミット、`stated`): 性能の改善が中心(Deflate 書き込みを libdeflate の純 Rust 移植に、HTTP 接続プールの共有、`dem`・`zonal`・`warp` の高速化)、`terrio.dev/web`(ブラウザの CLI)、タイル生成の拡張(子タイルから下位ズーム、WebP のディレクトリタイル)、KMZ・FlatGeobuf・GeoPackage の堅牢化(不完全なレコードを拒否、SQLite の文字コード)、新しい貢献者(Nicolas Karasiak、Eduardo Lacerda ほか)。
 - 運営: 単独の作者(Qiusheng Wu)が短い間隔で多数のコミットを出す形から、0.5.0 以降は**貢献者が約 20 人**に増えた。報告への対応は速い(#159 → #161 は翌日)。貢献の指針: GDAL との比較(実ファイルで)、純 Rust のまま(C が要る依存は不可、WebAssembly でもビルド可)、公開項目はすべて文書化、GDAL の名前に合わせる。「GDAL と違う読み方をするファイルを付けたバグ報告が特に役に立つ」。
 - 方向(derived): ①GDAL / PROJ / PDAL / rasterio「と同じ答え」を機能ごとに積む、②読み込み・変換から解析・可視化・SQL へ広げる、③クラウドネイティブの読みを形式ごとに「その場」へ、④メモリを抑えた流し読み・書きと WebAssembly(小型化・スレッド・4 GB 超)、⑤窓口と配布を増やす(MCP、rio、xarray、Docker、AUR/COPR)、⑥C 依存なしと出所の整理。**ROADMAP に日本語エンコーディング・タイル生成・日本ローカルは載っていない**(0.5.0 時点で grep)。
 - 規模: v0.4.2 で Rust 約 10.3 万行(本体)、v0.7.0 の全体で約 12.4 万行超。0.5.0 → 0.7.0 の 11 日で 231 コミット・約 +34 万行(ドキュメントやデータを含む)。
@@ -381,7 +387,7 @@
 
 # /traces/version-rechecks
 - status: verified(経過)
-- 2026-10-21 0.3.2 で初回の確認(25 ページのドキュメント、実データ、GDAL 3.8.4 との突き合わせ)。10-24 に 0.4.2、0.5.0(`stale` を解消)。11-04 に 0.7.0(南極点・CP932・docs の例が直っていたことを確認。縮小が概観から読める)。各回の記録は `plays/`(`/inventory/plays-index`)。
+- 2026-10-21 0.3.2 で初回の確認(25 ページのドキュメント、実データ、GDAL 3.8.4 との突き合わせ)。10-24 に 0.4.2、0.5.0(`stale` を解消)。11-04 に 0.7.0(南極点・CP932・docs の例が直っていたことを確認。縮小が概観から読める)。11-07 に、動かしていなかった領域(GRIB・遠隔 Zarr・STAC POST・OGC API Features・WFS・等高線・SQL・ブラウザの CLI)を 0.7.0 で確かめた(`plays/2026-11-07-catch-up.md`)。各回の記録は `plays/`(`/inventory/plays-index`)。
 
 # /traces/gdal-comparison-environments
 - status: verified
@@ -394,6 +400,18 @@
 # /lessons/master-and-archive
 - status: derived(根拠: `/traces/kcaim-assessment`)
 - 木(kcai 形式の踏み跡 46 本)は、2026-11-07 時点の terrio 0.7.0 の確認で**凍結した記録**として残し、新しい知識はこのファイルに書く。凍結した木は、詳しい手順・再現の根拠として `kcai:<id>` から辿れる(GitHub の `knowledge/`)。
+
+# /acceptance-tests/remote-grib-and-zarr
+- query: NOAA の GRIB2 や公開 S3 の Zarr を、丸ごと取らずに読めるか
+- expected: 0.7.0 で、GRIB は範囲読み込み(696 バンドの `info` が約 7 MiB、1 バンドの窓は約 0.8 MiB の追加)。S3 の Zarr(`ZARR:"/vsis3/…"`、`AWS_NO_SIGN_REQUEST=YES`)は `info` が通る
+- requires: /assets/cloud-native-reads
+- result: untested
+
+# /acceptance-tests/api-sources
+- query: OGC API Features・WFS・STAC の POST 検索から、terrio で読めるか
+- expected: 0.7.0 で、`OAPIF:`(pygeoapi の demo)と `WFS:`(mapserver の demo、1.1.0)、`STACIT:…method=POST`(Earth Search)が動く。認証が要る API は未確認
+- requires: /assets/cloud-native-reads
+- result: untested
 
 # /acceptance-tests/windows-arm64-and-install
 - query: terrio を Windows ARM64 で `pip install` できるか。Docker では

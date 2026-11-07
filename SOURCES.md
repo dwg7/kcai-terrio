@@ -4,7 +4,7 @@
 
 | id | 発行者 | 名称 | URL | 版 | 確認日 |
 |---|---|---|---|---|---|
-| terrio-repo | opengeos（Qiusheng Wu） | terrio リポジトリ（ソース、ROADMAP.md、docs/） | https://github.com/opengeos/terrio | 配布版 0.7.0（0.3.2 は a08e7d8）／main f24cd15（Release 0.7.0） | 2026-11-04 |
+| terrio-repo | opengeos（Qiusheng Wu） | terrio リポジトリ（ソース、ROADMAP.md、docs/） | https://github.com/opengeos/terrio | 配布版 0.7.0（0.3.2 は a08e7d8）／main c964352（2026-11-07。0.7.0 の f24cd15 から 55 コミット先） | 2026-11-08 |
 | terrio-docs | opengeos | terrio ドキュメントサイト（0.7.0 で 41 ページ） | https://terrio.dev （旧 terrio.opengeos.org は転送） | main 追随（配布版より先行） | 2026-11-04（v0.3.2→v0.7.0 の差分を、見出しと CHANGELOG を中心に読んだ） |
 | terrio-pypi | PyPI | terrio（Python） | https://pypi.org/project/terrio/ | 0.7.0 | 2026-11-04 |
 | terrio-crates | crates.io | terrio（Rust） | https://crates.io/crates/terrio | 0.7.0 | 2026-11-04 |
