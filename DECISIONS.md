@@ -200,3 +200,7 @@
 
 - 新しい版は出ていない（0.7.0）。0.7.0 で動かしていなかった領域を動かして確かめ（GRIB・遠隔 Zarr・OGC API Features・WFS・STAC POST・等高線・SQL・`terrio.dev/web`）、`miso/terrio.md` に反映した。main は 0.7.0 から 55 コミット先で、次の版が出たら確かめる（`plays/2026-11-07-catch-up.md`）。
 - 受け入れテストを 21 本にした。
+
+## 2026-11-08: 機能の理解を深める（hfu の問い）
+
+- 「機能への理解を深めていけるか」に対し、機能を**参照実装と、利用者が置き換えたい別の道具の両方**と比べる進め方で、最初に dwg7 の判断に効くタイル生成を掘り下げた（`plays/2026-11-08-tile-generation.md`）。結論: 多角形は tippecanoe・GDAL と一致、密な点の間引きは無い。`miso/terrio.md` の `/assets/processing-and-geometry`、受け入れテスト、`/inventory/feature-depth`（深さの一覧と次の候補）に反映した。

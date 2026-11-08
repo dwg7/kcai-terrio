@@ -117,6 +117,7 @@
 - 等高線・SQL(0.7.0、played): `terrio contour --interval 10`(標高モデル 140×140)は **106 本で、`gdal_contour -i 10` と同数**。`terrio sql` は `GROUP BY` と集計(`COUNT`・`SUM`)、`ST_Area` が動く(3 ポリゴンの試料で期待どおり)。`terrio preview` は端末でなければ `-o FILE` が要る。
 - 幾何(0.5.0 から): `is-valid`・`make-valid`・`clean`・`buffer`・`overlay`・`dissolve` ほか。ちょうちょ形の不正ポリゴンで、修復・バッファ・ディゾルブが **GEOS と一致**(0.5.0 と 0.7.0)。実装は JTS の移植・クリーンルームに置き換わった(`kcai:terrio-geometry-provenance-and-clean-room`)。
 - 形式の往復: Zarr・JPEG 2000・COG を terrio が書き、GDAL が画素一致で読む(0.4.2)。PMTiles(MVT)を GDAL が読める(0.3.2)。COPC と `filter range` は PDAL 2.10.2 と点数・統計が一致(0.3.2)。
+- **ベクタタイル(PMTiles / MVT)の書き出し(0.7.0、played、tippecanoe 2.49.0・GDAL 3.8.4 と比較)**: terrio の書き出しは **GDAL の MVT ライターを再現**したもの(ドキュメント: EPSG:3857 に再投影、既定のズームは 0〜5、80/4096 の余白でクリップ、量子化、500 kB 超のタイルは低解像度に、`--minzoom`/`--maxzoom`、`--lco` で `SIMPLIFICATION`・`MAX_SIZE`・`MAX_FEATURES`・`BUFFER`)。国界 179 地物(多角形、z0〜4)では、**terrio・GDAL の MVT・tippecanoe の地物数がズームごとに一致**(178・199・221・281・436。terrio と GDAL のファイルは約 166 KB と 170 KB、tippecanoe は 155 KB)。**ただし密な点では tippecanoe の間引きに相当するものが無い**: 6 万点で z0 のタイルに 6 万点すべてを入れる(tippecanoe は 246 点、z2 で 1,536 点、z4 で 9,600 点)。アーカイブは terrio 3.5 MB、tippecanoe 1.6 MB。GDAL の MVT ライターは z2・z4 で 48,600 点と、terrio(46,200・45,600)と少し違う(500 kB 超のタイルの扱いの差と思われる。未確認)。つまり **terrio は「GDAL の MVT ライターの代わり」にはなるが、「tippecanoe の代わり」には、点の密度による間引き(`--drop-densest-as-needed` など)、自動の最大ズーム(`-zg`)の面で、まだならない**。
 - **まだ残る差**(0.7.0): `warp --dstalpha` が無い。COG の `TILING_SCHEME=GoogleMapsCompatible` を黙って無視する(画素サイズ 12.32 m のまま)。
 - 詳細: `kcai:terrio-vs-gdal-spot-checks`、`kcai:terrio-processing-commands-smoke-test`、`kcai:terrio-conformance-and-testing-against-gdal`
 
@@ -133,7 +134,7 @@
 - status: derived
 - 背景: dwg7 / hfu の公開リポジトリは、タイル配信(PMTiles・Martin・MapLibre)と、その前処理(ogr2ogr・tippecanoe・gdal_translate・gdalwarp)が中心。
 - terrio で**置き換えられる見込み**(verified の裏づけつき): ラスタの再投影・圧縮・窓・縮小・形式変換、ベクタの形式変換と属性の選択、日本語属性の変換(0.4.0 以降)、`.cpg` つきの CP932 の Shapefile(0.7.0)、幾何の検査・修復。
-- **置き換えにくい**: タイル生成(tippecanoe 相当。PMTiles 書き出しは可能だが、属性の間引きやズーム別の単純化は未確認)、Zarr の日本語の相対パス、CLI の FlatGeobuf・GeoParquet の部分読み。
+- **置き換えにくい**: タイル生成のうち**密な点・線の間引き**(tippecanoe 相当。多角形の PMTiles 書き出しは tippecanoe と地物数が一致、点は間引かずに全部入る。0.7.0)、Zarr の日本語の相対パス、CLI の FlatGeobuf・GeoParquet の部分読み。
 - 詳細: `kcai:hfu-dwg7-workflow-substitution-survey`
 
 # /decision-support/advice-for-dwg7
@@ -191,8 +192,9 @@
 - 3 次元 `EPSG:6667 → 6697` のジオイドは、`TERRIO_NETWORK=ON`(PROJ の CDN の格子)が要るのか。定期実行の記録は「付けないと警告が出て高さは変わらない」と言い、手元の 0.7.0 では付けずに 13.2386 が出た(格子のキャッシュの有無の可能性)。未整理。
 
 # /open-questions/tile-generation
-- status: open
-- terrio の PMTiles 書き出しは、tippecanoe の属性間引き・ズーム別単純化の代わりになるか。未確認。
+- status: open(一部解決)
+- 解決(0.7.0、played): 国界のような多角形では、terrio の PMTiles は tippecanoe・GDAL の MVT と地物数が一致する。**点の密度による間引き・自動の最大ズームは無い**(`/assets/processing-and-geometry`)。
+- 未確認: 線の簡略化のズーム別の挙動、属性の扱い(tippecanoe の `-y` `-x` 相当は `--select`)、MapLibre での見え方、大規模データ(百万地物)、`terrio tile`(ラスタの z/x/y.png)。
 
 # /open-questions/unverified-0-7-0-areas
 - status: open
@@ -241,7 +243,7 @@
 
 # /acceptance-tests/tippecanoe-substitute
 - query: terrio で tippecanoe の代わりにタイルを作れるか
-- expected: PMTiles の書き出しはできるが、tippecanoe の属性の間引きやズーム別の単純化の代わりになるかは未確認(`/open-questions/tile-generation`)
+- expected: PMTiles / MVT の書き出しはでき、多角形では tippecanoe と地物数が一致する(国界)。**密な点の間引き(`--drop-densest-as-needed`)と自動の最大ズームは無く**、6 万点で z0 に全点が入る(0.7.0)。つまり GDAL の MVT ライターの代わりにはなるが、tippecanoe の代わりには、間引きが要る用途ではまだならない
 - requires: /assets/cloud-native-reads, /scenarios/dwg7-tile-and-prep-workflow
 - result: untested
 
@@ -393,6 +395,14 @@
 - status: verified
 - GDAL 3.8.4 / PROJ 9.4(apt)は terrio の基準(3.12)より古く、挙動が違う項目があった(`--ot Int16`)。2026-10-22 に conda-forge で GDAL 3.13.3 / PDAL 2.10.2 を入れて再確認した(COPC・`filter range`・STACIT は一致)。apt の GDAL には SQLite 方言の `ST_*` と Parquet ドライバーが無く、幾何の比較は Python から GEOS を直接呼んだ。
 
+# /traces/tile-generation-deep-dive
+- status: verified
+- 2026-11-08 に「terrio は tippecanoe の代わりになるか」を、tippecanoe 2.49.0(apt)と GDAL 3.8.4 の MVT ライターで比べた(`plays/2026-11-08-tile-generation.md`)。多角形は一致、密な点の間引きは無い。ドキュメントを読むと、terrio の書き出しが GDAL の MVT ライターの再現だと分かり、それが実測と合った。
+
+# /lessons/read-the-reference-implementation
+- status: derived(根拠: `/traces/tile-generation-deep-dive`)
+- 機能の理解は、①ドキュメントが「何の再現か」を読み(ここでは GDAL の MVT ライター)、②同じ入力でその参照実装と、さらに**利用者が置き換えたい別の道具**(tippecanoe)の両方と比べると速い。「できる」より「何と同じで、何と違うか」が分かる。
+
 # /traces/kcaim-assessment
 - status: verified
 - 2026-11-05 に kcai の木を 1 つの kcaim ファイルにするかを検討し(案 A〜D)、蒸留した試作を作った。2026-11-07 に hfu が**木を miso/terrio.md に移し、それを正本とする**案を示した。経緯と判断は `miso/ASSESSMENT.md`。
@@ -461,11 +471,16 @@
 
 # /inventory/next-actions
 - status: volatile
-- ①盲検の実行(別のエージェントに、受け入れテストの節と結果を除いたコピーを渡して質問し、`result` を記入)。②人による確認。③新版(0.7.0 より後)が出たら `/procedures/recheck-on-new-version`。④動かしていない領域(`/open-questions/unverified-0-7-0-areas`)を動かして、`/assets/…` に反映する。⑤大きさの管理(下の `/inventory/size`)。
+- ⓪機能の理解を深める順(`/inventory/feature-depth`)。①盲検の実行(別のエージェントに、受け入れテストの節と結果を除いたコピーを渡して質問し、`result` を記入)。②人による確認。③新版(0.7.0 より後)が出たら `/procedures/recheck-on-new-version`。④動かしていない領域(`/open-questions/unverified-0-7-0-areas`)を動かして、`/assets/…` に反映する。⑤大きさの管理(下の `/inventory/size`)。
+
+# /inventory/feature-depth
+- status: volatile
+- 機能の理解の深さ(2026-11-08)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、`dem` ほかのラスタ処理(GDAL と画素一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と比較)。**浅い**(動かしたが比較は未実施): GRIB、遠隔 Zarr、OGC API Features、WFS、等高線の値(本数のみ)、SQL、`preview`、MCP の書き込み。**未着手**: STACTA、`viewshed`、`zonal-stats` の値、`terrio tile`(ラスタ)、新しい点群フィルタ、Windows / macOS。
+- 次に深める候補(dwg7 の判断に効く順): ①線のタイル(簡略化)と MapLibre での見え方、②`terrio tile`(ラスタタイル)、③GRIB・Zarr の値を GDAL と比べる、④`viewshed`・`zonal-stats`。
 
 # /inventory/size
 - status: volatile
-- 2026-11-07 時点で約 450 行・約 5 万字(蒸留した木の要点)。**肥大化の目安**: 約 900 行を超えたら、一部の `/assets/…` を `kcai:` の木や別ファイルに戻す、または読み方の地図を置く(CONCEPT §8、§12-6)。
+- 2026-11-08 時点で約 480 行・約 5 万字(蒸留した木の要点)。**肥大化の目安**: 約 900 行を超えたら、一部の `/assets/…` を `kcai:` の木や別ファイルに戻す、または読み方の地図を置く(CONCEPT §8、§12-6)。
 
 # /system-record/agent-contract-reminder
 - status: normative
