@@ -204,3 +204,11 @@
 ## 2026-11-08: 機能の理解を深める（hfu の問い）
 
 - 「機能への理解を深めていけるか」に対し、機能を**参照実装と、利用者が置き換えたい別の道具の両方**と比べる進め方で、最初に dwg7 の判断に効くタイル生成を掘り下げた（`plays/2026-11-08-tile-generation.md`）。結論: 多角形は tippecanoe・GDAL と一致、密な点の間引きは無い。`miso/terrio.md` の `/assets/processing-and-geometry`、受け入れテスト、`/inventory/feature-depth`（深さの一覧と次の候補）に反映した。
+
+## 2026-11-19: 作業の再開と、terrio 0.8.0・0.9.0 への追随
+
+- 11 日ぶりに再開。terrio は 0.9.0（0.7.0 から 295 コミット）。手元で 0.9.0 の確認を行い、`miso/terrio.md` を更新した（`plays/2026-11-19-0-9-0-catch-up.md`）。
+- 変わったこと: **GeoParquet が CLI でも範囲読み込みに**（最初の大きな発見が解消）、**`warp` の既定が GDAL と画素一致しない**（`--grid-invariant false` で一致）、**terrio-js 0.9.0 が大きなラスタ PMTiles で panic**（新しい下書き。最優先）、STAC の資格情報つきアセットの拒否。残る: Zarr の日本語の相対パス、`--dstalpha`、`TILING_SCHEME`、FlatGeobuf の CLI。
+- 有効な下書きは 4 件（terrio-js の退行、Zarr の日本語パス、COG の `TILING_SCHEME` と `--dstalpha`、FlatGeobuf）。FlatGeobuf の下書きは、GeoParquet の部分が解決したので、FlatGeobuf だけに絞る注記を付けた。
+- 公開ページの terrio-js の固定は 0.7.0 のまま。
+- 定期実行は毎日動いているが、リポジトリが環境のソースに入っておらず、push できない状態が続いている（`QUESTIONS.md`）。

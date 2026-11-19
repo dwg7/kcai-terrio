@@ -23,7 +23,8 @@ STATUS = {
     "2026-10-21-translate-ot-int16-leaves-out-of-range-nodata.md": ("obsolete", "取り下げ。GDAL 3.13.3 は terrio と同じく範囲外の nodata を残す（3.8.4 だけ丸める）"),
     "2026-10-21-cog-tiling-scheme-ignored-and-dstalpha.md": ("ready", "質問・要望（GDAL 3.8.4 と 3.13.3 で比較済み）。TILING_SCHEME が黙って無視される、--dstalpha がない"),
     "2026-10-24-rust-docs-dependency-version-does-not-resolve.md": ("obsolete", "取り下げ。0.7.0 で docs/rust.md が直った"),
-    "2026-10-21-cli-range-reads-for-flatgeobuf-and-geoparquet.md": ("ready", "質問。CLI の FlatGeobuf / GeoParquet は全量取得（JS 版は範囲読み）。中断時の一時ファイル"),
+    "2026-11-19-terrio-js-openurl-large-raster-pmtiles-panics.md": ("ready", "terrio-js 0.9.0 の退行: 大きなラスタの PMTiles（30 GB）の openUrl が capacity overflow で panic。0.7.0・0.8.0 は開く。CLI は影響なし。再現手順つき。**最優先**"),
+    "2026-10-21-cli-range-reads-for-flatgeobuf-and-geoparquet.md": ("ready", "質問。CLI の FlatGeobuf は全量取得（JS 版は範囲読み）。**GeoParquet は 0.9.0 で解決**。投稿するなら FlatGeobuf だけに絞る"),
 }
 LIMIT = 7000  # GitHub の URL 長の実用的な上限の目安（超えたら貼り付けで投稿）
 

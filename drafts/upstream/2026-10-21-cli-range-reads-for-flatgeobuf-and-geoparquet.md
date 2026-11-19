@@ -1,3 +1,5 @@
+> **更新（2026-11-19）**: **GeoParquet の部分は 0.9.0 で解決した**（CHANGELOG: URL の GeoParquet を範囲読み込みで読む。5 GB の `JPN.parquet` を bbox で `convert` すると 14 要求・16.3 MiB・7 秒・90 地物で、一時ファイルも残らない。2026-11-19 に確認）。**残るのは FlatGeobuf だけ**（0.9.0 でも `UScounties.fgb` の bbox 読みで約 14 MB を受け取る）。投稿するなら、タイトルと本文を FlatGeobuf だけに絞る（GeoParquet の記述は外す）。
+
 # Draft question for opengeos/terrio (not posted; hfu will review and post)
 
 **Title:** Question: will the CLI/Python get the range-request FlatGeobuf and GeoParquet readers that terrio-js has? (and an interrupted download leaves its temp file)
