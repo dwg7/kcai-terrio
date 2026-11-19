@@ -212,3 +212,7 @@
 - 有効な下書きは 4 件（terrio-js の退行、Zarr の日本語パス、COG の `TILING_SCHEME` と `--dstalpha`、FlatGeobuf）。FlatGeobuf の下書きは、GeoParquet の部分が解決したので、FlatGeobuf だけに絞る注記を付けた。
 - 公開ページの terrio-js の固定は 0.7.0 のまま。
 - 定期実行は毎日動いているが、リポジトリが環境のソースに入っておらず、push できない状態が続いている（`QUESTIONS.md`）。
+
+## 2026-11-19（続き）: MapLibre での見え方
+
+- terrio・tippecanoe・GDAL のベクタタイルを MapLibre で描いて比べた（`plays/2026-11-19-maplibre-rendering.md`）。多角形と線は同じ見え方、点だけ間引きの差。`miso/terrio.md` の `/assets/processing-and-geometry`、`/open-questions/tile-generation`、`/inventory/feature-depth` に反映した。次の候補は `terrio tile`（ラスタタイル）。

@@ -121,6 +121,7 @@
 - 幾何(0.5.0 から): `is-valid`・`make-valid`・`clean`・`buffer`・`overlay`・`dissolve` ほか。ちょうちょ形の不正ポリゴンで、修復・バッファ・ディゾルブが **GEOS と一致**(0.5.0 と 0.7.0)。実装は JTS の移植・クリーンルームに置き換わった(`kcai:terrio-geometry-provenance-and-clean-room`)。
 - 形式の往復: Zarr・JPEG 2000・COG を terrio が書き、GDAL が画素一致で読む(0.4.2)。PMTiles(MVT)を GDAL が読める(0.3.2)。COPC と `filter range` は PDAL 2.10.2 と点数・統計が一致(0.3.2)。
 - **ベクタタイル(PMTiles / MVT)の書き出し(0.7.0、played、tippecanoe 2.49.0・GDAL 3.8.4 と比較)**: terrio の書き出しは **GDAL の MVT ライターを再現**したもの(ドキュメント: EPSG:3857 に再投影、既定のズームは 0〜5、80/4096 の余白でクリップ、量子化、500 kB 超のタイルは低解像度に、`--minzoom`/`--maxzoom`、`--lco` で `SIMPLIFICATION`・`MAX_SIZE`・`MAX_FEATURES`・`BUFFER`)。国界 179 地物(多角形、z0〜4)では、**terrio・GDAL の MVT・tippecanoe の地物数がズームごとに一致**(178・199・221・281・436。terrio と GDAL のファイルは約 166 KB と 170 KB、tippecanoe は 155 KB)。**ただし密な点では tippecanoe の間引きに相当するものが無い**: 6 万点で z0 のタイルに 6 万点すべてを入れる(0.9.0 では z2・z4 も 6 万点すべて、アーカイブは 2.9 MB に。0.7.0 は z2・z4 が 46,200・45,600。tippecanoe は 246 点、z2 で 1,536 点、z4 で 9,600 点)。アーカイブは terrio 3.5 MB、tippecanoe 1.6 MB。GDAL の MVT ライターは z2・z4 で 48,600 点と、terrio(46,200・45,600)と少し違う(500 kB 超のタイルの扱いの差と思われる。未確認)。- **線のタイル(0.9.0、played、tippecanoe 2.49.0 と比較)**: 国界の輪郭線 284 本(z0〜6)は、**地物数がズームごとに tippecanoe と一致**(284・332・552・1,682)し、頂点数も近く(z0 で terrio 9,958 対 tippecanoe 8,578、z6 で 13,928 対 13,830)、アーカイブは 376 KB 対 391 KB。**ふつうの実データの線なら、tippecanoe とほぼ同じ**。一方、**ごく細かいノイズの線**(乱数歩行の 3,000 本、各 61 頂点、4°四方)では差が出る: z0 の頂点数は terrio 25,179 対 tippecanoe 4,040(総延長 22 万 km 対 2.3 万 km)、z2 で 8.3 万対 1.3 万、z4 で 17 万対 9 万。**tippecanoe は画素より小さい細部をズーム別に大きく簡略化し、terrio は量子化(4096 格子)による削減が中心**。アーカイブは 911 KB 対 733 KB。GDAL の MVT ディレクトリは、GDAL 3.13.3 の `OpenEx` で開けなかった(原因未確認)。
+- **MapLibre での見え方(0.9.0、played、MapLibre GL JS 4.7.1 を実 Chromium で、同じ入力・同じスタイル・同じカメラで描画)**: terrio・tippecanoe・GDAL の MVT を、XYZ のディレクトリ(gzip は `Content-Encoding` つきで配信)にして描き、画素を比べた。**多角形(国界)と線は、terrio の描画が GDAL の MVT と画素まで同一**(差のある画素 0.00%)で、**tippecanoe とも差は 0.02% 以下**(z1・z3・z5。輪郭線も同様)。描かれる地物数も同じ(例: z3 で 36、z5 で 6)。**点は違いが見える**: 60,000 点のとき、terrio は全点を描き(z4・z6 とも 6 万地物)、tippecanoe は間引いて 3,840(z4)・23,998(z6)。暗い画素は z4 で 10,480 対 5,432、タイルの合計は 3.4 MB 対 1.2 MB(`--drop-densest-as-needed` を付けても tippecanoe は同じ結果)。画面では、terrio は密集部が塗りつぶされ、tippecanoe は粒が見える。MapLibre は、gzip の `.pbf` を、サーバーが `Content-Encoding: gzip` を付けないと読めない(terrio・GDAL の書き出しは gzip、tippecanoe は `--no-tile-compression` で無圧縮にした)。
 つまり **terrio は「GDAL の MVT ライターの代わり」にはなるが、「tippecanoe の代わり」には、点の密度による間引き(`--drop-densest-as-needed` など)、自動の最大ズーム(`-zg`)の面で、まだならない**。
 - **まだ残る差**(0.9.0 でも): `warp --dstalpha` が無い。COG の `TILING_SCHEME=GoogleMapsCompatible` を黙って無視する(画素サイズ 12.32 m のまま)。
 - 詳細: `kcai:terrio-vs-gdal-spot-checks`、`kcai:terrio-processing-commands-smoke-test`、`kcai:terrio-conformance-and-testing-against-gdal`
@@ -200,6 +201,7 @@
 - status: open(一部解決)
 - 解決(0.7.0、played): 国界のような多角形では、terrio の PMTiles は tippecanoe・GDAL の MVT と地物数が一致する。**点の密度による間引き・自動の最大ズームは無い**(`/assets/processing-and-geometry`)。
 - 解決(0.9.0、played): 線のタイル。国界のような実データの線は tippecanoe とほぼ同じ。画素より小さい細部が多い線(ノイズ)は、tippecanoe のほうが低ズームで大きく簡略化する。
+- 解決(0.9.0、played): MapLibre での見え方。多角形・線は GDAL の MVT と画素一致、tippecanoe とほぼ同じ。点は間引きの有無が見た目に出る。
 - 未確認: 属性の扱い(tippecanoe の `-y` `-x` 相当は `--select`)、MapLibre での見え方、大規模データ(百万地物)、`terrio tile`(ラスタの z/x/y.png)。
 
 # /open-questions/unverified-0-7-0-areas
@@ -424,6 +426,10 @@
 - status: verified
 - 2026-11-19 に 0.8.0・0.9.0（0.7.0 から 295 コミット）を確認した（`plays/2026-11-19-0-9-0-catch-up.md`）。**GeoParquet が CLI でも範囲読み込みに**、**`warp` の既定が GDAL と画素一致しなくなった**、**terrio-js 0.9.0 が大きなラスタ PMTiles で panic**、STAC の資格情報つきアセットの拒否。日本語の相対パス（Zarr）、`--dstalpha`、COG の `TILING_SCHEME`、FlatGeobuf の CLI は残る。
 
+# /traces/maplibre-rendering
+- status: verified
+- 2026-11-19 に、terrio・tippecanoe・GDAL のベクタタイルを MapLibre で描いて画素を比べた（`plays/2026-11-19-maplibre-rendering.md`）。多角形と線は同じ見え方、点だけ間引きの差。
+
 # /traces/tile-generation-deep-dive
 - status: verified
 - 2026-11-08 に「terrio は tippecanoe の代わりになるか」を、tippecanoe 2.49.0(apt)と GDAL 3.8.4 の MVT ライターで比べた(`plays/2026-11-08-tile-generation.md`)。多角形は一致、密な点の間引きは無い。ドキュメントを読むと、terrio の書き出しが GDAL の MVT ライターの再現だと分かり、それが実測と合った。
@@ -505,7 +511,7 @@
 # /inventory/feature-depth
 - status: volatile
 - 機能の理解の深さ(2026-11-08)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、`dem` ほかのラスタ処理(GDAL と画素一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と比較)。**浅い**(動かしたが比較は未実施): GRIB、遠隔 Zarr、OGC API Features、WFS、等高線の値(本数のみ)、SQL、`preview`、MCP の書き込み。**未着手**: STACTA、`viewshed`、`zonal-stats` の値、`terrio tile`(ラスタ)、新しい点群フィルタ、Windows / macOS。
-- 次に深める候補(dwg7 の判断に効く順): ①(線のタイルは 2026-11-19 に比較済み)MapLibre での見え方、②`terrio tile`(ラスタタイル)、③GRIB・Zarr の値を GDAL と比べる、④`viewshed`・`zonal-stats`。
+- 次に深める候補(dwg7 の判断に効く順): ①(線のタイルと MapLibre での見え方は 2026-11-19 に比較済み)、②`terrio tile`(ラスタタイル)、③GRIB・Zarr の値を GDAL と比べる、④`viewshed`・`zonal-stats`。
 
 # /inventory/size
 - status: volatile
