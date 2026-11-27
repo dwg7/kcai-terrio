@@ -128,6 +128,8 @@
 - **MapLibre での見え方(0.9.0、played、MapLibre GL JS 4.7.1 を実 Chromium で、同じ入力・同じスタイル・同じカメラで描画)**: terrio・tippecanoe・GDAL の MVT を、XYZ のディレクトリ(gzip は `Content-Encoding` つきで配信)にして描き、画素を比べた。**多角形(国界)と線は、terrio の描画が GDAL の MVT と画素まで同一**(差のある画素 0.00%)で、**tippecanoe とも差は 0.02% 以下**(z1・z3・z5。輪郭線も同様)。描かれる地物数も同じ(例: z3 で 36、z5 で 6)。**点は違いが見える**: 60,000 点のとき、terrio は全点を描き(z4・z6 とも 6 万地物)、tippecanoe は間引いて 3,840(z4)・23,998(z6)。暗い画素は z4 で 10,480 対 5,432、タイルの合計は 3.4 MB 対 1.2 MB(`--drop-densest-as-needed` を付けても tippecanoe は同じ結果)。画面では、terrio は密集部が塗りつぶされ、tippecanoe は粒が見える。MapLibre は、gzip の `.pbf` を、サーバーが `Content-Encoding: gzip` を付けないと読めない(terrio・GDAL の書き出しは gzip、tippecanoe は `--no-tile-compression` で無圧縮にした)。
 つまり **terrio は「GDAL の MVT ライターの代わり」にはなるが、「tippecanoe の代わり」には、点の密度による間引き(`--drop-densest-as-needed` など)、自動の最大ズーム(`-zg`)の面で、まだならない**。
 - **視域・ゾーン統計(0.10.0、played、GDAL 3.13.3 と比較。UTM 13N・30 m の 320×412 の DEM)**: **`viewshed` は 4 つのモードすべてが `gdal_viewshed` と画素完全一致**(NORMAL: 201×201 で見える画素 2,399 が両方同じ、DEM、GROUND、ACCUM。`--md` と ACCUM の併用は、両方とも拒否)。**`zonal-stats` は、`gdal raster zonal-stats` と、count・min・max・mean・sum・stdev が全桁一致**(3 つの多角形。既定の画素選択と `--all-touched`)。terrio の出力の列名は `<ラスタ名>_b<バンド>_<統計>`(例 `u_b1_mean`)で、GDAL は統計名のみ(`mean`)。
+- **等高線(0.10.0、played、`gdal_contour` 3.13.3 と比較。UTM 13N・30 m の 300×300 の DEM)**: `contour`(間隔 25 m、固定の高さ `--levels 2600,2800,3000`、オフセット 10)は、**線の本数・頂点数・総延長・等高線ごとの長さが `gdal_contour` と完全に一致**(184 本・32,753 頂点・761,126.84 m ほか)。`--3d` は本数が同じ(90 本)で、並びが違う。オプション名: `-i`・`--levels`・`--offset`・`-a`/`--field`(属性名。`--attribute-name` ではない)・`--3d`・`--nodata`。
+- **SQL の空間関数(0.10.0、played、GDAL の SQLite 方言（SpatiaLite）と比較。5 か国の多角形)**: `ST_Area` は 13 桁以上一致（例: 954.6355002133428）、`ST_Length`（線）は完全一致、`ST_Buffer`（0.5°）の面積は相対差 1e-9、`ST_Transform`（EPSG:3857）の面積は 5e-16、`ST_Centroid` は 2e-13°。`GROUP BY` と `COUNT`/`SUM`（0.7.0）も動く。**できないこと**: `ST_GeomFromText` は未対応（`unsupported function`）、`ST_Intersects` は**2 つの幾何の列が要る**（リテラルの WKT は不可）。
 - **まだ残る差**(0.9.0 でも): `warp --dstalpha` が無い。COG の `TILING_SCHEME=GoogleMapsCompatible` を黙って無視する(画素サイズ 12.32 m のまま)。
 - 詳細: `kcai:terrio-vs-gdal-spot-checks`、`kcai:terrio-processing-commands-smoke-test`、`kcai:terrio-conformance-and-testing-against-gdal`
 
@@ -436,6 +438,10 @@
 - status: verified
 - GDAL 3.8.4 / PROJ 9.4(apt)は terrio の基準(3.12)より古く、挙動が違う項目があった(`--ot Int16`)。2026-10-22 に conda-forge で GDAL 3.13.3 / PDAL 2.10.2 を入れて再確認した(COPC・`filter range`・STACIT は一致)。apt の GDAL には SQLite 方言の `ST_*` と Parquet ドライバーが無く、幾何の比較は Python から GEOS を直接呼んだ。
 
+# /traces/contour-and-sql
+- status: verified
+- 2026-11-27 に、等高線と SQL の空間関数を GDAL（`gdal_contour`、SpatiaLite）と比べた（`plays/2026-11-27-contour-and-sql.md`）。等高線は完全一致、SQL は 1e-9 以内、`ST_GeomFromText` と、リテラルの幾何を取る `ST_Intersects` は未対応。
+
 # /traces/grib-zarr-viewshed-zonal
 - status: verified
 - 2026-11-27 に、GRIB の値、遠隔 Zarr の値、`viewshed`、`zonal-stats` を GDAL 3.13.3 と比べた（`plays/2026-11-27-grib-zarr-viewshed-zonal.md`）。値はすべて一致。Zarr だけ行の向きが違う（terrio は北が上に並べ替える）。
@@ -514,6 +520,12 @@
 - requires: /assets/processing-and-geometry
 - result: untested
 
+# /acceptance-tests/contour-sql
+- query: 標高モデルから等高線を引ける（`gdal_contour` と同じ）か。SQL で面積・長さ・バッファ・座標変換・重心を出せるか
+- expected: 等高線は `gdal_contour` と本数・頂点・長さが完全一致（間隔・固定の高さ・オフセット）。SQL の `ST_Area`・`ST_Length`・`ST_Buffer`・`ST_Transform`・`ST_Centroid` は SpatiaLite と 1e-9 以内で一致。`ST_GeomFromText` は未対応、`ST_Intersects` は 2 つの幾何の列が要る（0.10.0）
+- requires: /assets/processing-and-geometry
+- result: untested
+
 # /acceptance-tests/mcp-tools
 - query: AI エージェントに terrio を道具として渡せるか。ツールの数は
 - expected: `terrio mcp`(0.4.0 から配布版)。0.7.0 で 99 ツール、各ツールは `args`(引数の配列)を取る。書き込みは一時的な場所に限る
@@ -554,8 +566,8 @@
 
 # /inventory/feature-depth
 - status: volatile
-- 機能の理解の深さ(2026-11-27)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、ラスタ処理(GDAL と画素一致。`warp` の既定は不一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と、MapLibre での見え方まで)、**ラスタタイル `terrio tile`(gdal2tiles と)**、**GRIB の値(GDAL と)**、**遠隔 Zarr の値(GDAL と。行の向きが違う)**、**`viewshed` と `zonal-stats`(GDAL と)**。**浅い**(動かしたが比較は未実施): OGC API Features、WFS、等高線の値(本数のみ)、SQL、`preview`、MCP の書き込み、新しい点群フィルタ、xarray の `.terrio` アクセサの新しい操作(0.10.0)。**未着手**: STACTA、`terrio tile` の GTiff / WebP / `--webviewer`、Windows / macOS。
-- 次に深める候補(dwg7 の判断に効く順): ①等高線の値と SQL の空間関数を GDAL(`gdal_contour`・SpatiaLite)と比べる、②xarray の `.terrio` アクセサ(0.10.0 の `dem` `viewshed` `zonal_stats` ほか)、③点群フィルタ(PDAL と)、④OGC API Features・WFS の値
+- 機能の理解の深さ(2026-11-27)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、ラスタ処理(GDAL と画素一致。`warp` の既定は不一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と、MapLibre での見え方まで)、**ラスタタイル `terrio tile`(gdal2tiles と)**、**GRIB の値(GDAL と)**、**遠隔 Zarr の値(GDAL と。行の向きが違う)**、**`viewshed` と `zonal-stats`(GDAL と)**。**深い(追加)**: **等高線の値(`gdal_contour` と完全一致)**、**SQL の空間関数(SpatiaLite と)**。**浅い**(動かしたが比較は未実施): OGC API Features、WFS、`preview`、MCP の書き込み、新しい点群フィルタ、xarray の `.terrio` アクセサの新しい操作(0.10.0)。**未着手**: STACTA、`terrio tile` の GTiff / WebP / `--webviewer`、Windows / macOS。
+- 次に深める候補(dwg7 の判断に効く順): ①(等高線と SQL の空間関数は 2026-11-27 に比較済み)、②xarray の `.terrio` アクセサ(0.10.0 の `dem` `viewshed` `zonal_stats` ほか)、③点群フィルタ(PDAL と)、④OGC API Features・WFS の値
 
 # /inventory/size
 - status: volatile

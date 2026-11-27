@@ -230,3 +230,7 @@
 
 - 作業は `main` だけで行う。環境が用意した作業ブランチ `claude/amazing-pasteur-ggf46d` は、`main` と同じ内容（`main` にない独自のコミットは 0 件）だったので、ローカルのブランチを削除し、`main` に切り替えた。
 - **リモートのブランチ `claude/amazing-pasteur-ggf46d` は、まだ残っている**: この環境の git プロキシが、ブランチの削除の push を拒否する（`git push origin --delete` が切断される。迂回しない）。hfu が GitHub の画面（Branches）から削除する。削除しても、`main` の内容は変わらない。
+
+### 2026-11-27（続き 2）: 等高線と SQL の空間関数
+
+- 等高線は `gdal_contour` と完全一致、SQL の空間関数は SpatiaLite と 1e-9 以内で一致。`ST_GeomFromText` と、リテラルの幾何を取る `ST_Intersects` は未対応（`plays/2026-11-27-contour-and-sql.md`）。`miso/terrio.md` に反映（受け入れテスト 25 本）。
