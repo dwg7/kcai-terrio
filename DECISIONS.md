@@ -242,3 +242,8 @@
 ### 2026-11-27（続き 4）: 点群フィルタの残り
 
 - 点群フィルタ 21 種を PDAL と比べるスクリプトを作り、すべて一致（前回の 7 種と合わせて 28 種）。`zsmooth` は未比較（`plays/2026-11-27-pointcloud-filters-21.md`）。
+
+## 2026-11-27: 引き継ぎのための整理（コンテキストの圧縮の前）
+
+- `AGENTS.md` に「再開の手順」（環境の作り方、比較用の GDAL・PDAL、確認用のスクリプト、終わりの手順）を足した。`QUESTIONS.md` を現状に合わせて書き直した（A: reviewed、版つきの束、盲検。B: 定期実行、移行表、下書きの投稿）。`miso/terrio.md` の `/inventory/next-actions` と、動かしていない領域の一覧を更新した。
+- 現状: terrio 0.10.0 まで追随済み。`miso/terrio.md` は約 600 行・受け入れテスト 26 本。GDAL・PDAL・tippecanoe との比較で、dwg7 の工程に関わる範囲は一致（例外は `warp` の既定、`terrio tile` の低ズーム、Zarr の行の向き、点のタイルの間引きがない）。terrio-js の退行と Zarr の日本語パスなどが残る。ブランチは `main` のみ。

@@ -35,6 +35,18 @@ terrio は Qiusheng Wu さん（opengeos）による、GDAL を使わない Pure
 - AI は、人が確認した印（`reviewed`）を付けない。盲検の実行（別のエージェントに、受け入れテストの節と結果を除いたコピーを渡す）で結果を記入する。
 - 名前: 新しく作るものは miso。旧名（kcaim）は消さず、読むときは両方受理する（`dwg7/miso` の `MIGRATION.md` の方針）。
 
+## 再開の手順（作業環境の作り方と確認用スクリプト）
+
+環境は掃除で消えることがある（`/tmp` の作業ファイルは残らない）。再開したら、まず次を行う。
+
+1. `git pull`（`main` だけ）。`miso/terrio.md` の `/inventory/next-actions`、`/inventory/feature-depth`、`/inventory/verification-coverage`、`QUESTIONS.md`、`DECISIONS.md` の末尾を読む。
+2. **新版の確認**: PyPI・crates.io・npm の最新版を、`SOURCES.md` の版と比べる（`pip index versions terrio`、crates.io の API、`registry.npmjs.org/terrio-js`）。新版があれば `miso/terrio.md` の `/procedures/recheck-on-new-version` に従う。
+3. **terrio の環境**: `python3 -m venv /tmp/work/X/v && /tmp/work/X/v/bin/pip install "terrio[xarray]==<版>" zarr matplotlib pillow`（インストールに約 3 分。バックグラウンドで）。
+4. **比較用の GDAL・PDAL**（conda-forge）: `curl -sSL https://micro.mamba.pm/api/micromamba/linux-64/latest -o mm.tar.bz2 && tar xjf mm.tar.bz2 bin/micromamba && MAMBA_ROOT_PREFIX=/tmp/work/mm/root ./bin/micromamba create -y -n g -c conda-forge "libgdal-core>=3.13" gdal pdal libgdal-grib`。使うとき: `PATH=/tmp/work/mm/root/envs/g/bin:<venv>/bin:$PATH PROJ_DATA=…/envs/g/share/proj GDAL_DATA=…/envs/g/share/gdal CURL_CA_BUNDLE=/root/.ccr/ca-bundle.crt`（GRIB は `GDAL_DRIVER_PATH=…/envs/g/lib/gdalplugins`）。tippecanoe は `apt-get install tippecanoe`。
+5. **確認用のスクリプト（`scripts/`）**: `recheck_known_issues.sh <terrio>`（既知の穴）、`compare_with_gdal.py`（ラスタの画素 19 項目）、`compare_pointcloud_filters.py <laz>`（点群フィルタ 21 種）、`run_notebook_cells.py <ipynb>…`（公式ノートブック）、`check_terrio_js_node.mjs <dir>`（terrio-js の `openUrl`。1 URL ずつ別プロセスで）、`upstream_index.py`（下書きの一覧）、`check_miso.py`・`validate_knowledge.py`（形式の検査）。
+6. **終わりに**: `miso/terrio.md`・`plays/`・`SOURCES.md`・`drafts/upstream/`・`DECISIONS.md` を更新し、`check_miso.py` を通して、`main` に push する。`/tmp/work` の一時ファイルを消す。
+- 注意: この環境の git プロキシは、ブランチの削除を拒否する。定期実行（毎日 7:23 JST）は、リポジトリがそのセッションのソースに入っていないと push できない（`QUESTIONS.md`）。terrio-js の Node 確認は `NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt` が要る。
+
 ## 凍結した踏み跡（knowledge/）
 
 - `knowledge/` は **凍結**（2026-11-07 以降は更新しない。誤りの訂正だけは、訂正の一行を足してよい）。一覧は `knowledge/README.md`。

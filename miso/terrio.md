@@ -222,7 +222,7 @@
 
 # /open-questions/unverified-0-7-0-areas
 - status: open
-- 0.7.0〜0.9.0 で動かして確かめていない領域(2026-11-19 のキャッチアップ後): STACTA、`terrio.dev/web` でのコマンドの実行、`preview` の画像の中身、`viewshed`、`zonal-stats` の値(試料が重ならなかった)、新しい点群フィルタ(dbscan・lof ほか)の値、ベンチマークの数値、プレイグラウンド、Windows / macOS。**main(0.7.0 より 55 コミット先)の変更は、リリースされるまで確かめない**。
+- 動かして確かめていない領域（2026-11-27、0.10.0 時点）: STACTA、`terrio.dev/web` でのコマンドの実行、`preview` の画像の中身、OGC API Features・WFS の値（`info` と変換が通ることだけ確認）、MCP の書き込み系の呼び出し、点群の `zsmooth`・`splitter`・`chipper`・`locate`・`expression`・`overlay`、`terrio tile` の GTiff / WebP / `--webviewer` / `--kml`、`terrio zonal-stats` の `.zarr` 出力、`rasterize --background`、ベンチマークの数値、プレイグラウンド、Windows / macOS。**main（0.10.0 より先）の変更は、リリースされるまで確かめない**。
 
 # /open-questions/reviewed-by
 - status: open
@@ -579,7 +579,7 @@
 
 # /inventory/next-actions
 - status: volatile
-- ⓪機能の理解を深める順(`/inventory/feature-depth`)。①盲検の実行(別のエージェントに、受け入れテストの節と結果を除いたコピーを渡して質問し、`result` を記入)。②人による確認。③新版(0.7.0 より後)が出たら `/procedures/recheck-on-new-version`。④動かしていない領域(`/open-questions/unverified-0-7-0-areas`)を動かして、`/assets/…` に反映する。⑤大きさの管理(下の `/inventory/size`)。
+- 2026-11-27 時点。①**新版が出たら追随**（`/procedures/recheck-on-new-version`。0.10.0 まで済み。確認用のスクリプトは `scripts/`）。②機能の理解を深める（`/inventory/feature-depth` の候補: OGC API Features・WFS の値、`preview` の画像、MCP の書き込み、点群の残り）。③**盲検の実行**（別の AI に、受け入れテストの節と結果を除いたコピーを渡して質問し、`result` を記入。hfu 待ち）。④人による確認（`reviewed`。hfu 待ち）。⑤上流への下書きの投稿（hfu。最優先は terrio-js の退行）。⑥定期実行にリポジトリを割り当てる（hfu。`QUESTIONS.md`）。⑦大きさの管理（`/inventory/size`）。
 
 # /inventory/feature-depth
 - status: volatile
@@ -588,7 +588,7 @@
 
 # /inventory/size
 - status: volatile
-- 2026-11-08 時点で約 480 行・約 5 万字(蒸留した木の要点)。**肥大化の目安**: 約 900 行を超えたら、一部の `/assets/…` を `kcai:` の木や別ファイルに戻す、または読み方の地図を置く(CONCEPT §8、§12-6)。
+- 2026-11-08 時点で約 600 行・約 8 万字(蒸留した木の要点)。**肥大化の目安**: 約 900 行を超えたら、一部の `/assets/…` を `kcai:` の木や別ファイルに戻す、または読み方の地図を置く(CONCEPT §8、§12-6)。
 
 # /system-record/agent-contract-reminder
 - status: normative
