@@ -216,3 +216,8 @@
 ## 2026-11-19（続き）: MapLibre での見え方
 
 - terrio・tippecanoe・GDAL のベクタタイルを MapLibre で描いて比べた（`plays/2026-11-19-maplibre-rendering.md`）。多角形と線は同じ見え方、点だけ間引きの差。`miso/terrio.md` の `/assets/processing-and-geometry`、`/open-questions/tile-generation`、`/inventory/feature-depth` に反映した。次の候補は `terrio tile`（ラスタタイル）。
+
+## 2026-11-27: terrio 0.10.0 への追随（hfu の指示、11:00 JST 以降）
+
+- 0.10.0（0.9.0 から 205 コミット）を確認（`plays/2026-11-27-0-10-0-catch-up.md`）。ジオイドが GDAL 3.13.3 と同じ値になった（要 `TERRIO_NETWORK=ON`）、terrio-js の退行は残る。GeoParquet・`warp` の既定の差は 0.9.0 と同じ。
+- 作業用ファイルが環境の掃除で消えたので、確認用のスクリプト 3 本を `scripts/` に足した。

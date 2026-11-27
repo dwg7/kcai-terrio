@@ -29,8 +29,8 @@ else echo "SKIP  CP932（ogr2ogr がない）"; fi
 # 5. 座標変換の値（JGD2011 → 第IX系）
 v=$(echo "139.767125 35.681236 50" | $T crs EPSG:6668 --to EPSG:6677 2>/dev/null | tail -1)
 echo "VALUE EPSG:6668→6677: $v   （期待: -5992.919570392903 -35363.23774493004 50）"
-v=$(echo "139.767125 35.681236 50" | $T crs EPSG:6667 --to EPSG:6697 2>/dev/null | tail -1)
-echo "VALUE EPSG:6667→6697: $v   （0.3.2〜0.4.2: 高さ 13.2386、ジオイドを適用）"
+v=$(echo "139.767125 35.681236 50" | TERRIO_NETWORK=ON $T crs EPSG:6667 --to EPSG:6697 2>/dev/null | tail -1)
+echo "VALUE EPSG:6667→6697 (TERRIO_NETWORK=ON): $v   （0.10.0: 13.337477484…、GDAL 3.13.3 と同じ。0.3.2〜0.9.0 は 13.2386=JPGEO2024。ネットワークなしでは警告つきで 50 のまま）"
 # 6. COG の窓と warp のオプション
 $T warp --help 2>&1 | grep -q -- "--dstalpha" && r ok "warp --dstalpha がある" || r known "warp --dstalpha がない"
 # 7. サブコマンド

@@ -8,6 +8,8 @@ Hello, and thank you for terrio. While trying it with Japanese file names I foun
 
 - terrio 0.3.2 (`pip install terrio`, Linux x86_64, Python 3.13)
 
+**Rechecked 2026-11-27 (0.10.0):** terrio 0.10.0 (PyPI wheel): `terrio info` of a relative path that starts with Japanese still panics.
+
 **Rechecked 2026-11-04 (0.7.0):** terrio 0.7.0 (PyPI wheel): `terrio info 日本語/a.zarr` still panics (`zarr.rs:1988` in v0.7.0); absolute paths work.
 
 **Rechecked 2026-10-24 (0.5.0):** terrio 0.5.0 (PyPI wheel, 2026-10-24): `terrio info` of a relative path that starts with Japanese still panics; `t[..5]` is still in the source (v0.5.0).

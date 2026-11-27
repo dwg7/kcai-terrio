@@ -22,8 +22,8 @@
 - 呼び名: miso(旧称 kcaim)。ファイルは `miso/terrio.md`。
 - 種別: **探索・理解型**(terrio を理解し比較する)に、**運用型**の層(dwg7 の地理空間の前処理を terrio で置き換えられるかの判断支援)を載せる。
 - 作成: hfu の指示のもと、AI(Claude)が書いた。**人による内容確認は未了**。`dwg7/kcai-terrio` の踏み跡 46 本(`knowledge/`)から移植(2026-11-07)。
-- 範囲: terrio 0.3.2〜**0.9.0**(2026-10-20〜11-15)の挙動。確かめた版は各オブジェクトに書く。
-- 範囲外: ①terrio の最新版(0.9.0 より新しい版)。②GDAL・PROJ・PDAL そのものの使い方。③terrio の内部設計の評価、法的な判断(ライセンスの適否)。④日本以外のデータの網羅的な確認。⑤terrio への投稿・働きかけ(人が個人として行う)。
+- 範囲: terrio 0.3.2〜**0.10.0**(2026-10-20〜11-25)の挙動。確かめた版は各オブジェクトに書く。
+- 範囲外: ①terrio の最新版(0.10.0 より新しい版)。②GDAL・PROJ・PDAL そのものの使い方。③terrio の内部設計の評価、法的な判断(ライセンスの適否)。④日本以外のデータの網羅的な確認。⑤terrio への投稿・働きかけ(人が個人として行う)。
 - 観察者の位置: 書き手は terrio の**外部観察者**。作者でも上流の貢献者でもない。動かした範囲(`played`)と、ドキュメント・ソースを読んだだけの範囲(`read-docs` / `read-source`)を区別する。大きなデータ・認証が要る環境・Windows/macOS は確かめていない(Linux x86_64 のみ)。
 - 単位: ほとんどの事実は「**terrio のある版 × あるインターフェース**(CLI / Python / JS / Rust / MCP)」の組を単位とする。インターフェースで挙動が違う(`/assets/cloud-native-reads`)。
 - 正本: この `.md` ファイル。`dwg7/kcai-terrio` の `knowledge/` の踏み跡 46 本は、**拡張の根拠**として別に残してある(`/system-record/relation-to-kcai`)。
@@ -69,7 +69,7 @@
 
 # /sources/registries
 - 名称: PyPI(terrio)、crates.io(terrio、terrio-crs)、npm(terrio-js)
-- 最新: **0.9.0**(2026-11-15)。リリース履歴: 0.3.2=10-20、0.4.0〜0.4.2=10-22、0.5.0=10-24、0.6.0=10-31、0.6.1=11-01、0.7.0=11-03、0.8.0=11-08、0.9.0=11-14〜15。0.7.0 から 0.9.0 まで **295 コミット・約 +13.5 万行**。0.9.0 には破壊的変更が多い(`/assets/version-notes`)
+- 最新: **0.10.0**(2026-11-25)。0.9.0=11-14〜15 より前の履歴: リリース履歴: 0.3.2=10-20、0.4.0〜0.4.2=10-22、0.5.0=10-24、0.6.0=10-31、0.6.1=11-01、0.7.0=11-03、0.8.0=11-08、0.9.0=11-14〜15、**0.10.0=11-24〜25**。0.9.0 → 0.10.0 は **205 コミット・約 +13 万行**、0.7.0 から 0.10.0 まで約 500 コミット。0.9.0・0.10.0 に破壊的変更が多い(`/assets/version-notes`)
 
 # /sources/gdal-comparisons
 - 名称: GDAL 3.8.4 / PROJ 9.4(Ubuntu apt)、GDAL 3.13.3 / PDAL 2.10.2(conda-forge)
@@ -96,6 +96,7 @@
   - **PMTiles**: CLI と JS で範囲読み込み(国土数値情報 3,625 地物の `info` が約 1.5 MiB)。
   - **COPC / JP2 / Zarr(一部)**: 範囲読み込み(0.3.2 で確認)。
 - **GeoParquet は 0.9.0 から CLI・Python も範囲読み込み(verified、0.9.0)**: 5 GB の `JPN.parquet`(Source Cooperative)を `convert --spat`(東京駅付近の小さな bbox)すると **14 要求・16.3 MiB・7 秒・90 地物**。一時ファイルは残らない(0.3.2〜0.7.0 は全量取得で、8 秒で 221 MB を書いて一時ファイルが残った)。フッターのあと、**必要な行グループの列チャンクだけ**を範囲要求で取る。`--select`(`--where` や `--sql` なし)と `open_stream(columns=…)` は、**選んだ列のチャンクだけ**を取る。作者の測定(`stated`): Overture の建物 533 MB(S3)の小さな矩形が 5 要求・4.9 MiB。
+- **0.10.0 での再確認(verified)**: GeoParquet(5 GB の `JPN.parquet`)は 14 要求・16.34 MiB・約 3.6 秒・90 地物で、0.9.0 と同じ。FlatGeobuf の CLI は**全量のまま**(2 要求・13.45 MiB)。COG の窓(B04、512²)は 7 要求・6.14 MiB(要求数は 0.7.0 の 3 から増えたが、量は同じ)、`translate --outsize 512 512` は 2 要求・0.62 MiB。
 - **インターフェースで違う(verified。0.9.0 では FlatGeobuf だけ)**: FlatGeobuf は、**terrio-js の `openUrl` が bbox で範囲読み込み**(768 KiB)するのに対し、**CLI は 0.9.0 でも全量**(先頭 16 KiB のあと `bytes=16384-` で約 14 MB。`UScounties.fgb`)。以下は 0.7.0 までの記述: FlatGeobuf と GeoParquet は、**terrio-js の `openUrl` が bbox で範囲読み込み**(FlatGeobuf 768 KiB、5 GB の GeoParquet が 16.4 MiB・7 要求、0.7.0 で確認)。**CLI と Python は全量取得**(FlatGeobuf は 0.7.0 でも約 14 MB を受け取る。GeoParquet の 5 GB は 0.3.2 で 221 MB まで書いて停止)。中断すると `/tmp/terrio-*` に一時ファイルが残る(0.3.2)。
 - STAC: `STACIT:` で検索結果をモザイクとして開く。東京の窓 512² で、全アイテム 17.5 MiB、`max_items=1` で 6.25 MiB(0.4.2)。GDAL の STACIT と画素一致。**`method=POST`(Earth Search)も動く**(`max_items=1` で 3 要求・6.14 MiB、0.7.0)。
 - **STAC の資格情報つきアセット(0.9.0 の安全側の変更、verified)**: 環境に AWS の資格情報(`AWS_ACCESS_KEY_ID` など)があると、遠隔の STAC 文書が `s3://` のアセットを選ぶ読みは**既定で拒否**される(「with configured credentials; set `TERRIO_STAC_ALLOW_CREDENTIALED_ASSETS=YES` to allow this read」)。Earth Search の `STACIT:…:asset=red,max_items=1` は、**資格情報が無ければ通り**(8 要求・6.20 MiB、`method=POST` も同じ)、**あれば拒否される**(許可は環境変数で)。
@@ -110,12 +111,13 @@
 - **Zarr の日本語の相対パス**: `terrio info 日本語/a.zarr` が **0.7.0 でも panic**(`zarr.rs` の `t[..5]`)。絶対パスと書き出しは通る。
 - Shapefile の CP932: **`.cpg` が `CP932` なら 0.7.0 で読める**(0.3.2〜0.5.0 は文字化け)。`.cpg` が無ければ文字化け(GDAL も同じ)。
 - 座標変換: JGD2011(`EPSG:6668`)→ 平面直角第IX系(`EPSG:6677`)は (139.767125, 35.681236) → **(−5992.919570392903, −35363.23774493004)**。GDAL と小数 9 桁以上で一致、0.3.2〜0.7.0 で同じ。旧日本測地系(`EPSG:4301` → `6668`)も約 1e-9 で一致(0.3.2)。
-- ジオイド: **3 次元** `EPSG:6667 → 6697`(高さ 50)で 13.2386(JPGEO2024 を適用。GDAL 3.13.3 はネットワークありで GSIGEO2011 を使い 13.3375)。**2 次元の `EPSG:6668` では高さは変わらない**(GDAL も同じ)。(`kcai:vertical-datum-grids-and-geoid-in-japan`)
+- ジオイド: **3 次元** `EPSG:6667 → 6697`(高さ 50)で、**`TERRIO_NETWORK=ON`(PROJ の CDN の格子)が要る**。**0.10.0 は 13.3375(GSIGEO2011)で、GDAL 3.13.3(`PROJ_NETWORK=ON`)と小数 12 桁まで同じ**(0.3.2〜0.9.0 は JPGEO2024 の 13.2386 だった。0.10.0 で CRS の表が EPSG v13.102・PROJ 9.9.0 の識別になった)。**ネットワークなしでは、警告("geoid model did not apply … set TERRIO_NETWORK=ON or TERRIO_GRID_DIR")つきで高さは 50 のまま**。**2 次元の `EPSG:6668` では高さは変わらない**(GDAL も同じ)。(`kcai:vertical-datum-grids-and-geoid-in-japan`。0.9.0 以前の値の記述)
 - 詳細: `kcai:geojson-japanese-string-panic`、`kcai:japanese-path-panic-in-zarr-parse-name`、`kcai:shapefile-cp932-attributes-not-decoded`、`kcai:jgd2011-plane-rectangular-transform`
 
 # /assets/processing-and-geometry
 - status: verified(GDAL 3.8.4 との比較。volatile)
 - ラスタ処理: `dem`(hillshade・slope・aspect・TRI・TPI・roughness、multidirectional、compute-edges)、`translate`(srcwin・outsize・ot/scale)、`warp`(near・bilinear・cubic・average)、`calc`、`proximity`、`sieve`、`mosaic`、`rasterize`、COG 書き出しは、**GDAL 3.8.4 と画素が完全一致**(20 項目。0.3.2〜0.7.0 で繰り返し確認)。
+- **0.10.0 でも同じ(verified、GDAL 3.13.3、`scripts/compare_with_gdal.py` の 19 項目)**: `dem` 7 種・`translate` 2 種・`calc`・`sieve` は一致(slope・aspect は float の丸め程度の差)、`warp` は既定で不一致(94〜1.7 万画素)、`--grid-invariant false` で 4 つの再サンプリングとも完全一致。
 - **0.9.0 での変化(verified)**: ①**`warp` の既定が変わった**。0.8.0〜0.9.0 は既定で「格子不変(grid-invariant)」のサンプリングで、タイル・VRT の窓・メモリの塊をまたいでも値が同じになるが、**GDAL の既定の warper と画素が一致するとは約束しない**(ドキュメント)。実測: B04 を EPSG:6677・10 m に warp すると、GDAL と**94 画素(最近傍)〜1.7 万画素(cubic)が違う**(最大 5 階調、最近傍の端の 1 画素は 1,243)。**`--grid-invariant false` か `TERRIO_WARP_GRID=GDAL` で GDAL と画素が完全一致に戻る**(4 つの再サンプリングすべて、GDAL 3.8.4・3.13.3)。GDAL 3.13 の warp の kernel の変更は `--kernel-version 3.13` / `TERRIO_GDAL_COMPAT=3.13`(既定は 3.12 の挙動)。②`dem` の hillshade は、**GDAL 3.13.3 とは完全一致、3.8.4 とは違う**(GDAL 側の変更)。slope・aspect は GDAL 3.13.3 と float の丸め程度(最大 3e-5)の差。TRI・TPI・roughness・`translate`・`calc`・`proximity`・`sieve`・`mosaic` は一致のまま。→ **GDAL と同じ画素が要る工程は、`--grid-invariant false` を付け、比べる GDAL の版を決める**。
 - 等高線・SQL(0.7.0、played): `terrio contour --interval 10`(標高モデル 140×140)は **106 本で、`gdal_contour -i 10` と同数**。`terrio sql` は `GROUP BY` と集計(`COUNT`・`SUM`)、`ST_Area` が動く(3 ポリゴンの試料で期待どおり)。`terrio preview` は端末でなければ `-o FILE` が要る。
 - 幾何(0.5.0 から): `is-valid`・`make-valid`・`clean`・`buffer`・`overlay`・`dissolve` ほか。ちょうちょ形の不正ポリゴンで、修復・バッファ・ディゾルブが **GEOS と一致**(0.5.0 と 0.7.0)。実装は JTS の移植・クリーンルームに置き換わった(`kcai:terrio-geometry-provenance-and-clean-room`)。
@@ -131,8 +133,9 @@
 - Python: 公式ノートブック 2 本(quickstart・xarray)のコードセル 13 個ずつが全成功(0.7.0)。xarray のノートブックは `terrio[xarray]` に **`zarr` が入らない**ので別途 `pip install zarr`。`terrio.rio`(rasterio 互換)と `terrio-rio` コマンドがある。
 - JavaScript/WebAssembly: terrio-js 0.7.0 の公開ページで、座標変換・日本語の文字列・6 つの範囲読み込みの試料が動く(実ブラウザ)。
 - **ブラウザの CLI**: `https://terrio.dev/web/` は、terrio のコマンドラインを WebAssembly でタブの中で動かす(0.7.0 と表示。ファイルは手元に残り、URL は範囲読み込み)。ページの読み込みとコマンド一覧の表示を実ブラウザで確認(コマンドの実行は未確認)。
+- **terrio-js の退行は 0.10.0 でも残る(verified、2026-11-27)**: 同じ 30.5 GB のラスタ PMTiles の `openUrl` が `capacity overflow` で panic(Node では**プロセスが落ち、`try/catch` で捕まえられない**。npm の `core`・`threads` のビルドも同じ)。0.8.0 は 4.1 秒で開く。0.10.0 の npm には `terrio-js/cog`(GeoTIFF/COG だけを HTTP で読む軽いモジュール)と `terrio-js/geoparquet`(GeoParquet だけ)が加わった。小さなベクタ PMTiles(1.1 秒)と FlatGeobuf(0.7 秒)は 0.10.0 でも開く。以下は 0.9.0 の記述:
 - **terrio-js 0.9.0 の退行(verified)**: 大きなラスタの PMTiles(30.5 GB の Terrarium z9)の `openUrl` が **`capacity overflow` で panic**(Node で約 88 秒後、ブラウザでは `unreachable` も)。**0.7.0・0.8.0 は一瞬で開く**。小さなベクタの PMTiles、COG、FlatGeobuf、COPC、GeoParquet(5 GB)の `openUrl` は 0.9.0 でも動く。CLI の `terrio info`(同じ URL)は 0.9.0 でも 3.5 秒・12 要求で通る。上流への下書き `drafts/upstream/2026-11-19-terrio-js-openurl-large-raster-pmtiles-panics.md`。このリポジトリの公開ページは **terrio-js 0.7.0 に固定したまま**(0.9.0 では 1 つの試料が動かないため)。
-- MCP: `terrio mcp` は 100 ツール(0.9.0。0.7.0 は 99)。各ツールは `args`(コマンドラインの配列)を取る。書き込みは一時的な場所に限ること。
+- MCP: `terrio mcp` は 100 ツール(0.9.0・0.10.0。0.7.0 は 99)。各ツールは `args`(コマンドラインの配列)を取る。書き込みは一時的な場所に限ること。
 - Rust: 0.4.0 から feature で絞れる。ドキュメントの依存の版が古かった(`"0.3"`)のは 0.7.0 で直った。
 - 詳細: `kcai:terrio-python-api`、`kcai:terrio-xarray-integration`、`kcai:terrio-mcp-server`、`kcai:terrio-js-api-and-playground`、`kcai:terrio-rust-library-and-features`、`kcai:terrio-rio-rasterio-compatible-api`
 
@@ -382,6 +385,7 @@
 # /assets/version-notes
 - status: stated(CHANGELOG の読み。動かしたものは該当の `/assets/…` に)。volatile
 - **0.8.0〜0.9.0 の主な変更**: 0.9.0 の破壊的変更 — `TERRIO_ALLOWED_DRIVERS` が空・空白・非 UTF-8 なら**何も許可しない**(全許可にするには未設定にする)、ネイティブの GML バイト出力は ZIP ではなく単独の XML、`terrio.rio` の COG ライターは driver が `COG`、`terrio.rio` の巨大な窓読みは `ResourceLimitError`(`MemoryError`)、`terrio.pyogrio` の無名 SQLite バッファは `.gpkg` / `.mbtiles` の名前が要る、Rust API の `read_geoparquet_sparse` が引数 `columns` を取る、`FlatGeobufInfo` に `has_z` `has_m`、Krovak の WKT1 の軸の既定が南西に。新機能 — `terrio.pyogrio`(GeoParquet を Arrow で読む)、ワイルドカード入力(`mosaic` `warp` `concat` ほか。`terrio mosaic 'tiles/*.tif' out.tif`)、GeoParquet の範囲読み込み・列の選択、`TERRIO_HTTP_FOLLOW_CROSS_ORIGIN=NO`(別オリジンへの転送を拒否)、`TERRIO_HTTP_CAINFO`(追加の CA バンドル)、`TERRIO_TIFF_MAX_CHUNK_BYTES`、OSM PBF の純 Rust の復号。0.8.0 — Zarr(分割・shard)の遠隔読みの高速化と、遠隔 Zarr を開くときのメタデータ要求の削減、`translate` の窓のバンドをまとめて読む。
+- **0.10.0 の主な変更(`stated`)**: 破壊的変更 — **PROJ 文字列の未知の楕円体・データム・単位名(`+ellps=foo`、`+units=feet`)は、WGS 84・メートル・0 として読まず拒否**、廃止された EPSG コードは置き換え先ではなく**自身の定義**を保つ、CRS の表が **EPSG v13.102(PROJ 9.9.0)**に、新しい外部 `.ovr` は `INTERLEAVE=BAND`、Zstandard は `libzstd` なしで `zrip`(`ZSTD_LEVEL` が 4 まで効く)、Rust API の構造体にフィールド追加。新機能 — xarray の `.terrio` アクセサが `dem`・`sieve`・`proximity`・`fill_nodata`・`reclassify`・`viewshed`・`polygonize`・`contour`・`footprint`・`zonal_stats` を実行、ベクタ入力は WKT・GeoJSON・Shapely・境界の箱などなんでも受け付ける、`terrio zonal-stats` が `.zarr` のキューブで出力、`rasterize --background`(既存の DEM を標高属性で編集)、npm の `terrio-js/cog` と `terrio-js/geoparquet`、GRIB の遅延読みの改善、GeoParquet の GeoArrow 点の高速化、`terrio-js` の `openUrl` の要求数削減。
 - 使い方への影響: Python の `terrio.rio` を使うコードは、COG の `driver`、巨大な窓の例外の型が変わる。`TERRIO_ALLOWED_DRIVERS` を設定している環境は、空文字だと全拒否になる。
 - 詳細: CHANGELOG(v0.9.0、v0.8.0)
 
@@ -421,6 +425,10 @@
 # /traces/gdal-comparison-environments
 - status: verified
 - GDAL 3.8.4 / PROJ 9.4(apt)は terrio の基準(3.12)より古く、挙動が違う項目があった(`--ot Int16`)。2026-10-22 に conda-forge で GDAL 3.13.3 / PDAL 2.10.2 を入れて再確認した(COPC・`filter range`・STACIT は一致)。apt の GDAL には SQLite 方言の `ST_*` と Parquet ドライバーが無く、幾何の比較は Python から GEOS を直接呼んだ。
+
+# /traces/catch-up-0-10-0
+- status: verified
+- 2026-11-27 に 0.10.0（0.9.0 から 205 コミット）を確認した（`plays/2026-11-27-0-10-0-catch-up.md`）。0.9.0 の挙動（GeoParquet の範囲読み込み、`warp` の既定の差）は変わらず。**ジオイドの値が JPGEO2024 から GSIGEO2011 になり GDAL 3.13.3 と一致、ネットワークが要る**。**terrio-js の退行は残る**。確認用のスクリプト（`scripts/compare_with_gdal.py`、`run_notebook_cells.py`、`check_terrio_js_node.mjs`）をリポジトリに足した（作業用ファイルが環境の掃除で消えたため）。
 
 # /traces/catch-up-0-9-0
 - status: verified
@@ -490,7 +498,7 @@
 
 # /inventory/verification-coverage
 - status: volatile
-- 版: **0.9.0**(2026-11-19)。0.7.0 での確認（11-04、11-07）のうち、0.9.0 で再実行したのは「既知の穴」「画素の比較」「GeoParquet・FlatGeobuf」「ノートブック」「terrio-js の 6 試料」「MCP」「STAC POST」「遠隔 Zarr」「OGC API」「GRIB の info」。それ以外は 0.7.0 の値。0.7.0 での確認（11-04、11-07）の記述。移植元の踏み跡 46 本のうち、`stale` は 0 本。ただし**動かして確かめ直したのは一部**で、ほかは見出しと CHANGELOG を読んだだけ(`/open-questions/unverified-0-7-0-areas`)。
+- 版: **0.10.0**(2026-11-27。再実行: 既知の穴、画素の比較 19 項目、GeoParquet・FlatGeobuf、COG の窓と縮小、ノートブック 26 セル、MCP、terrio-js の Node 確認、ジオイド)。0.9.0(2026-11-19)。0.7.0 での確認（11-04、11-07）のうち、0.9.0 で再実行したのは「既知の穴」「画素の比較」「GeoParquet・FlatGeobuf」「ノートブック」「terrio-js の 6 試料」「MCP」「STAC POST」「遠隔 Zarr」「OGC API」「GRIB の info」。それ以外は 0.7.0 の値。0.7.0 での確認（11-04、11-07）の記述。移植元の踏み跡 46 本のうち、`stale` は 0 本。ただし**動かして確かめ直したのは一部**で、ほかは見出しと CHANGELOG を読んだだけ(`/open-questions/unverified-0-7-0-areas`)。
 
 # /inventory/upstream-drafts
 - status: volatile

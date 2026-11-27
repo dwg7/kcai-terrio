@@ -28,6 +28,8 @@ console.log(JSON.stringify(d.info()).slice(0, 200));
 
 The file is a 30.5 GB raster PMTiles (Terrarium z9). A small vector PMTiles (`https://depot.optgeo.org/ksj_n03_hkd.pmtiles`) still opens in 0.9.0. The CLI, `terrio info <same url>`, takes 3.5 s and 12 requests with 0.9.0.
 
+**Rechecked 2026-11-27 (0.10.0):** terrio-js 0.10.0 still panics with `capacity overflow` on the same URL. The `core` and `threads` builds in the npm package behave the same. In Node the panic ends the process (the error cannot be caught with `try/catch`), so run each URL in its own process. 0.8.0 still opens it in 4.1 s.
+
 ## What I do not know
 
 I did not look for the cause. It may be related to the size of the archive or its directories in 32-bit WebAssembly, but this is only a guess. I also did not try the `memory64` build (it does not load in my Node 22).
