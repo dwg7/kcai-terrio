@@ -225,3 +225,8 @@
 ### 2026-11-27（続き）: 3 つの候補の実行
 
 - hfu の指示で、`terrio tile`（gdal2tiles と比較）、GRIB・Zarr の値（GDAL と比較）、`viewshed` と `zonal-stats`（GDAL と比較）を実行した（`plays/2026-11-27-raster-tiles.md`、`plays/2026-11-27-grib-zarr-viewshed-zonal.md`）。値は一致、`terrio tile` は最大ズームが一致で低ズームに小さな差、Zarr は行の向きが違う。`miso/terrio.md` の `/assets/raster-tiles`、`/assets/cloud-native-reads`、`/assets/processing-and-geometry`、受け入れテスト（24 本に）、`/inventory/feature-depth` に反映した。
+
+## 2026-11-27: ブランチを main に一本化（hfu の指示）
+
+- 作業は `main` だけで行う。環境が用意した作業ブランチ `claude/amazing-pasteur-ggf46d` は、`main` と同じ内容（`main` にない独自のコミットは 0 件）だったので、ローカルのブランチを削除し、`main` に切り替えた。
+- **リモートのブランチ `claude/amazing-pasteur-ggf46d` は、まだ残っている**: この環境の git プロキシが、ブランチの削除の push を拒否する（`git push origin --delete` が切断される。迂回しない）。hfu が GitHub の画面（Branches）から削除する。削除しても、`main` の内容は変わらない。
