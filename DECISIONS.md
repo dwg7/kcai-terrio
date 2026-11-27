@@ -234,3 +234,7 @@
 ### 2026-11-27（続き 2）: 等高線と SQL の空間関数
 
 - 等高線は `gdal_contour` と完全一致、SQL の空間関数は SpatiaLite と 1e-9 以内で一致。`ST_GeomFromText` と、リテラルの幾何を取る `ST_Intersects` は未対応（`plays/2026-11-27-contour-and-sql.md`）。`miso/terrio.md` に反映（受け入れテスト 25 本）。
+
+### 2026-11-27（続き 3）: 点群フィルタ
+
+- 点群フィルタ 7 種が PDAL と一致。`filter crop` の箱は `--crop-bounds`、追加の次元の名前の違いを記録した（`plays/2026-11-27-pointcloud-filters.md`）。受け入れテスト 26 本。

@@ -350,6 +350,7 @@
 - status: verified(0.3.2 まで played。それ以降 `stated`。volatile)
 - LAS・LAZ・COPC・EPT・PLY・E57 を読み書き(純 Rust。LASzip は `laz` crate)。**COPC は必要な範囲と粗さだけを範囲読み込み**(ドキュメントの Autzen の例を再現: 18,901 点・8 要求)。
 - PDAL のフィルタ 20 種(0.3.2)→ さらに追加(dbscan・lof・dem・colorization・hexbin ほか。0.5.0〜0.7.0)。`grid` で DEM 化。`filter range` は PDAL 2.10.2 と点数・統計が一致。
+- **フィルタの値(0.10.0、played、PDAL 2.10.2 と比較。Autzen の COPC から切り出した 304,487 点)**: `crop`(99,192 点、X・Y・Z の統計まで同じ)、`decimation --step 10`(30,449 点)、`smrf`・`pmf`(分類の統計が同じ)、`outlier`(statistical)、`hag_nn`、`dbscan`(クラスター ID の最小・最大・平均が同じ)は、**PDAL と一致**(`hag_nn` の平均は 1.909036 対 1.909034 で、float の精度の差)。**使い方の落とし穴**: ①`filter crop` の箱は **`--crop-bounds "([xmin,xmax],[ymin,ymax])"`**（PDAL の書き方）。`--bounds` は**入力を読むときの絞り込み**（点群の共通オプション）で、`crop` の箱ではない — `filter crop --bounds …` は**エラーなしで 0 点**を返した。②**追加の次元の名前が違う**: terrio は `height_above_ground`・`cluster_id` のように**スネークケース**で LAS の追加バイトに書き、PDAL は `HeightAboveGround`・`ClusterID`。PDAL が書く LAS に追加の次元を残すには `--writers.las.extra_dims=all` が要る（terrio は既定で書く）。③リモートの COPC の切り出しは `terrio convert URL out.laz --bounds … [--resolution N]`（`--resolution 5` で 44,465 点、0.3.2 と同じ）。
 - 0.7.0 のドキュメント: 点群の再投影は**高さ `z` も変換**する(複合 CRS・3D 地理 CRS・ジオイド)。
 - 詳細: `kcai:terrio-point-clouds`
 
@@ -437,6 +438,10 @@
 # /traces/gdal-comparison-environments
 - status: verified
 - GDAL 3.8.4 / PROJ 9.4(apt)は terrio の基準(3.12)より古く、挙動が違う項目があった(`--ot Int16`)。2026-10-22 に conda-forge で GDAL 3.13.3 / PDAL 2.10.2 を入れて再確認した(COPC・`filter range`・STACIT は一致)。apt の GDAL には SQLite 方言の `ST_*` と Parquet ドライバーが無く、幾何の比較は Python から GEOS を直接呼んだ。
+
+# /traces/pointcloud-filters-vs-pdal
+- status: verified
+- 2026-11-27 に、点群フィルタ 7 種を PDAL 2.10.2 と比べた（`plays/2026-11-27-pointcloud-filters.md`）。すべて一致。`filter crop` の箱は `--crop-bounds`（`--bounds` は入力の絞り込みで、0 点になる）、追加の次元の名前がスネークケースで違う。
 
 # /traces/contour-and-sql
 - status: verified
@@ -526,6 +531,12 @@
 - requires: /assets/processing-and-geometry
 - result: untested
 
+# /acceptance-tests/pointcloud-filters
+- query: 点群の地面分類・ノイズ除去・クロップ・間引き・クラスタリングは PDAL と同じ結果か。`filter crop` の箱はどう指定するか
+- expected: `crop`・`decimation`・`smrf`・`pmf`・`outlier`・`hag_nn`・`dbscan` は PDAL 2.10.2 と一致（0.10.0、Autzen の 30 万点で）。箱は `--crop-bounds "([xmin,xmax],[ymin,ymax])"`（`--bounds` は 0 点になる）。追加の次元の名前はスネークケース
+- requires: /assets/point-clouds
+- result: untested
+
 # /acceptance-tests/mcp-tools
 - query: AI エージェントに terrio を道具として渡せるか。ツールの数は
 - expected: `terrio mcp`(0.4.0 から配布版)。0.7.0 で 99 ツール、各ツールは `args`(引数の配列)を取る。書き込みは一時的な場所に限る
@@ -566,8 +577,8 @@
 
 # /inventory/feature-depth
 - status: volatile
-- 機能の理解の深さ(2026-11-27)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、ラスタ処理(GDAL と画素一致。`warp` の既定は不一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と、MapLibre での見え方まで)、**ラスタタイル `terrio tile`(gdal2tiles と)**、**GRIB の値(GDAL と)**、**遠隔 Zarr の値(GDAL と。行の向きが違う)**、**`viewshed` と `zonal-stats`(GDAL と)**。**深い(追加)**: **等高線の値(`gdal_contour` と完全一致)**、**SQL の空間関数(SpatiaLite と)**。**浅い**(動かしたが比較は未実施): OGC API Features、WFS、`preview`、MCP の書き込み、新しい点群フィルタ、xarray の `.terrio` アクセサの新しい操作(0.10.0)。**未着手**: STACTA、`terrio tile` の GTiff / WebP / `--webviewer`、Windows / macOS。
-- 次に深める候補(dwg7 の判断に効く順): ①(等高線と SQL の空間関数は 2026-11-27 に比較済み)、②xarray の `.terrio` アクセサ(0.10.0 の `dem` `viewshed` `zonal_stats` ほか)、③点群フィルタ(PDAL と)、④OGC API Features・WFS の値
+- 機能の理解の深さ(2026-11-27)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、ラスタ処理(GDAL と画素一致。`warp` の既定は不一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と、MapLibre での見え方まで)、**ラスタタイル `terrio tile`(gdal2tiles と)**、**GRIB の値(GDAL と)**、**遠隔 Zarr の値(GDAL と。行の向きが違う)**、**`viewshed` と `zonal-stats`(GDAL と)**。**深い(追加)**: **等高線の値(`gdal_contour` と完全一致)**、**SQL の空間関数(SpatiaLite と)**、**点群フィルタ(PDAL と一致。`crop`・`decimation`・`smrf`・`pmf`・`outlier`・`hag_nn`・`dbscan`)**。**浅い**(動かしたが比較は未実施): OGC API Features、WFS、`preview`、MCP の書き込み、点群の他のフィルタ（`lof`・`covariancefeatures` など）、xarray の `.terrio` アクセサの新しい操作(0.10.0)。**未着手**: STACTA、`terrio tile` の GTiff / WebP / `--webviewer`、Windows / macOS。
+- 次に深める候補(dwg7 の判断に効く順): ①(等高線・SQL・点群フィルタは 2026-11-27 に比較済み)、②xarray の `.terrio` アクセサ(0.10.0 の `dem` `viewshed` `zonal_stats` ほか)、③OGC API Features・WFS の値、④`preview` の画像、MCP の書き込み
 
 # /inventory/size
 - status: volatile
