@@ -101,6 +101,8 @@
 - STAC: `STACIT:` で検索結果をモザイクとして開く。東京の窓 512² で、全アイテム 17.5 MiB、`max_items=1` で 6.25 MiB(0.4.2)。GDAL の STACIT と画素一致。**`method=POST`(Earth Search)も動く**(`max_items=1` で 3 要求・6.14 MiB、0.7.0)。
 - **STAC の資格情報つきアセット(0.9.0 の安全側の変更、verified)**: 環境に AWS の資格情報(`AWS_ACCESS_KEY_ID` など)があると、遠隔の STAC 文書が `s3://` のアセットを選ぶ読みは**既定で拒否**される(「with configured credentials; set `TERRIO_STAC_ALLOW_CREDENTIALED_ASSETS=YES` to allow this read」)。Earth Search の `STACIT:…:asset=red,max_items=1` は、**資格情報が無ければ通り**(8 要求・6.20 MiB、`method=POST` も同じ)、**あれば拒否される**(許可は環境変数で)。
 - **GRIB(0.7.0、NOAA GFS の公開 S3)**: 範囲読み込みで開く。`info` は 696 バンドを **713 要求・6.9 MiB**(メッセージごとに 16 KiB のヘッダー)。1 バンドの窓 64² の取り出しは、さらに約 0.8 MiB(計 714 要求・7.75 MiB)。
+- **GRIB の値(0.10.0、played、GDAL 3.13.3 + `libgdal-grib` と比較)**: NOAA GFS の 696 バンドのうち 4 バンド(1・100・400・696)の窓(64×48)を取り出し、**値が GDAL と完全一致**(欠測の 9.999e+20 も含む)。メタデータ(`GRIB_ELEMENT`・`GRIB_UNIT`・`GRIB_COMMENT`・`GRIB_SHORT_NAME`)、原点・画素サイズ(0.25°)、座標系(球 6371229 m の GEOGCRS)も同じ。**違い**: バンドの説明文(`Description`)の形。terrio は `100[Pa] ISBL="Isobaric surface"`、GDAL 3.13.3 は `DZDT:1 mb:anl`。時間は、`gdalinfo` が `/vsicurl/` で 16.6 秒、terrio の `translate` はバンドごとに約 25 秒（開くたびに 713 要求）、GDAL の `gdal_translate` は約 17 秒で、速さは同程度。
+- **遠隔 Zarr の値(0.10.0、played、HRRR の 2 m 気温、1799×1059、GDAL 3.13.3 と比較)**: 窓(120×90)の値は、**行の向きを揃えれば完全一致**。**ただし向きが違う**: GDAL はこの格子を**南が上（行が下から上、画素の高さが +3000）のまま**扱い、terrio は**北が上に並べ替える**（画素の高さ −3000、原点が上端）。同じ `--srcwin` の番号は**別の地点**を指す（GDAL の行 400〜489 は terrio の行 569〜658）。地理的な位置（座標）は同じ。terrio は 1.4 秒、GDAL は 4.0 秒。座標系は両方とも不明。
 - **遠隔 Zarr(0.7.0、NOAA HRRR、`AWS_NO_SIGN_REQUEST=YES` の S3)**: `ZARR:"/vsis3/hrrrzarr/…"` で `info` が通る(1799×1059、座標系は `unknown`)。
 - **OGC API Features / WFS(0.7.0)**: `OAPIF:https://demo.pygeoapi.io/master/collections/lakes` の `info` と、ページ送り(`--oo PAGE_SIZE=3`)つきの GeoPackage への変換が通る。`WFS:`(demo.mapserver.org、1.1.0)の `info` が層を列挙する。
 - 詳細: `kcai:cloud-native-read-behavior-matrix`、`kcai:cog-remote-window-overview-and-warp`、`kcai:pmtiles-remote-reading`、`kcai:terrio-js-cloud-native-reads-in-browser`、`kcai:terrio-stac-and-stacit`
@@ -125,8 +127,16 @@
 - **ベクタタイル(PMTiles / MVT)の書き出し(0.7.0、played、tippecanoe 2.49.0・GDAL 3.8.4 と比較)**: terrio の書き出しは **GDAL の MVT ライターを再現**したもの(ドキュメント: EPSG:3857 に再投影、既定のズームは 0〜5、80/4096 の余白でクリップ、量子化、500 kB 超のタイルは低解像度に、`--minzoom`/`--maxzoom`、`--lco` で `SIMPLIFICATION`・`MAX_SIZE`・`MAX_FEATURES`・`BUFFER`)。国界 179 地物(多角形、z0〜4)では、**terrio・GDAL の MVT・tippecanoe の地物数がズームごとに一致**(178・199・221・281・436。terrio と GDAL のファイルは約 166 KB と 170 KB、tippecanoe は 155 KB)。**ただし密な点では tippecanoe の間引きに相当するものが無い**: 6 万点で z0 のタイルに 6 万点すべてを入れる(0.9.0 では z2・z4 も 6 万点すべて、アーカイブは 2.9 MB に。0.7.0 は z2・z4 が 46,200・45,600。tippecanoe は 246 点、z2 で 1,536 点、z4 で 9,600 点)。アーカイブは terrio 3.5 MB、tippecanoe 1.6 MB。GDAL の MVT ライターは z2・z4 で 48,600 点と、terrio(46,200・45,600)と少し違う(500 kB 超のタイルの扱いの差と思われる。未確認)。- **線のタイル(0.9.0、played、tippecanoe 2.49.0 と比較)**: 国界の輪郭線 284 本(z0〜6)は、**地物数がズームごとに tippecanoe と一致**(284・332・552・1,682)し、頂点数も近く(z0 で terrio 9,958 対 tippecanoe 8,578、z6 で 13,928 対 13,830)、アーカイブは 376 KB 対 391 KB。**ふつうの実データの線なら、tippecanoe とほぼ同じ**。一方、**ごく細かいノイズの線**(乱数歩行の 3,000 本、各 61 頂点、4°四方)では差が出る: z0 の頂点数は terrio 25,179 対 tippecanoe 4,040(総延長 22 万 km 対 2.3 万 km)、z2 で 8.3 万対 1.3 万、z4 で 17 万対 9 万。**tippecanoe は画素より小さい細部をズーム別に大きく簡略化し、terrio は量子化(4096 格子)による削減が中心**。アーカイブは 911 KB 対 733 KB。GDAL の MVT ディレクトリは、GDAL 3.13.3 の `OpenEx` で開けなかった(原因未確認)。
 - **MapLibre での見え方(0.9.0、played、MapLibre GL JS 4.7.1 を実 Chromium で、同じ入力・同じスタイル・同じカメラで描画)**: terrio・tippecanoe・GDAL の MVT を、XYZ のディレクトリ(gzip は `Content-Encoding` つきで配信)にして描き、画素を比べた。**多角形(国界)と線は、terrio の描画が GDAL の MVT と画素まで同一**(差のある画素 0.00%)で、**tippecanoe とも差は 0.02% 以下**(z1・z3・z5。輪郭線も同様)。描かれる地物数も同じ(例: z3 で 36、z5 で 6)。**点は違いが見える**: 60,000 点のとき、terrio は全点を描き(z4・z6 とも 6 万地物)、tippecanoe は間引いて 3,840(z4)・23,998(z6)。暗い画素は z4 で 10,480 対 5,432、タイルの合計は 3.4 MB 対 1.2 MB(`--drop-densest-as-needed` を付けても tippecanoe は同じ結果)。画面では、terrio は密集部が塗りつぶされ、tippecanoe は粒が見える。MapLibre は、gzip の `.pbf` を、サーバーが `Content-Encoding: gzip` を付けないと読めない(terrio・GDAL の書き出しは gzip、tippecanoe は `--no-tile-compression` で無圧縮にした)。
 つまり **terrio は「GDAL の MVT ライターの代わり」にはなるが、「tippecanoe の代わり」には、点の密度による間引き(`--drop-densest-as-needed` など)、自動の最大ズーム(`-zg`)の面で、まだならない**。
+- **視域・ゾーン統計(0.10.0、played、GDAL 3.13.3 と比較。UTM 13N・30 m の 320×412 の DEM)**: **`viewshed` は 4 つのモードすべてが `gdal_viewshed` と画素完全一致**(NORMAL: 201×201 で見える画素 2,399 が両方同じ、DEM、GROUND、ACCUM。`--md` と ACCUM の併用は、両方とも拒否)。**`zonal-stats` は、`gdal raster zonal-stats` と、count・min・max・mean・sum・stdev が全桁一致**(3 つの多角形。既定の画素選択と `--all-touched`)。terrio の出力の列名は `<ラスタ名>_b<バンド>_<統計>`(例 `u_b1_mean`)で、GDAL は統計名のみ(`mean`)。
 - **まだ残る差**(0.9.0 でも): `warp --dstalpha` が無い。COG の `TILING_SCHEME=GoogleMapsCompatible` を黙って無視する(画素サイズ 12.32 m のまま)。
 - 詳細: `kcai:terrio-vs-gdal-spot-checks`、`kcai:terrio-processing-commands-smoke-test`、`kcai:terrio-conformance-and-testing-against-gdal`
+
+# /assets/raster-tiles
+- status: verified(0.10.0、played、gdal2tiles 3.13.3 と比較。volatile)
+- `terrio tile INPUT OUTPUT_DIR` は、ラスタを z/x/y のタイルのディレクトリにする(`gdal2tiles` 相当)。形式は PNG・WebP(可逆)・GTiff、既定は WebMercatorQuad・256 px・xyz・cubic、`--tiling-scheme`(WorldCRS84Quad、raster)、`--resume`、`--webviewer`(Leaflet・OpenLayers・MapML・STAC)、`--kml`、`--skip-blank`、`--add-alpha`。
+- **比較(Sentinel-2 B04 の 1024² を Byte にしたもの、UTM 54N → ウェブメルカトル、z10〜14、`-r bilinear`)**: タイル集合は **61 枚で `gdal2tiles --xyz` と完全に同じ**(z ごとの枚数、座標とも)。ズームの範囲は同じ。ともに約 1 秒。**最大ズーム(z14)は画素ほぼ一致**(36 枚、平均差 0.05 階調、最大 1 階調、`-r near` では差のある画素 0.3% で、ずれは無し)。アルファの範囲も同じ(不一致 16 画素)。**低ズームは差がある**: 平均差 z13=2.5、z12=4.2、z11=4.5、z10=4.2 階調(255 中。8 階調超の画素は 4〜14%)、アルファの不一致は z10〜13 で 276〜1,358 画素。`--overview-source source`(各低ズームを原データから作る)にすると z10〜12 は平均差 1.6〜1.8 に縮むが、z13 は 4.5 に広がる。**どの設定でも gdal2tiles と一致はしない**(低ズームの縮小のやり方が違う)。
+- つまり、`gdal2tiles` の代わりには、**最大ズームのタイルは同じ画素、低ズームはわずかな階調差**(見た目の差は小さいが、画素一致は要求できない)。dwg7 の用途(標高・空中写真のタイル)では、見た目の差は無視できる範囲と思われる(目視は未確認)。GTiff / WebP の出力、`--webviewer` の中身は未確認。
+- 詳細: `plays/2026-11-27-raster-tiles.md`
 
 # /assets/interfaces
 - status: verified(一部 stated)
@@ -426,6 +436,14 @@
 - status: verified
 - GDAL 3.8.4 / PROJ 9.4(apt)は terrio の基準(3.12)より古く、挙動が違う項目があった(`--ot Int16`)。2026-10-22 に conda-forge で GDAL 3.13.3 / PDAL 2.10.2 を入れて再確認した(COPC・`filter range`・STACIT は一致)。apt の GDAL には SQLite 方言の `ST_*` と Parquet ドライバーが無く、幾何の比較は Python から GEOS を直接呼んだ。
 
+# /traces/grib-zarr-viewshed-zonal
+- status: verified
+- 2026-11-27 に、GRIB の値、遠隔 Zarr の値、`viewshed`、`zonal-stats` を GDAL 3.13.3 と比べた（`plays/2026-11-27-grib-zarr-viewshed-zonal.md`）。値はすべて一致。Zarr だけ行の向きが違う（terrio は北が上に並べ替える）。
+
+# /traces/raster-tiles-comparison
+- status: verified
+- 2026-11-27 に `terrio tile` を `gdal2tiles` と比べた（`plays/2026-11-27-raster-tiles.md`）。タイル集合は同じ、最大ズームは画素ほぼ一致、低ズームは平均 2.5〜4.5 階調の差。
+
 # /traces/catch-up-0-10-0
 - status: verified
 - 2026-11-27 に 0.10.0（0.9.0 から 205 コミット）を確認した（`plays/2026-11-27-0-10-0-catch-up.md`）。0.9.0 の挙動（GeoParquet の範囲読み込み、`warp` の既定の差）は変わらず。**ジオイドの値が JPGEO2024 から GSIGEO2011 になり GDAL 3.13.3 と一致、ネットワークが要る**。**terrio-js の退行は残る**。確認用のスクリプト（`scripts/compare_with_gdal.py`、`run_notebook_cells.py`、`check_terrio_js_node.mjs`）をリポジトリに足した（作業用ファイルが環境の掃除で消えたため）。
@@ -478,6 +496,24 @@
 - requires: /assets/formats-and-io
 - result: untested
 
+# /acceptance-tests/raster-tiles
+- query: terrio でラスタのタイル（z/x/y.png）を作れるか。gdal2tiles と同じか
+- expected: `terrio tile` でできる。タイル集合は gdal2tiles と同じ。最大ズームは画素ほぼ一致、低ズームは平均 2.5〜4.5 階調の差（0.10.0、1 つの入力で）
+- requires: /assets/raster-tiles
+- result: untested
+
+# /acceptance-tests/grib-zarr-values
+- query: GRIB と遠隔 Zarr の値は GDAL と同じか。Zarr の窓の指定は同じ番号で良いか
+- expected: 値は一致（GRIB 4 バンド、HRRR の窓）。**Zarr は行の向きが違う**（GDAL は南が上のまま、terrio は北が上）ので、同じ `--srcwin` は別の地点。座標で合わせる
+- requires: /assets/cloud-native-reads
+- result: untested
+
+# /acceptance-tests/viewshed-zonal
+- query: 視域と多角形ごとの統計は GDAL と同じ結果か
+- expected: `viewshed` は 4 つのモードとも `gdal_viewshed` と画素一致、`zonal-stats` は `gdal raster zonal-stats` と全桁一致（0.10.0、1 つの DEM・3 つの多角形で）
+- requires: /assets/processing-and-geometry
+- result: untested
+
 # /acceptance-tests/mcp-tools
 - query: AI エージェントに terrio を道具として渡せるか。ツールの数は
 - expected: `terrio mcp`(0.4.0 から配布版)。0.7.0 で 99 ツール、各ツールは `args`(引数の配列)を取る。書き込みは一時的な場所に限る
@@ -518,8 +554,8 @@
 
 # /inventory/feature-depth
 - status: volatile
-- 機能の理解の深さ(2026-11-08)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、`dem` ほかのラスタ処理(GDAL と画素一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と比較)。**浅い**(動かしたが比較は未実施): GRIB、遠隔 Zarr、OGC API Features、WFS、等高線の値(本数のみ)、SQL、`preview`、MCP の書き込み。**未着手**: STACTA、`viewshed`、`zonal-stats` の値、`terrio tile`(ラスタ)、新しい点群フィルタ、Windows / macOS。
-- 次に深める候補(dwg7 の判断に効く順): ①(線のタイルと MapLibre での見え方は 2026-11-19 に比較済み)、②`terrio tile`(ラスタタイル)、③GRIB・Zarr の値を GDAL と比べる、④`viewshed`・`zonal-stats`。
+- 機能の理解の深さ(2026-11-27)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、ラスタ処理(GDAL と画素一致。`warp` の既定は不一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と、MapLibre での見え方まで)、**ラスタタイル `terrio tile`(gdal2tiles と)**、**GRIB の値(GDAL と)**、**遠隔 Zarr の値(GDAL と。行の向きが違う)**、**`viewshed` と `zonal-stats`(GDAL と)**。**浅い**(動かしたが比較は未実施): OGC API Features、WFS、等高線の値(本数のみ)、SQL、`preview`、MCP の書き込み、新しい点群フィルタ、xarray の `.terrio` アクセサの新しい操作(0.10.0)。**未着手**: STACTA、`terrio tile` の GTiff / WebP / `--webviewer`、Windows / macOS。
+- 次に深める候補(dwg7 の判断に効く順): ①等高線の値と SQL の空間関数を GDAL(`gdal_contour`・SpatiaLite)と比べる、②xarray の `.terrio` アクセサ(0.10.0 の `dem` `viewshed` `zonal_stats` ほか)、③点群フィルタ(PDAL と)、④OGC API Features・WFS の値
 
 # /inventory/size
 - status: volatile

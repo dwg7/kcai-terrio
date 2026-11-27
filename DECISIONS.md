@@ -221,3 +221,7 @@
 
 - 0.10.0（0.9.0 から 205 コミット）を確認（`plays/2026-11-27-0-10-0-catch-up.md`）。ジオイドが GDAL 3.13.3 と同じ値になった（要 `TERRIO_NETWORK=ON`）、terrio-js の退行は残る。GeoParquet・`warp` の既定の差は 0.9.0 と同じ。
 - 作業用ファイルが環境の掃除で消えたので、確認用のスクリプト 3 本を `scripts/` に足した。
+
+### 2026-11-27（続き）: 3 つの候補の実行
+
+- hfu の指示で、`terrio tile`（gdal2tiles と比較）、GRIB・Zarr の値（GDAL と比較）、`viewshed` と `zonal-stats`（GDAL と比較）を実行した（`plays/2026-11-27-raster-tiles.md`、`plays/2026-11-27-grib-zarr-viewshed-zonal.md`）。値は一致、`terrio tile` は最大ズームが一致で低ズームに小さな差、Zarr は行の向きが違う。`miso/terrio.md` の `/assets/raster-tiles`、`/assets/cloud-native-reads`、`/assets/processing-and-geometry`、受け入れテスト（24 本に）、`/inventory/feature-depth` に反映した。
