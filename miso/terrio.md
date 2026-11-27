@@ -149,6 +149,7 @@
 - **terrio-js 0.9.0 の退行(verified)**: 大きなラスタの PMTiles(30.5 GB の Terrarium z9)の `openUrl` が **`capacity overflow` で panic**(Node で約 88 秒後、ブラウザでは `unreachable` も)。**0.7.0・0.8.0 は一瞬で開く**。小さなベクタの PMTiles、COG、FlatGeobuf、COPC、GeoParquet(5 GB)の `openUrl` は 0.9.0 でも動く。CLI の `terrio info`(同じ URL)は 0.9.0 でも 3.5 秒・12 要求で通る。上流への下書き `drafts/upstream/2026-11-19-terrio-js-openurl-large-raster-pmtiles-panics.md`。このリポジトリの公開ページは **terrio-js 0.7.0 に固定したまま**(0.9.0 では 1 つの試料が動かないため)。
 - MCP: `terrio mcp` は 100 ツール(0.9.0・0.10.0。0.7.0 は 99)。各ツールは `args`(コマンドラインの配列)を取る。書き込みは一時的な場所に限ること。
 - Rust: 0.4.0 から feature で絞れる。ドキュメントの依存の版が古かった(`"0.3"`)のは 0.7.0 で直った。
+- **xarray の `.terrio` アクセサ(0.10.0 の新機能、played)**: `terrio.xarray.open_rasterio(...).squeeze().terrio` の `dem('hillshade')` は、**CLI の `terrio dem hillshade` と gdaldem(GDAL 3.13.3)と完全一致**。`viewshed(ox, oy, oz=2, md=3000)` は CLI と完全一致（201×181、見える画素 2,498）。`zonal_stats('zones.geojson', stats=['count','mean','sum'])` は CLI と値が同じ（count 3,283、平均 2734.1145…）で、列名だけ違う（アクセサは `raster1_b1_count`、CLI は `u_b1_count`）。`stats` は**リスト**で渡す（文字列はエラー）。
 - 詳細: `kcai:terrio-python-api`、`kcai:terrio-xarray-integration`、`kcai:terrio-mcp-server`、`kcai:terrio-js-api-and-playground`、`kcai:terrio-rust-library-and-features`、`kcai:terrio-rio-rasterio-compatible-api`
 
 # /scenarios/dwg7-tile-and-prep-workflow
@@ -577,8 +578,8 @@
 
 # /inventory/feature-depth
 - status: volatile
-- 機能の理解の深さ(2026-11-27)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、ラスタ処理(GDAL と画素一致。`warp` の既定は不一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と、MapLibre での見え方まで)、**ラスタタイル `terrio tile`(gdal2tiles と)**、**GRIB の値(GDAL と)**、**遠隔 Zarr の値(GDAL と。行の向きが違う)**、**`viewshed` と `zonal-stats`(GDAL と)**。**深い(追加)**: **等高線の値(`gdal_contour` と完全一致)**、**SQL の空間関数(SpatiaLite と)**、**点群フィルタ(PDAL と一致。`crop`・`decimation`・`smrf`・`pmf`・`outlier`・`hag_nn`・`dbscan`)**。**浅い**(動かしたが比較は未実施): OGC API Features、WFS、`preview`、MCP の書き込み、点群の他のフィルタ（`lof`・`covariancefeatures` など）、xarray の `.terrio` アクセサの新しい操作(0.10.0)。**未着手**: STACTA、`terrio tile` の GTiff / WebP / `--webviewer`、Windows / macOS。
-- 次に深める候補(dwg7 の判断に効く順): ①(等高線・SQL・点群フィルタは 2026-11-27 に比較済み)、②xarray の `.terrio` アクセサ(0.10.0 の `dem` `viewshed` `zonal_stats` ほか)、③OGC API Features・WFS の値、④`preview` の画像、MCP の書き込み
+- 機能の理解の深さ(2026-11-27)。**深い**(動かして参照実装と比べた): COG・PMTiles・FlatGeobuf・GeoParquet の読み込み方、日本の座標変換・文字、ラスタ処理(GDAL と画素一致。`warp` の既定は不一致)、幾何の修復(GEOS と一致)、COPC・`filter range`(PDAL と一致)、STACIT(GDAL と一致)、ベクタタイル書き出し(GDAL・tippecanoe と、MapLibre での見え方まで)、**ラスタタイル `terrio tile`(gdal2tiles と)**、**GRIB の値(GDAL と)**、**遠隔 Zarr の値(GDAL と。行の向きが違う)**、**`viewshed` と `zonal-stats`(GDAL と)**。**深い(追加)**: **等高線の値(`gdal_contour` と完全一致)**、**SQL の空間関数(SpatiaLite と)**、**点群フィルタ(PDAL と一致。`crop`・`decimation`・`smrf`・`pmf`・`outlier`・`hag_nn`・`dbscan`)**。**浅い**(動かしたが比較は未実施): OGC API Features、WFS、`preview`、MCP の書き込み、点群の他のフィルタ（`lof`・`covariancefeatures` など）。**未着手**: STACTA、`terrio tile` の GTiff / WebP / `--webviewer`、Windows / macOS。
+- 次に深める候補(dwg7 の判断に効く順): ①(等高線・SQL・点群フィルタ・xarray のアクセサは 2026-11-27 に比較済み)、②OGC API Features・WFS の値、③`preview` の画像、MCP の書き込み、④点群の他のフィルタ（`lof` ほか）
 
 # /inventory/size
 - status: volatile

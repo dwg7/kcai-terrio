@@ -17,3 +17,7 @@
 1. 7 つのフィルタは PDAL と一致。
 2. `filter crop --bounds …` は、エラーなしで 0 点を返す（`--bounds` は入力を読むときの絞り込み）。箱は `--crop-bounds`。
 3. 追加の次元の名前が違う（terrio `height_above_ground`・`cluster_id`、PDAL `HeightAboveGround`・`ClusterID`）。terrio が書いた LAS を PDAL で処理する工程は、名前を合わせる。
+
+## 追記: xarray の `.terrio` アクセサ（0.10.0）
+
+`txr.open_rasterio('u.tif', masked=True).squeeze().terrio` で、`dem('hillshade')` は CLI と gdaldem に完全一致。`viewshed(466429, 4375612, oz=2, md=3000)` は CLI と完全一致（見える画素 2,498）。`zonal_stats('z.geojson', stats=[…])` は CLI と値が同じ（列名の形が違う）。`stats` に文字列を渡すとエラー（リストで渡す）。
